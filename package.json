@@ -1,0 +1,42 @@
+{
+  "name": "ai-robot",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@types/node": "^22.8.5",
+    "@varlet/import-resolver": "^3.6.3",
+    "@varlet/touch-emulator": "^3.6.3",
+    "@varlet/ui": "^3.6.3",
+    "@vueuse/core": "^11.1.0",
+    "gsap": "^3.12.5",
+    "pinia": "^2.2.5",
+    "pinia-plugin-persistedstate": "^4.1.2",
+    "radash": "^12.1.0",
+    "sass": "^1.80.5",
+    "sass-loader": "^16.0.2",
+    "tailwindcss": "^3.4.14",
+    "vue": "^3.5.12",
+    "vue-i18n": "^10.0.4",
+    "vue-router": "^4.4.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "@vitejs/plugin-vue-jsx": "^4.0.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "typescript": "~5.6.2",
+    "postcss-px-to-viewport-8-plugin": "^1.2.5",
+    "unplugin-auto-import": "^0.18.3",
+    "unplugin-vue-components": "^0.27.4",
+    "vite": "^5.4.10",
+    "vue-tsc": "^2.1.8"
+  }
+}
