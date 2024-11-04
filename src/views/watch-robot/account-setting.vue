@@ -38,20 +38,25 @@
           <div class="w-full my-[18px]">
             <div class="text-[21px]">单次买卖交易数量</div>
           </div>
+
           <div class="flex mt-[23px] items-center space-x-[14px]">
             <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="买">
             <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="卖">
           </div>
+
           <template v-if="type == 'profession'">
             <div class="w-full flex items-center justify-between mt-[32px]">
               <div class="text-[18px] opacity-[0.4]">设置主账户USDT买递减递增功能（%）</div>
               <var-counter v-model="value"/>
             </div>
           </template>
+
           <div class="w-full mt-[23px] h-[2px] bg-[#92A0AE] opacity-[0.2]"></div>
+
           <div class="w-full my-[18px]">
             <div class="text-[21px]">监听买卖并反向交易设置【ERC20代币】</div>
           </div>
+
           <div class="pt-[15px] w-full text-[#297EFE] rounded-[5px]  text-[15px] p-[16px] bg-[#141934] text-[##297EFE] space-y-1">
             <div class="">
               USDT 购买 ERC20代币【XXX】
@@ -62,10 +67,12 @@
           <div class="w-full my-[18px]">
             <div class="text-[18px] opacity-[0.4]">价格上/下限设置</div>
           </div>
+
           <div class="flex items-center space-x-[14px]">
             <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="上限">
             <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="下限">
           </div>
+
           <template v-if="type == 'profession'">
             <div class="w-full my-[18px]">
               <div class="text-[18px] opacity-[0.4]">单次交易数量随机上限/下限值</div>
@@ -80,10 +87,12 @@
           <div class="w-full my-[18px]">
             <div class="text-[21px]">单次买卖交易数量</div>
           </div>
+
           <div class="flex mt-[23px] items-center space-x-[14px]">
             <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="买">
             <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="卖">
           </div>
+
           <template  v-if="type == 'profession'">
             <div class="w-full flex items-center justify-between mt-[32px]">
               <div class="text-[18px] opacity-[0.4]">设置主账户USDT买递减递增功能（%）</div>

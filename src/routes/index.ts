@@ -43,6 +43,12 @@ const routes = [
                 name: 'node-cut',
                 component: () => import('@/views/node-cut/node-cut.vue'),
                 meta: {title: "节点切换", requiresAuth: true},
+            },
+            {
+                path: '/airdrop',
+                name: 'airdrop',
+                component: () => import('@/views/airdrop/airdrop.vue'),
+                meta: {title: "节点切换", requiresAuth: true},
             }
         ]
     },

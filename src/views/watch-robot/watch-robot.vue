@@ -36,7 +36,7 @@
     <div class="w-full flex-1 flex flex-col overflow-y-auto mt-[20px] px-[23px]  p-[1px]">
       <div class="w-full py-[9px] flex gap-[15px]">
         <div class="flex items-center gap-[8px]" v-for="item in tabList" :key="item.label" @click="checkTab(item.key)">
-          <img :src="item.icon" alt="">
+          <img class="h-[18px] w-[18px]" :src="item.icon" alt="">
           <div class="text-[24px]" :style="{color:item.key == selectedTab ? '#fff' : '#6E6B76'}">{{ item.label }}</div>
         </div>
       </div>
@@ -61,7 +61,7 @@
       <div class="">
 <!--        <robot-content :type="nowSelectedRobot"></robot-content>-->
 <!--        <robot-setting :type="nowSelectedRobot"></robot-setting>-->
-        <start-robot :type="nowSelectedRobot"></start-robot>
+<!--        <start-robot :type="nowSelectedRobot"></start-robot>-->
       </div>
     </div>
   </div>

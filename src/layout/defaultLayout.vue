@@ -6,18 +6,18 @@
   >
     0xc1C***932FB
     <template #left>
-      <var-button color="transparent"  round text @click="showMenu = true">
+      <var-button color="transparent" round text @click="showMenu = true">
         <var-icon :size="24" name="menu"/>
       </var-button>
     </template>
     <template #right>
       <div class="space-x-2 flex items-center pr-[13px]">
-          <var-button round text color="transparent" text-color="#fff" >
-            <img alt="" src="assets/images/layout/wifi.png" class="w-[38px] h-[38px]">
-          </var-button>
-          <var-button round text color="transparent" text-color="#fff" >
-            <img alt="" src="assets/images/layout/lan.png" class="w-[38px] h-[38px]">
-          </var-button>
+        <var-button round text color="transparent" text-color="#fff">
+          <img alt="" src="assets/images/layout/wifi.png" class="w-[38px] h-[38px]">
+        </var-button>
+        <var-button round text color="transparent" text-color="#fff">
+          <img alt="" src="assets/images/layout/lan.png" class="w-[38px] h-[38px]">
+        </var-button>
       </div>
     </template>
     <template #content>
@@ -28,42 +28,44 @@
   </var-app-bar>
 
   <var-popup v-model:show="showMenu" position="left" teleport="#app">
-    <div class="w-[429px] h-full">
+    <div class="w-[429px] h-[100vh] flex flex-col">
       <div
           class="w-full h-[189px] bg-[url('assets/images/menu/header-bg.png')] bg-cover flex items-center justify-center">
         <img alt="" class="w-[179px] h-[49px]" src="assets/images/menu/logo.png">
       </div>
-      <div class="px-[23px] space-y-[54px] py-[46px]">
-        <div v-for="item in menuList" :key="item.label" class="w-full flex items-center ">
-          <div :class="['space-x-[22px] flex items-center',{'w-[100%]':!item.render,'w-[70%]':item.render}] ">
-            <div class="w-[32px] h-[32px]">
-              <img :src="item.icon" alt="" class="w-full h-full">
+      <div class="flex-1 overflow-y-auto mt-[23px] flex flex-col">
+        <div class="px-[23px] space-y-[54px] pb-[46px] pt-[23px]">
+          <div v-for="item in menuList" :key="item.label" class="w-full flex items-center ">
+            <div :class="['space-x-[22px] flex items-center',{'w-[100%]':!item.render,'w-[70%]':item.render}] ">
+              <div class="w-[32px] h-[32px]">
+                <img :src="item.icon" alt="" class="w-full h-full">
+              </div>
+              <template v-if="item.noRipple">
+                <div class="text-[24px] flex-1 h-[32px]">
+                  {{ item.label }}
+                </div>
+              </template>
+              <template v-else>
+                <div v-ripple class="text-[24px] flex-1 h-[32px]">
+                  {{ item.label }}
+                </div>
+              </template>
             </div>
-            <template v-if="item.noRipple">
-              <div class="text-[24px] flex-1 h-[32px]">
-                {{ item.label }}
-              </div>
-            </template>
-            <template v-else>
-              <div v-ripple class="text-[24px] flex-1 h-[32px]">
-                {{ item.label }}
-              </div>
-            </template>
-          </div>
-          <div v-if="item.render" class="flex-1 flex justify-end">
-            <component :is="item.render"></component>
+            <div v-if="item.render" class="flex-1 flex justify-end">
+              <component :is="item.render"></component>
+            </div>
           </div>
         </div>
-      </div>
-      <div
-          class="absolute bottom-0 h-[110px] w-full px-[23px] space-x-[35px] py-[16px] flex border-t-[2px] border-[#666666]">
-        <div v-for="item in buttonList" :key="item.label" class="flex items-center h-[32px] w-[110px] space-x-[13px]">
-          <div class="space-x-[22px] flex items-center">
-            <div class="w-[32px] h-[32px]">
-              <img :src="item.icon" alt="" class="w-full h-full">
-            </div>
-            <div v-ripple class="text-[24px]">
-              {{ item.label }}
+        <div
+            class="h-[110px] w-full px-[23px] space-x-[35px] py-[16px] flex border-t-[2px] border-[#666666]">
+          <div v-for="item in buttonList" :key="item.label" class="flex items-center h-[32px] w-[110px] space-x-[13px]">
+            <div class="space-x-[22px] flex items-center">
+              <div class="w-[32px] h-[32px]">
+                <img :src="item.icon" alt="" class="w-full h-full">
+              </div>
+              <div v-ripple class="text-[24px]">
+                {{ item.label }}
+              </div>
             </div>
           </div>
         </div>
@@ -121,8 +123,9 @@ const menuList = [
         <div className="bg-[#949397] w-[63px] h-[32px] rounded-[16px] flex items-center p-[5px] relative"
              onClick={setSound}
              style={{background: soundSwitch.value ? '#16513c' : '#3A3643'}}>
-          <div className='w-[22px] h-[22px] bg-[#fff] rounded-full transition-transform ease-in-out delay-150 relative z-10'
-               style={{transform: soundSwitch.value ? 'translateX(23px)' : 'translateX(0)'}}></div>
+          <div
+              className='w-[22px] h-[22px] bg-[#fff] rounded-full transition-transform ease-in-out delay-150 relative z-10'
+              style={{transform: soundSwitch.value ? 'translateX(23px)' : 'translateX(0)'}}></div>
           {
             soundSwitch
                 .value ? <div className="text-[18px] text-[#1CE89F] absolute left-[8px] z-0">开</div> :
@@ -219,4 +222,6 @@ const checkTheme = (type: any) => {
 :deep(.var-switch__handle) {
   background: #fff !important;
 }
+
+
 </style>

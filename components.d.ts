@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    PopWindow: typeof import('./src/components/pop-window.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     VarAppBar: typeof import('@varlet/ui')['_AppBarComponent']
@@ -18,6 +19,7 @@ declare module 'vue' {
     VarDrag: typeof import('@varlet/ui')['_DragComponent']
     VarIcon: typeof import('@varlet/ui')['_IconComponent']
     VarInput: typeof import('@varlet/ui')['_InputComponent']
+    VarList: typeof import('@varlet/ui')['_ListComponent']
     VarLoading: typeof import('@varlet/ui')['_LoadingComponent']
     VarPopup: typeof import('@varlet/ui')['_PopupComponent']
     VarStyleProvider: typeof import('@varlet/ui')['_StyleProviderComponent']
