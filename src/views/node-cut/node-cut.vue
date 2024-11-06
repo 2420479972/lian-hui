@@ -70,7 +70,7 @@
 
 <script setup lang="ts">
 
-const showCustomNode = ref(true);
+const showCustomNode = ref(false);
 
 </script>
 

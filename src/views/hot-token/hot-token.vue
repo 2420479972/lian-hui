@@ -16,10 +16,14 @@
       </div>
       <div class="w-full flex-1 flex flex-col min-h-[200px] mt-[20px] ">
         <div class="w-full py-[9px] flex gap-[15px] px-[23px]">
-          <div class="flex items-center gap-[8px]" v-for="item in tabList" :key="item.label" @click="checkTab(item.key)">
-            <img :src="item.icon" alt="">
-            <div class="text-[24px]" :style="{color:item.key == selectedTab ? '#fff' : '#6E6B76'}">{{ item.label }}</div>
-          </div>
+          <var-tabs v-model:active="active">
+            <var-tab v-for="item in tabList" :key="item.label">
+              <div class="flex items-center gap-[8px]"  @click="checkTab(item.key)">
+                <img :src="item.icon" alt="">
+                <div class="text-[24px]" :style="{color:item.key == selectedTab ? '#fff' : '#6E6B76'}">{{ item.label }}</div>
+              </div>
+            </var-tab>
+          </var-tabs>
         </div>
         <div class="w-full mt-[27px]  mb-[17px] px-[23px]">
           <div class="h-[54px] w-full rounded-[27px] bg-[#201D2D] overflow-hidden flex items-center px-[16px] ">
@@ -115,6 +119,7 @@ const goSearch = ()=>{
 }
 
 const selectedTab = ref('BSC')
+const active = ref(0)
 const tabList = [
   {
     label: 'BSC',
@@ -125,7 +130,7 @@ const tabList = [
     label: 'ETH',
     icon: ETH,
     key: 'ETH'
-  }
+  },
 ]
 const checkTab = (key:string)=>{
   selectedTab.value = key
@@ -182,4 +187,5 @@ input::placeholder {
 .card-shadow{
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
+
 </style>

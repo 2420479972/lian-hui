@@ -33,12 +33,16 @@
         <div class="">监听swap相关的介绍监听swap相关的介绍监听swap相关的介绍</div>
       </div>
     </div>
-    <div class="w-full flex-1 flex flex-col overflow-y-auto mt-[20px] px-[23px]  p-[1px]">
+    <div class="w-full flex-1 flex flex-col overflow-y-auto mt-[20px] px-[23px]">
       <div class="w-full py-[9px] flex gap-[15px]">
-        <div class="flex items-center gap-[8px]" v-for="item in tabList" :key="item.label" @click="checkTab(item.key)">
-          <img class="h-[18px] w-[18px]" :src="item.icon" alt="">
-          <div class="text-[24px]" :style="{color:item.key == selectedTab ? '#fff' : '#6E6B76'}">{{ item.label }}</div>
-        </div>
+        <var-tabs v-model:active="active">
+          <var-tab v-for="item in tabList" :key="item.label">
+            <div class="flex items-center gap-[8px]"  @click="checkTab(item.key)">
+              <img :src="item.icon" alt="">
+              <div class="text-[24px]" :style="{color:item.key == selectedTab ? '#fff' : '#6E6B76'}">{{ item.label }}</div>
+            </div>
+          </var-tab>
+        </var-tabs>
       </div>
       <div class="w-full mt-[13px] flex justify-between items-center text-[18px]">
         <div @click="catRobot('normal')"
@@ -58,8 +62,8 @@
                v-if="nowSelectedRobot == 'profession'"></div>
         </div>
       </div>
-      <div class="">
-<!--        <robot-content :type="nowSelectedRobot"></robot-content>-->
+      <div class="flex-1 flex flex-col">
+        <robot-content :type="nowSelectedRobot"></robot-content>
 <!--        <robot-setting :type="nowSelectedRobot"></robot-setting>-->
 <!--        <start-robot :type="nowSelectedRobot"></start-robot>-->
       </div>
@@ -76,7 +80,7 @@ import StartRobot from "views/watch-robot/start-robot.vue";
 
 
 const nowSelectedRobot = ref<"normal" | "profession">('normal')
-
+const active =ref(0);
 const selectedTab = ref('BSC')
 const tabList = [
   {
@@ -94,8 +98,7 @@ const checkTab = (key: string) => {
   selectedTab.value = key
 }
 
-
-const catRobot = (value: string) => {
+const catRobot = (value: "normal" | "profession") => {
   nowSelectedRobot.value = value;
 }
 

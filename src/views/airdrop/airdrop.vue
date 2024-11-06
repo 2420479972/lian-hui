@@ -1,25 +1,30 @@
 <template>
   <div class="w-full h-full px-[23px] flex flex-col pb-[18px]">
     <div class="w-full py-[9px] flex gap-[15px] mt-[10px]">
-      <div class="flex items-center gap-[8px]" v-for="item in tabList" :key="item.label" @click="checkTab(item.key)">
-        <img class="h-[18px] w-[18px]" :src="item.icon" alt="">
-        <div class="text-[21px]" :style="{color:item.key == selectedTab ? '#fff' : '#6E6B76',fontWeight:item.key == selectedTab ? 'bold' : 'normal'}">{{ item.label }}</div>
-      </div>
+      <var-tabs v-model:active="active">
+        <var-tab v-for="item in tabList" :key="item.label">
+          <div class="flex items-center gap-[8px]"  @click="checkTab(item.key)">
+            <img :src="item.icon" alt="">
+            <div class="text-[24px]" :style="{color:item.key == selectedTab ? '#fff' : '#6E6B76'}">{{ item.label }}</div>
+          </div>
+        </var-tab>
+      </var-tabs>
     </div>
-    <div class="mt-[15px] w-full flex items-center mb-[18px] justify-between">
+    <div class="mt-[15px] w-full  flex items-center mb-[18px] justify-between">
       <div class="text-[21px]">空投代币</div>
       <button class="h-[45px] bg-[rgba(122,120,131,0.05)] rounded-[2px] flex items-center p-[15px]" v-ripple>
         <var-icon name="plus" :size="22"/>
         <div class="ml-[8px] text-[18px]">发布空投</div>
       </button>
     </div>
-    <div class="flex-1 w-full overflow-y-auto ">
+    <div class="flex-1 w-full overflow-y-auto">
       <var-list
           :finished="false"
           :loading="false"
+          class="h-full overflow-y-auto"
       >
-        <div class="grid grid-cols-2 gap-3">
-          <div class="w-[249.5px] min-h-[267px] px-[18px] py-[18px] bg-[#140E20] border-[3px] border-[#1D1A2A] rounded-[5px]" v-for="item in 10">
+        <div class="grid grid-cols-2 gap-y-[18px]">
+          <div class="w-[249.5px] min-h-[267px] px-[18px] py-[18px] bg-[#140E20] border-[3px] border-[#1D1A2A] rounded-[5px]" v-for="item in 80">
             <div class="flex items-center space-x-[20px]">
               <div class="text-[18px] text-[#605D75]">0xBe4***49EA5</div>
               <img src="assets/images/hot-token/copy.png" class="h-[28px] w-[28px] ml-[13px]" alt="" @click="handleCopy('1232')">
@@ -48,7 +53,7 @@
     </div>
   </div>
 <!--  <detail :show="true"></detail>-->
-  <release :show="true"></release>
+  <release :show="false"></release>
 </template>
 
 <script setup lang="ts">
@@ -57,7 +62,7 @@ import ETH from "assets/images/hot-token/ETH.png";
 import {handleCopy} from "@/hooks/copy.ts";
 import Detail from "views/airdrop/detail.vue";
 import Release from "views/airdrop/release.vue";
-
+const active = ref(0);
 const selectedTab = ref('BSC')
 const tabList = [
   {

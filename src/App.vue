@@ -14,4 +14,7 @@ themeStore.toggleTheme('darkTheme')
 .content {
   height: calc(100% - 54px);
 }
+:deep(.var-tabs__indicator){
+  display: none;
+}
 </style>

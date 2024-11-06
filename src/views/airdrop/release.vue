@@ -51,7 +51,7 @@
             <div class="text-[18px] opacity-[0.4]">单个地址领取</div>
           </div>
           <div class="flex items-center space-x-[14px] w-[80px]">
-            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="时间">
+            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placehold>
           </div>
           <div class="text-[18px] opacity-[0.4]">小时/天</div>
           <div class="flex items-center space-x-[14px] w-[80px]">

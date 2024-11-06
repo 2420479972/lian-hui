@@ -10,16 +10,44 @@ html,body,#app{
   padding: 0;
   width: 100%;
   box-sizing: border-box;
+  background-color: var(--color-body);
 }
 
 *{
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+
 }
 
 button{
   cursor: pointer;
   border: none;
   outline: none;
+}
+
+/* 整体滚动条 */
+::-webkit-scrollbar {
+  width: 5px; /* 滚动条宽度 */
+  height: 37px; /* 横向滚动条高度 */
+  background: #201A2A;
+  opacity: 0.1;
+}
+
+/* 滚动条轨道 */
+::-webkit-scrollbar-track {
+  background: #201A2A; /* 轨道背景色 */
+  border-radius: 4px; /* 轨道圆角 */
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  background-color: #363140; /* 滑块颜色 */
+  border-radius: 4px; /* 滑块圆角 */
+  border: 2px solid #363140; /* 滑块边框，使其看起来更小 */
+}
+
+/* 滑块在悬停时 */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* 悬停时滑块颜色 */
 }
