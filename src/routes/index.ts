@@ -49,6 +49,12 @@ const routes = [
                 name: 'airdrop',
                 component: () => import('@/views/airdrop/airdrop.vue'),
                 meta: {title: "节点切换", requiresAuth: true},
+            },
+            {
+                path: '/member',
+                name: 'member',
+                component: () => import('@/views/member/member.vue'),
+                meta: {title: "节点切换", requiresAuth: true},
             }
         ]
     },

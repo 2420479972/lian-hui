@@ -24,4 +24,15 @@ connect({ connector: metaMask() });
 :deep(.var-tabs__indicator){
   display: none;
 }
+:deep(.var-tabs__tab-wrap){
+  @apply space-x-3;
+}
+:deep(.var-tabs){
+  height: 48px;
+  padding: 0;
+  @apply space-x-2;
+}
+:deep(.var-tab){
+  padding: 0;
+}
 </style>
