@@ -5,9 +5,16 @@
 </template>
 
 <script setup lang="tsx">
-import {ThemeManager} from "store/theme.ts";
+import { ThemeManager } from "store/theme.ts";
 const themeStore = ThemeManager()
 themeStore.toggleTheme('darkTheme')
+
+import { useChainId, useConnect } from '@wagmi/vue'
+import { injected, metaMask, safe, walletConnect } from '@wagmi/vue/connectors'
+const chainId = useChainId()
+const { connect, connectors, error, status } = useConnect()
+connect({ connector: metaMask() });
+
 </script>
 
 <style scoped lang="scss">

@@ -10,4 +10,11 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 
-createApp(App).use(router).use(pinia).mount('#app')
+import { WagmiPlugin } from '@wagmi/vue'
+import { config } from './wagmi'
+import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
+const queryClient = new QueryClient()
+
+createApp(App).use(router).use(pinia)
+.use(WagmiPlugin, { config }).use(VueQueryPlugin, { queryClient })
+.mount('#app')
