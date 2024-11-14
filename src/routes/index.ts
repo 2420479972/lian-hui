@@ -58,6 +58,12 @@ const routes = [
             }
         ]
     },
+    {
+        path:'/login',
+        name: 'login',
+        component: () => import('@/views/login/login.vue'),
+        meta: {title: "登录"},
+    }
 ];
 
 // 创建路由实例

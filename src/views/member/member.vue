@@ -53,13 +53,13 @@
           <User></User>
         </template>
         <template v-else>
-          <Card></Card>
+          <Card type="profession"></Card>
         </template>
-
         <div class="h-[63px]"></div>
       </div>
     </div>
   </div>
+  <profession-make :show="false"></profession-make>
 </template>
 
 <script lang="ts" setup>
@@ -69,6 +69,7 @@ import RobotContent from "views/watch-robot/robot-content.vue";
 import {handleCopy} from "@/hooks/copy.ts";
 import Card from "views/member/card.vue";
 import User from "views/member/user.vue";
+import ProfessionMake from "views/member/profession-make.vue";
 
 
 const nowSelectedRobot = ref<"normal" | "profession">('normal')

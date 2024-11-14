@@ -22,7 +22,9 @@ export const ThemeManager = defineStore('ThemeManager',()=>{
             '--collapse-background':'#fff',
             '--collapse-text-color':'#0F0D1E',
             '--tabs-background':'#fff',
-            '--tab-inactive-color':'#fff'
+            '--tab-inactive-color':'#fff',
+            "--color-body":'#fff',
+            '--menu-background-color':'#fff'
         },
         "darkTheme": {
             "--color-primary": "#0F0D1E",
@@ -33,7 +35,9 @@ export const ThemeManager = defineStore('ThemeManager',()=>{
             '--collapse-background':'#0F0D1E',
             '--collapse-text-color':'#88878B',
             '--tabs-background':'#0F0D1E',
-            '--tab-inactive-color':'#fff'
+            '--tab-inactive-color':'#fff',
+            "--color-body":'#0F0D1E',
+            '--menu-background-color':'#0F0D1E'
         }
     })
     const toggleTheme = (type:'lightTheme' | 'darkTheme')=>{
