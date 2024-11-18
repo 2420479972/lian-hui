@@ -9,12 +9,14 @@ import router from "@/routes/index.ts"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
+import i18n from "@/language"
+
 
 import { WagmiPlugin } from '@wagmi/vue'
 import { config } from './wagmi'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 const queryClient = new QueryClient()
 
-createApp(App).use(router).use(pinia)
+createApp(App).use(i18n).use(router).use(pinia)
 .use(WagmiPlugin, { config }).use(VueQueryPlugin, { queryClient })
 .mount('#app')
