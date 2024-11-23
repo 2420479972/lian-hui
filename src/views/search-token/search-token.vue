@@ -3,19 +3,19 @@
     <div class="w-full mt-[27px]  mb-[17px] px-[23px]">
       <div class="h-[54px] w-full  rounded-[27px] bg-[#201D2D] overflow-hidden flex items-center px-[16px]">
         <img src="assets/images/hot-token/search.png" class="h-[24px] w-[24px]" alt="">
-        <input type="text" class="px-[12px] flex-1 bg-transparent outline-0 text-[18px] text-[#fff]"
+        <input type="search" class="px-[12px] flex-1 bg-transparent outline-0 text-[18px] text-[#fff]"
                placeholder="输入关键字搜索">
       </div>
     </div>
     <div class="w-full min-h-[130px] px-[23px] mt-[15px]">
       <div class="w-full flex justify-between items-center h-[28px] ">
-        <div class="text-[18px] text-[#fff] opacity-[0.4]">搜索历史</div>
-        <div class="w-[28px] h-[28px]">
+        <div class="text-[20px] text-[#fff] opacity-[0.4]">搜索历史</div>
+        <div class="w-[35px] h-[35px]">
           <img class="w-full h-full" src="assets/images/search-token/del.png" alt="">
         </div>
       </div>
       <div class="w-full h-[88px] mt-[20px] flex flex-wrap gap-x-3 gap-y-1 overflow-y-auto">
-        <div class="text-[18px] opacity-[0.4]" v-for="item in 20" @click="search(String(item))">ETH</div>
+        <div class="text-[18px] opacity-[0.4]" v-for="item in 20" @click="search(String(item))">热名代币</div>
       </div>
     </div>
     <div class="px-[23px] mt-[27px]">
@@ -25,11 +25,12 @@
     </div>
     <div class="w-full flex-1 overflow-y-auto space-y-[15px] content">
       <div v-for="(item,index) in tokenList"
-           class="w-[92%] min-h-[127px] px-[21px]  py-[31px] m-auto bg-[#140E20] rounded-xl card-shadow"
-           :style="{background:item.bg}">
+           class="w-[92%] min-h-[127px] px-[21px]  py-[31px] m-auto bg-[#140E20] rounded-xl card-shadow">
         <div class="flex items-center " @click="openExpand(item)">
-          <div class="text-[30px] opacity-[0.4] mr-[57px]">{{ index + 1 }}</div>
-          <img :src="BSC" alt="" class="mr-[21px] h-[64px] w-[64px]">
+          <div class="text-[30px] opacity-[0.4] mr-[57px] number w-[15px] ">{{ index + 1 }}</div>
+          <div class="mr-[31px] h-[64px] w-[64px] rounded-full flex items-center justify-center" :style="{background:colorList[index] || '#A8A6AC'}">
+            <img src="assets/images/hot-token/token.png" alt="">
+          </div>
           <div class="flex-1 flex items-center justify-between">
             <div class="w-[35%] flex flex-col justify-center">
               <div class="text-[24px] font-bold">Ethereum</div>
@@ -41,34 +42,21 @@
             </div>
           </div>
         </div>
-        <var-collapse-transition :expand="item.show">
-          <div class="pt-[18px] mt-[18px] flex items-center justify-between border-t-[2px] border-[#666666]">
-            <div class="w-[70%] space-y-1">
-              <div class="text-[#58566D] text-[18px]">合约地址：<span class="text-[#fff]">0xc1C***932FB</span></div>
-              <div class="text-[#58566D] text-[18px] flex">
-                合约LP地址：
-                <span class="text-[#fff]">11111***11111</span>
-                <img src="assets/images/hot-token/copy.png" class="h-[28px] w-[28px] ml-[13px]" alt=""
-                     @click="handleCopy('1232')">
-              </div>
-            </div>
-            <div class="">
-              <var-button color="#0F3334"  style="border-radius: 9999px">
-                <span class="text-[#1CE89F]">添加机器人</span>
-              </var-button>
-            </div>
-          </div>
-        </var-collapse-transition>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import BSC from "assets/images/hot-token/BSC.png"
-import {handleCopy} from "@/hooks/copy.ts";
 
-
+const colorList = [
+  "#00A579",
+  "#A8A6AC",
+  "#FF9900",
+  "#3496E1",
+  "#6900A5",
+  "#FF9900"
+]
 const search = (keyword: string) => {
 
 }
@@ -137,5 +125,8 @@ input::placeholder {
 
 .card-shadow {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+.number{
+  font-family: "YOUSHEBIAOTIHEI-2",serif;
 }
 </style>

@@ -11,7 +11,7 @@
           <div class="text-[21px]">监听买卖并反向交易设置【USDT】</div>
         </div>
         <div class="mt-[21px] w-full">
-          <div class="pt-[15px] w-full text-[#297EFE] rounded-[5px]  text-[15px] p-[16px] bg-[#141934] text-[##297EFE] space-y-1">
+          <div class="pt-[15px] w-full text-[#297EFE] rounded-[5px]  text-[18px] p-[16px] bg-[#141934] text-[##297EFE] space-y-1">
             <div class="">
               USDT 购买 ERC20代币【XXX】
             </div>
@@ -57,7 +57,7 @@
             <div class="text-[21px]">监听买卖并反向交易设置【ERC20代币】</div>
           </div>
 
-          <div class="pt-[15px] w-full text-[#297EFE] rounded-[5px]  text-[15px] p-[16px] bg-[#141934] text-[##297EFE] space-y-1">
+          <div class="pt-[15px] w-full text-[#297EFE] rounded-[5px]  text-[18px] p-[16px] bg-[#141934] text-[##297EFE] space-y-1">
             <div class="">
               USDT 购买 ERC20代币【XXX】
             </div>
@@ -103,7 +103,7 @@
       </div>
       <div class="mt-[27px]">
         <div class="w-full flex items-center justify-center">
-          <div class="w-[147px] h-[54px] text-[24px] leading-[54px] text-center bg-[#1CE89F] text-[#0D3728] border-[3px] border-[rgba(28,232,159,0.2)] rounded-[10px]" v-ripple>确定</div>
+          <div class="w-[147px] h-[54px] text-[24px] leading-[54px] text-center bg-[#1CE89F] text-[#0D3728] border-[3px] border-[rgba(28,232,159,0.2)] rounded-[10px]" v-ripple @click="emit('changeRobot')">确定</div>
         </div>
       </div>
     </div>
@@ -127,7 +127,7 @@ const props = withDefaults(defineProps<Props>(),{
   show:false
 })
 
-const emit = defineEmits(['update:show'])
+const emit = defineEmits(['update:show','changeRobot'])
 
 const showPop = computed({
   get: () => props.show,

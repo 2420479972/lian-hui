@@ -51,3 +51,23 @@ button{
 ::-webkit-scrollbar-thumb:hover {
   background-color: #555; /* 悬停时滑块颜色 */
 }
+
+@font-face {
+  font-family:"PINGFANG BOLD";
+  src: url("../font/PINGFANG BOLD_0.TTF");
+}
+
+@font-face {
+  font-family:"PINGFANG MEDIUM";
+  src: url("../font/PINGFANG MEDIUM_0.TTF");
+}
+
+@font-face {
+  font-family:"PINGFANG REGULAR";
+  src: url("../font/PINGFANG REGULAR_0.TTF");
+}
+
+@font-face {
+  font-family:"YOUSHEBIAOTIHEI-2";
+  src: url("../font/YOUSHEBIAOTIHEI-2.TTF");
+}

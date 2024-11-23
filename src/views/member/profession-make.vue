@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <template v-if="true">
+      <template v-if="robotType == 'buy'">
         <div class="mt-[27px]">
           <div class="text-[18px] opacity-[0.4]">输入助记词</div>
         </div>
@@ -54,7 +54,7 @@
           </div>
         </div>
       </template>
-      <template v-if="false">
+      <template v-if="robotType == 'make'">
         <div class="mt-[27px]">
           <div class="text-[18px] opacity-[0.4]">选择时间</div>
         </div>
@@ -105,7 +105,8 @@
 <script setup lang="ts">
 type Props = {
   type:'normal' | 'profession',
-  show:boolean
+  show:boolean,
+  robotType?:'buy' | 'make'
 }
 
 

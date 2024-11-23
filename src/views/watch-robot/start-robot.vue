@@ -3,8 +3,8 @@
   <div class="mt-[28px] w-full">
     <div class="relative min-h-[176px] w-full pb-[30px] bg-[rgba(122,120,131,0.05)] rounded-[5px]">
       <div class="absolute right-[18px] top-[19px] flex items-center space-x-[5px]">
-        <div class="w-[7px] h-[7px] rounded-full bg-amber-100"></div>
-        <div class="opacity-[0.4] text-[15px]">未启动</div>
+        <div class="w-[7px] h-[7px] rounded-full bg-[#7A7883]" style="background: #1CE89F"></div>
+        <div class="opacity-[0.4] text-[18px]" style="color:#1CE89F;opacity: 1">运行中</div>
       </div>
       <div class="h-[136px] w-full  py-[31px] px-[21px] flex items-center space-x-[18px]" @click="showAccountSetting = true">
         <div class="h-[65px] w-[65px]">
@@ -42,7 +42,7 @@
       </div>
     </div>
   </div>
-  <start-setting :show="true"></start-setting>
+  <start-setting v-model:show="showAccountSetting" :type="type"></start-setting>
 </template>
 
 <script setup lang="ts">

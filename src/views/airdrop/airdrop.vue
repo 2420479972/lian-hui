@@ -12,9 +12,9 @@
     </div>
     <div class="mt-[15px] w-full  flex items-center mb-[18px] justify-between">
       <div class="text-[21px]">空投代币</div>
-      <button class="h-[45px] bg-[rgba(122,120,131,0.05)] rounded-[2px] flex items-center p-[15px]" v-ripple>
+      <button class="h-[45px] bg-[rgba(122,120,131,0.05)] rounded-[2px] flex items-center p-[15px]" v-ripple @click="showRelease = true">
         <var-icon name="plus" :size="22"/>
-        <div class="ml-[8px] text-[18px]">发布空投</div>
+        <div class="ml-[8px] text-[18px]" >发布空投</div>
       </button>
     </div>
     <div class="flex-1 w-full overflow-y-auto">
@@ -24,7 +24,7 @@
           class="h-full overflow-y-auto"
       >
         <div class="grid grid-cols-2 gap-y-[18px]">
-          <div class="w-[249.5px] min-h-[267px] px-[18px] py-[18px] bg-[#140E20] border-[3px] border-[#1D1A2A] rounded-[5px]" v-for="item in 80">
+          <div class="w-[249.5px] min-h-[267px] px-[18px] py-[18px] bg-[#140E20] border-[3px] border-[#1D1A2A] rounded-[5px]" v-for="item in 80" @click="showDetail = true">
             <div class="flex items-center space-x-[20px]">
               <div class="text-[18px] text-[#605D75]">0xBe4***49EA5</div>
               <img src="assets/images/hot-token/copy.png" class="h-[28px] w-[28px] ml-[13px]" alt="" @click="handleCopy('1232')">
@@ -52,8 +52,8 @@
       </var-list>
     </div>
   </div>
-<!--  <detail :show="true"></detail>-->
-  <release :show="false"></release>
+  <detail v-model:show="showDetail" :data="selectedShowData"></detail>
+  <release v-model:show="showRelease"></release>
 </template>
 
 <script setup lang="ts">
@@ -79,6 +79,13 @@ const tabList = [
 const checkTab = (key: string) => {
   selectedTab.value = key
 }
+
+const selectedShowData =ref({});
+const showDetail = ref(false);
+
+
+const showRelease = ref(false);
+
 </script>
 
 <style lang="scss" scoped>

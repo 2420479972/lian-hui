@@ -42,7 +42,7 @@
                 </div>
               </template>
               <template v-else>
-                <div v-ripple class="text-[24px] flex-1 h-[32px]">
+                <div v-ripple class="text-[24px] flex-1 h-[32px]" @click="goPath(item)">
                   {{ item.label }}
                 </div>
               </template>
@@ -102,23 +102,28 @@ const soundSwitch = ref(false);
 const menuList = [
   {
     label: '主页',
-    icon: home
+    icon: home,
+    path:'/hot-token',
   },
   {
     label: '账户',
-    icon: account
+    icon: account,
+    path:'/member',
   },
   {
     label: "联盟",
-    icon: airdrop
+    icon: airdrop,
+    path:'/alliance',
   },
   {
     label: '空投',
-    icon: telegraph
+    icon: telegraph,
+    path:'/airdrop',
   },
   {
     label: '简介',
-    icon: briefIntroduction
+    icon: briefIntroduction,
+    path:'/intro',
   },
   {
     label: '声音',
@@ -186,9 +191,17 @@ const setSound = () => {
   soundSwitch.value = !soundSwitch.value
 }
 
-const checkTheme = (type: any) => {
-  StyleProvider(type)
+const router = useRouter();
+const goPath =(item:any)=>{
+  if(typeof item.fun == "function"){
+    item.fun();
+    return
+  }
+  if(item.path){
+    router.push(item.path);
+  }
 }
+
 </script>
 <style lang="scss" scoped>
 .content {

@@ -2,11 +2,11 @@
   <div class="w-full flex-1 flex flex-col h-full pb-[23px]">
     <div class="w-full flex-1 flex flex-col overflow-y-auto mt-[14px] px-[23px]">
       <div class="w-full py-[9px] flex gap-[15px]">
-        <var-tabs v-model:active="activeHeader">
+        <var-tabs v-model:active="activeHeader" >
           <var-tab v-for="item in tabList" :key="item.label">
             <div class="flex items-center gap-[8px]" @click="checkTab(item.key)">
-              <img :src="item.icon" alt="">
-              <div :style="{color:item.key == selectedTab ? '#fff' : '#6E6B76'}" class="text-[24px]">{{
+              <img :src="item.key == selectedTab ? item.selected :item.icon" alt="">
+              <div class="text-[24px]" :style="{color:item.key == selectedTab ? '#fff' : '#6E6B76'}">{{
                   item.label
                 }}
               </div>
@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="w-full mt-[13px] flex justify-between items-center text-[18px]">
-        <var-tabs v-model:active="activeUserMenu" :scrollable="true" class="w-full">
+        <var-tabs v-model:active="activeUserMenu" :scrollable="true" class="w-full" @change="checkSecondTab">
           <var-tab v-for="(item,index) in secondTabList" :key="item.label">
             <div
                 v-ripple
@@ -48,18 +48,18 @@
           </var-tab>
         </var-tabs>
       </div>
-      <div class="flex-1 mt-[22px] w-full space-y-[18px] overflow-y-auto pt-[20px]">
-        <template v-if="false">
+      <div class="flex-1 mt-[22px] w-full overflow-y-auto pt-[20px] content">
+        <template v-if="selectedSecondTab == 'member'">
           <User></User>
         </template>
         <template v-else>
-          <Card type="profession"></Card>
+          <Card :type="selectedSecondTab"></Card>
         </template>
         <div class="h-[63px]"></div>
       </div>
     </div>
   </div>
-  <profession-make :show="false"></profession-make>
+
 </template>
 
 <script lang="ts" setup>
@@ -70,24 +70,28 @@ import {handleCopy} from "@/hooks/copy.ts";
 import Card from "views/member/card.vue";
 import User from "views/member/user.vue";
 import ProfessionMake from "views/member/profession-make.vue";
+import BSCED from "assets/images/hot-token/selected-BSC.png";
+import ETHED from "assets/images/hot-token/selected-ETH.png";
 
 
 const nowSelectedRobot = ref<"normal" | "profession">('normal')
 const activeHeader = ref(0);
 const activeUserMenu = ref(0);
 const selectedTab = ref('BSC')
-const selectedSecondTab = ref('member')
+const selectedSecondTab = ref<any>('member')
 const tabList = [
   {
     label: 'BSC',
     icon: BSC,
+    selected: BSCED,
     key: 'BSC'
   },
   {
     label: 'ETH',
     icon: ETH,
+    selected: ETHED,
     key: 'ETH'
-  }
+  },
 ]
 
 
@@ -106,8 +110,8 @@ const secondTabList = [
   }
 ]
 
-const checkSecondTab = (selectedSelect: string) => {
-
+const checkSecondTab = (selectedSelect: number) => {
+  selectedSecondTab.value = secondTabList[selectedSelect].key;
 
 }
 
@@ -126,6 +130,12 @@ const checkTab = (key: string) => {
 
 .button-shadow {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.content{
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 

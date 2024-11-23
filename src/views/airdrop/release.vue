@@ -1,19 +1,33 @@
 <template>
   <var-popup v-model:show="showPop">
-    <div class="max-h-[90vh] w-[90vw] p-[20px] rounded-[20px] border-[#0E2C2C] border-[3px] flex flex-col">
+    <div class="max-h-[90vh] w-[90vw] p-[20px] rounded-[20px] border-[#0E2C2C] border-[3px] flex flex-col content">
       <div class="w-full flex items-center justify-between">
         <div class="text-[21px]">发布空投</div>
         <var-icon name="window-close" @click="showPop = false"/>
       </div>
+      <div class="flex items-center space-x-[20px] mt-[38px] mb-[20px]">
+        <div class="flex items-center space-x-[9px]">
+          <div class="h-[25px] w-[25px] rounded-full bg-[#143A39] flex items-center justify-center">
+            <div class="h-[11px] w-[11px] bg-[#1CE89F] rounded-full"></div>
+          </div>
+          <div class="text-[22px]">BSC</div>
+        </div>
+        <div class="flex items-center space-x-[9px]">
+          <div class="h-[25px] w-[25px] rounded-full bg-[#666] flex items-center justify-center">
+            <div class="h-[11px] w-[11px] bg-[#0D081A] rounded-full"></div>
+          </div>
+          <div class="text-[22px]">ETH</div>
+        </div>
 
+      </div>
       <div class="flex-1 overflow-y-auto">
         <div class="space-y-[35px] pt-[18px]">
-          <div class="space-y-[18px]" v-for="item in 4">
+          <div class="space-y-[18px]" v-for="item in formList" :key="item.key">
             <div class="w-ful">
-              <div class="text-[18px] opacity-[0.4]">设置滑点（%）</div>
+              <div class="text-[18px] opacity-[0.4]">{{item.label}}</div>
             </div>
             <div class="flex items-center space-x-[14px]">
-              <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="请设置滑点">
+              <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="'请'+item.label">
             </div>
           </div>
         </div>
@@ -32,11 +46,9 @@
         <div class="w-full mt-[24px]">
           <div class="text-[21px] opacity-[0.4]">输入代币介绍</div>
         </div>
-        <div class="w-full min-h-[98px] bg-[rgba(122,120,131,0.05)] px-[14px] py-[23px] mt-[18px] rounded-[5px]">
-          <div class="text-[21px] opacity-[0.4]">
-            Become part of a mission-aligned commu nity stewarding the ZKsy
-          </div>
-        </div>
+        <textarea placeholder="请输入代币介绍" class="w-full outline-0 min-h-[98px] bg-[rgba(122,120,131,0.05)] px-[14px] py-[10px] mt-[18px] rounded-[5px]">
+
+        </textarea>
         <div class="space-x-[22px] flex items-center mt-[18px]">
           <div class="w-ful">
             <div class="text-[18px] opacity-[0.4]">是否持有ERC20代币</div>
@@ -76,18 +88,12 @@
 
 <script setup lang="ts">
 type Props = {
-  type:'normal' | 'profession',
   show:boolean
 }
 
 
-enum robotType {
-  normal = '普通机器人',
-  profession = '专业机器人',
-}
 
 const props = withDefaults(defineProps<Props>(),{
-  type: 'profession',
   show:false
 })
 
@@ -100,6 +106,28 @@ const showPop = computed({
   }
 })
 
+
+const formList = [
+  {
+    label:'输入代币名称',
+    key:"",
+  },
+  {
+    label:'输入空投总量（枚）',
+    key:"",
+  },
+  {
+    label:'输入空投份数（份）',
+    key:"",
+  },
+  {
+    label:'输入代币地址',
+    key:"",
+  },
+
+]
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -108,5 +136,10 @@ input::placeholder{
 }
 :deep(.var-counter__input){
   @apply h-[46px] w-[64px] bg-[rgba(122,120,131,0.05)] rounded-[2px] border-2 border-[#1D1A2A] text-[24px];
+}
+.content{
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 </style>

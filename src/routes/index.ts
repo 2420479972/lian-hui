@@ -36,7 +36,7 @@ const routes = [
                 path: '/intro',
                 name: 'intro',
                 component: () => import('@/views/intro/intro.vue'),
-                meta: {title: "联盟", requiresAuth: true},
+                meta: {title: "简介", requiresAuth: true},
             },
             {
                 path: '/node-cut',
@@ -48,13 +48,13 @@ const routes = [
                 path: '/airdrop',
                 name: 'airdrop',
                 component: () => import('@/views/airdrop/airdrop.vue'),
-                meta: {title: "节点切换", requiresAuth: true},
+                meta: {title: "空投", requiresAuth: true},
             },
             {
                 path: '/member',
                 name: 'member',
                 component: () => import('@/views/member/member.vue'),
-                meta: {title: "节点切换", requiresAuth: true},
+                meta: {title: "账户", requiresAuth: true},
             }
         ]
     },

@@ -1,6 +1,6 @@
 <template>
-    <normal-robot v-if="type == 'normal'"></normal-robot>
-    <profession-robot v-else></profession-robot>
+    <normal-robot v-if="type == 'normal'" v-bind="$attrs"></normal-robot>
+    <profession-robot v-else v-bind="$attrs"></profession-robot>
     <div class="w-full mt-[37px] flex items-center justify-between">
       <div class="w-[146px] text-[18px]  flex flex-col items-center justify-center relative">
         <div class="mb-[10px] opacity-[0.4]">

@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-  <account-setting :type="type" v-model:show="showAccountSetting"></account-setting>
+  <account-setting v-bind="$attrs" v-model:show="showAccountSetting" ></account-setting>
 </template>
 
 <script setup lang="ts">

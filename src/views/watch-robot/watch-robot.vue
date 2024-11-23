@@ -12,20 +12,20 @@
       <div class="w-[203px] flex relative justify-center items-center">
         <div class="bg-[#22222F] absolute w-full h-[4px]"></div>
         <div
-            class="h-[25px] w-[25px] rounded-full bg-[#22222F] text-[#86839D] leading-[25px] text-center text-[18px] relative">
+            class="h-[25px] w-[25px] rounded-full bg-[#22222F] text-[#86839D] leading-[25px] text-center text-[18px] relative" :style="{background:steps >=2 ? '#3481D7' : '',color:steps >=2 ? '#fff' : ''}">
           <span>4</span>
           <div class="absolute -left-1 -top-[30px] text-[18px] whitespace-nowrap">设置</div>
-          <div class="w-[89px] h-[4px]  absolute left-[100%] top-1/2 -translate-y-1/2"></div>
-          <div class="w-[89px] h-[4px] absolute right-[100%] top-1/2 -translate-y-1/2"></div>
+          <div class="w-[89px] h-[4px]  absolute  left-[100%] top-1/2 -translate-y-1/2" :style="{background:steps >=2 ? '#3481D7' : ''}"></div>
+          <div class="w-[89px] h-[4px] absolute right-[100%] top-1/2 -translate-y-1/2" :style="{background:steps >=2 ? '#3481D7' : ''}"></div>
         </div>
       </div>
       <div class="w-[114px] relative flex justify-end items-center">
         <div class="bg-[#22222F] absolute w-full h-[4px]"></div>
         <div
-            class="h-[25px] w-[25px] rounded-full bg-[#22222F] text-[#86839D] leading-[25px] text-center text-[18px] relative">
+            class="h-[25px] w-[25px] rounded-full bg-[#22222F] text-[#86839D] leading-[25px] text-center text-[18px] relative" :style="{background:steps >=3 ? '#3481D7' : '',color:steps >=3 ? '#fff' : ''}">
           <span>5</span>
           <div class="absolute -left-1 -top-[30px] text-[18px] whitespace-nowrap">启动</div>
-          <div class="w-[89px] h-[4px] bg-[] absolute right-[100%] top-1/2 -translate-y-1/2"></div>
+          <div class="w-[89px] h-[4px]  absolute right-[100%] top-1/2 -translate-y-1/2" :style="{background:steps >=3 ? '#3481D7' : ''}"></div>
         </div>
       </div>
       <div class="absolute flex items-center space-x-2 left-[44px] bottom-[15px] text-[15px] opacity-[0.4]">
@@ -37,9 +37,12 @@
       <div class="w-full py-[9px] flex gap-[15px]">
         <var-tabs v-model:active="active">
           <var-tab v-for="item in tabList" :key="item.label">
-            <div class="flex items-center gap-[8px]"  @click="checkTab(item.key)">
-              <img :src="item.icon" alt="">
-              <div class="text-[24px]" :style="{color:item.key == selectedTab ? '#fff' : '#6E6B76'}">{{ item.label }}</div>
+            <div class="flex items-center gap-[8px]" @click="checkTab(item.key)">
+              <img :src="item.key == selectedTab ? item.selected :item.icon" alt="">
+              <div class="text-[24px]" :style="{color:item.key == selectedTab ? '#fff' : '#6E6B76'}">{{
+                  item.label
+                }}
+              </div>
             </div>
           </var-tab>
         </var-tabs>
@@ -63,9 +66,9 @@
         </div>
       </div>
       <div class="flex-1 flex flex-col">
-        <robot-content :type="nowSelectedRobot"></robot-content>
-<!--        <robot-setting :type="nowSelectedRobot"></robot-setting>-->
-<!--        <start-robot :type="nowSelectedRobot"></start-robot>-->
+        <robot-content :type="nowSelectedRobot" @now-type-status="nowTypeStatus" v-if="steps == 1"></robot-content>
+        <robot-setting :type="nowSelectedRobot" v-if="steps == 2" @changeRobot="changeRobot"></robot-setting>
+        <start-robot :type="nowSelectedRobot" v-if="steps == 3" ></start-robot>
       </div>
     </div>
   </div>
@@ -77,8 +80,10 @@ import ETH from "assets/images/hot-token/ETH.png";
 import RobotContent from "views/watch-robot/robot-content.vue";
 import RobotSetting from "views/watch-robot/robot-setting.vue";
 import StartRobot from "views/watch-robot/start-robot.vue";
+import BSCED from "assets/images/hot-token/selected-BSC.png";
+import ETHED from "assets/images/hot-token/selected-ETH.png";
 
-
+const steps = ref(1);
 const nowSelectedRobot = ref<"normal" | "profession">('normal')
 const active =ref(0);
 const selectedTab = ref('BSC')
@@ -86,13 +91,15 @@ const tabList = [
   {
     label: 'BSC',
     icon: BSC,
+    selected: BSCED,
     key: 'BSC'
   },
   {
     label: 'ETH',
     icon: ETH,
+    selected: ETHED,
     key: 'ETH'
-  }
+  },
 ]
 const checkTab = (key: string) => {
   selectedTab.value = key
@@ -100,6 +107,15 @@ const checkTab = (key: string) => {
 
 const catRobot = (value: "normal" | "profession") => {
   nowSelectedRobot.value = value;
+}
+
+
+const nowTypeStatus = (typeAndStatus:{status:boolean})=>{
+  steps.value = 2
+}
+
+const changeRobot = ()=>{
+  steps.value = 3
 }
 
 </script>
