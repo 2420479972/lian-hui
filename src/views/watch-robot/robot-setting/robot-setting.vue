@@ -9,7 +9,7 @@
         <div class="flex items-center space-x-[7px]">
           <div class="text-[24px]">{{robotType[type]}}</div>
           <div class="h-[24px] w-[24px]">
-            <img class="h-full w-full" src="assets/images/watch-robot/wenhao.png" alt="">
+            <img class="h-full w-full" src="../../../assets/images/watch-robot/wenhao.png" alt="">
           </div>
         </div>
         <div class="text-[18px]  opacity-[0.4]">
@@ -18,13 +18,13 @@
       </div>
     </div>
   </div>
-  <account-setting v-bind="$attrs" v-model:show="showAccountSetting" ></account-setting>
+  <account-setting v-bind="$attrs" :type="type" v-model:show="showAccountSetting" ></account-setting>
 </template>
 
 <script setup lang="ts">
 import NormalImage from "assets/images/watch-robot/normal-robot.png"
 import ProfessionImage from "assets/images/watch-robot/profession-robot.png"
-import AccountSetting from "views/watch-robot/account-setting.vue";
+import AccountSetting from "views/watch-robot/robot-setting/account-setting.vue";
 
 type Props = {
   type:'normal' | 'profession'

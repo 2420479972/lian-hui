@@ -7,6 +7,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AiButton: typeof import('./src/components/ai-button.vue')['default']
+    Button: typeof import('./src/components/button.vue')['default']
     PopWindow: typeof import('./src/components/pop-window.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -24,8 +26,11 @@ declare module 'vue' {
     VarList: typeof import('@varlet/ui')['_ListComponent']
     VarLoading: typeof import('@varlet/ui')['_LoadingComponent']
     VarMenu: typeof import('@varlet/ui')['_MenuComponent']
+    VarOption: typeof import('@varlet/ui')['_OptionComponent']
     VarPopup: typeof import('@varlet/ui')['_PopupComponent']
     VarRow: typeof import('@varlet/ui')['_RowComponent']
+    VarSelect: typeof import('@varlet/ui')['_SelectComponent']
+    VarSpace: typeof import('@varlet/ui')['_SpaceComponent']
     VarStep: typeof import('@varlet/ui')['_StepComponent']
     VarSteps: typeof import('@varlet/ui')['_StepsComponent']
     VarStyleProvider: typeof import('@varlet/ui')['_StyleProviderComponent']
@@ -35,6 +40,7 @@ declare module 'vue' {
     VarTabItem: typeof import('@varlet/ui')['_TabItemComponent']
     VarTabs: typeof import('@varlet/ui')['_TabsComponent']
     VarTabsItems: typeof import('@varlet/ui')['_TabsItemsComponent']
+    VarTimePicker: typeof import('@varlet/ui')['_TimePickerComponent']
   }
   export interface ComponentCustomProperties {
     vRipple: typeof import('@varlet/ui')['_RippleComponent']

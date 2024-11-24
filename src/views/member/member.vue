@@ -2,7 +2,7 @@
   <div class="w-full flex-1 flex flex-col h-full pb-[23px]">
     <div class="w-full flex-1 flex flex-col overflow-y-auto mt-[14px] px-[23px]">
       <div class="w-full py-[9px] flex gap-[15px]">
-        <var-tabs v-model:active="activeHeader" >
+        <var-tabs v-model:active="activeHeader">
           <var-tab v-for="item in tabList" :key="item.label">
             <div class="flex items-center gap-[8px]" @click="checkTab(item.key)">
               <img :src="item.key == selectedTab ? item.selected :item.icon" alt="">
@@ -37,7 +37,6 @@
         <var-tabs v-model:active="activeUserMenu" :scrollable="true" class="w-full" @change="checkSecondTab">
           <var-tab v-for="(item,index) in secondTabList" :key="item.label">
             <div
-                v-ripple
                 :style="{background:activeUserMenu == index ? 'rgba(52,129,215,0.05)' :'rgba(122,120,131,0.05)',color:activeUserMenu == index ? '#3481D7' :'' }"
                 class="px-[35px] min-w-[142px] h-[45px] bg-[rgba(52,129,215,0.05)] rounded  leading-[45px] text-center button-shadow relative">
               <span>{{ item.label }}</span>
@@ -65,7 +64,7 @@
 <script lang="ts" setup>
 import BSC from "assets/images/hot-token/BSC.png";
 import ETH from "assets/images/hot-token/ETH.png";
-import RobotContent from "views/watch-robot/robot-content.vue";
+import RobotContent from "views/watch-robot/robot-content/robot-content.vue";
 import {handleCopy} from "@/hooks/copy.ts";
 import Card from "views/member/card.vue";
 import User from "views/member/user.vue";
@@ -133,7 +132,7 @@ const checkTab = (key: string) => {
 }
 
 .content{
-  ::-webkit-scrollbar {
+  &::-webkit-scrollbar {
     display: none;
   }
 }

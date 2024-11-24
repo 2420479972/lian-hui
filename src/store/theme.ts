@@ -24,7 +24,8 @@ export const ThemeManager = defineStore('ThemeManager',()=>{
             '--tabs-background':'#fff',
             '--tab-inactive-color':'#fff',
             "--color-body":'#fff',
-            '--menu-background-color':'#fff'
+            '--menu-background-color':'#fff',
+            "--time-picker-body-background":"transparent",
         },
         "darkTheme": {
             "--color-primary": "#0F0D1E",
@@ -37,7 +38,8 @@ export const ThemeManager = defineStore('ThemeManager',()=>{
             '--tabs-background':'#0F0D1E',
             '--tab-inactive-color':'#fff',
             "--color-body":'#0F0D1E',
-            '--menu-background-color':'#0F0D1E'
+            '--menu-background-color':'#0F0D1E',
+            "--time-picker-body-background":"transparent",
         }
     })
     const toggleTheme = (type:'lightTheme' | 'darkTheme')=>{

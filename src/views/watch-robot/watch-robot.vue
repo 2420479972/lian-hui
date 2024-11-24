@@ -77,9 +77,9 @@
 <script setup lang="ts">
 import BSC from "assets/images/hot-token/BSC.png";
 import ETH from "assets/images/hot-token/ETH.png";
-import RobotContent from "views/watch-robot/robot-content.vue";
-import RobotSetting from "views/watch-robot/robot-setting.vue";
-import StartRobot from "views/watch-robot/start-robot.vue";
+import RobotContent from "views/watch-robot/robot-content/robot-content.vue";
+import RobotSetting from "views/watch-robot/robot-setting/robot-setting.vue";
+import StartRobot from "views/watch-robot/start-robot/start-robot.vue";
 import BSCED from "assets/images/hot-token/selected-BSC.png";
 import ETHED from "assets/images/hot-token/selected-ETH.png";
 

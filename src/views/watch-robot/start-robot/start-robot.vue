@@ -14,7 +14,7 @@
           <div class="flex items-center space-x-[7px]">
             <div class="text-[24px]">{{robotType[type]}}</div>
             <div class="h-[24px] w-[24px]">
-              <img class="h-full w-full" src="assets/images/watch-robot/wenhao.png" alt="">
+              <img class="h-full w-full" src="../../../assets/images/watch-robot/wenhao.png" alt="">
             </div>
           </div>
           <div class="text-[18px]  opacity-[0.4]">
@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import NormalImage from "assets/images/watch-robot/normal-robot.png"
 import ProfessionImage from "assets/images/watch-robot/profession-robot.png"
-import StartSetting from "views/watch-robot/start-setting.vue";
+import StartSetting from "views/watch-robot/start-robot/start-setting.vue";
 
 type Props = {
   type:'normal' | 'profession'

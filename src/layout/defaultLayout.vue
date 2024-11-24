@@ -192,14 +192,16 @@ const setSound = () => {
 }
 
 const router = useRouter();
-const goPath =(item:any)=>{
+const goPath =async (item:any)=>{
   if(typeof item.fun == "function"){
     item.fun();
     return
   }
   if(item.path){
-    router.push(item.path);
+   await router.push(item.path);
+    showMenu.value = false;
   }
+
 }
 
 </script>

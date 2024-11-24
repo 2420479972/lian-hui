@@ -62,8 +62,8 @@
 </template>
 
 <script setup lang="ts">
-import NormalRobot from "views/watch-robot/normal-robot.vue";
-import ProfessionRobot from "views/watch-robot/profession-robot.vue";
+import NormalRobot from "views/watch-robot/robot-content/normal-robot.vue";
+import ProfessionRobot from "views/watch-robot/robot-content/profession-robot.vue";
 
 type Props = {
   type: "normal" | "profession";

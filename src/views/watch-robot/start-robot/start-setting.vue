@@ -13,15 +13,15 @@
           </div>
           <div class="flex items-center justify-between space-x-[14px] w-full">
             <div class="rounded-[5px] flex items-center space-x-2 h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]">
-              <input type="text" class="w-full h-full bg-transparent outline-0" placeholder="启动时间" readonly>
+              <input type="text" class="w-full h-full bg-transparent outline-0" placeholder="启动时间" readonly @click="showTime = true">
               <div class="h-[22px] w-[24px]">
-                <img src="assets/images/watch-robot/time.png" class="h-full w-full" alt="">
+                <img src="../../../assets/images/watch-robot/time.png" class="h-full w-full" alt="">
               </div>
             </div>
             <div class="rounded-[5px] flex items-center space-x-2 h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]">
-              <input type="text" class="w-full h-full bg-transparent outline-0" placeholder="结束时间" readonly>
+              <input type="text" class="w-full h-full bg-transparent outline-0" placeholder="结束时间" readonly @click="showTime = true">
               <div class="h-[22px] w-[24px]">
-                <img src="assets/images/watch-robot/time.png" class="h-full w-full" alt="">
+                <img src="../../../assets/images/watch-robot/time.png" class="h-full w-full" alt="">
               </div>
             </div>
           </div>
@@ -110,9 +110,24 @@
       </div>
     </div>
   </var-popup>
+  <pop-window v-model:show="showTime" title="请选择您的开始时间">
+    <var-time-picker format="24hr" v-model="time">
+      <template #actions>
+        <div class="flex items-center space-x-2">
+          <div class="px-[20px] rounded-md py-[5px]" v-ripple>取消</div>
+          <div class="px-[20px] rounded-md py-[5px]" v-ripple>确认</div>
+        </div>
+      </template>
+    </var-time-picker>
+  </pop-window>
 </template>
 
 <script setup lang="ts">
+import PopWindow from "@/components/pop-window.vue";
+
+
+const showTime = ref(false);
+
 type Props = {
   type:'normal' | 'profession',
   show:boolean
@@ -138,6 +153,9 @@ const showPop = computed({
   }
 })
 
+const time = ref('00:00');
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -151,5 +169,8 @@ input::placeholder{
   ::-webkit-scrollbar {
     display: none;
   }
+}
+:deep(.var-time-picker__title-hint){
+  display: none;
 }
 </style>
