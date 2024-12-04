@@ -2,7 +2,7 @@
   <var-popup v-model:show="showPop">
     <div class="max-h-[90vh] w-[90vw] p-[20px] rounded-[20px] border-[#0E2C2C] border-[3px] flex flex-col content">
       <div class="w-full flex items-center justify-between">
-        <div class="text-[21px]">发布空投</div>
+        <div class="text-[21px]">{{t('airdrop.launchAirdrop')}}</div>
         <var-icon name="window-close" @click="showPop = false"/>
       </div>
       <div class="flex items-center space-x-[20px] mt-[38px] mb-[20px]">
@@ -24,60 +24,58 @@
         <div class="space-y-[35px] pt-[18px]">
           <div class="space-y-[18px]" v-for="item in formList" :key="item.key">
             <div class="w-ful">
-              <div class="text-[18px] opacity-[0.4]">{{item.label}}</div>
+              <div class="text-[18px] opacity-[0.4]">{{t( 'airdrop.' + item.label)}}</div>
             </div>
             <div class="flex items-center space-x-[14px]">
-              <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="'请'+item.label">
+              <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="t( 'public.please') + t( 'airdrop.' + item.label)">
             </div>
           </div>
         </div>
         <div class="space-y-[18px] mt-[35px]">
           <div class="w-full flex items-center space-x-[14px]">
-            <div class="text-[18px] opacity-[0.4]">生成空投合约</div>
-            <div class="text-[16px] text-[#605D75]">(生成合约地址需要支付XXXUSDT)</div>
+            <div class="text-[18px] opacity-[0.4]">{{t('airdrop.inputAirdropContract')}}</div>
+            <div class="text-[16px] text-[#605D75]">{{t('airdrop.inputTip')}}</div>
           </div>
           <div class="flex items-center space-x-[14px]">
             <div class="w-[100px] text-[21px] h-[45px] border-[2px] border-[#1D1A2A] bg-[rgba(122,120,131,0.05)] flex items-center justify-center rounded-[5px]" v-ripple>
-              生成
+              {{t('public.generate')}}
             </div>
             <input type="text" class="flex-1 rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="">
           </div>
         </div>
         <div class="w-full mt-[24px]">
-          <div class="text-[21px] opacity-[0.4]">输入代币介绍</div>
+          <div class="text-[21px] opacity-[0.4]">{{t('airdrop.introductionToInputTokens')}}</div>
         </div>
-        <textarea placeholder="请输入代币介绍" class="w-full outline-0 min-h-[98px] bg-[rgba(122,120,131,0.05)] px-[14px] py-[10px] mt-[18px] rounded-[5px]">
-
-        </textarea>
+        <textarea :placeholder="t('airdrop.introductionToInputTokens')" class="w-full outline-0 min-h-[98px] bg-[rgba(122,120,131,0.05)] px-[14px] py-[10px] mt-[18px] rounded-[5px]"></textarea>
         <div class="space-x-[22px] flex items-center mt-[18px]">
           <div class="w-ful">
-            <div class="text-[18px] opacity-[0.4]">是否持有ERC20代币</div>
+            <div class="text-[18px] opacity-[0.4]">{{t('airdrop.whetherToHold')}}ERC20</div>
           </div>
           <div class="flex items-center space-x-[14px] w-[207px]">
-            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="请输入代币数量">
+            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="t('airdrop.numberOfTokens')">
           </div>
-          <div class="text-[18px] opacity-[0.4]">枚</div>
+          <div class="text-[18px] opacity-[0.4]">{{t('public.gold')}}</div>
         </div>
         <div class="space-x-[22px] flex items-center mt-[18px]">
           <div class="w-ful">
-            <div class="text-[18px] opacity-[0.4]">单个地址领取</div>
+            <div class="text-[18px] opacity-[0.4]">{{t('airdrop.pickUpAtASingleAddress')}}</div>
           </div>
           <div class="flex items-center space-x-[14px] w-[80px]">
             <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placehold>
           </div>
-          <div class="text-[18px] opacity-[0.4]">小时/天</div>
+          <div class="text-[18px] opacity-[0.4]">{{t('airdrop.hoursDay')}}</div>
           <div class="flex items-center space-x-[14px] w-[80px]">
-            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="次数">
+            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]">
           </div>
-          <div class="text-[18px] opacity-[0.4]">次</div>
+          <div class="text-[18px] opacity-[0.4]">{{t('public.times')}}</div>
         </div>
       </div>
       <div class="mt-[27px]">
         <div class="w-full flex items-center justify-center flex-col">
-          <button class="w-[147px] h-[54px] text-[24px] leading-[54px] text-center bg-[#1CE89F]  text-[#0D3728] border-[3px] border-solid rounded-[10px]" :style="{background:'#1CE89F',color:'#303030'}" v-ripple>确认发布</button>
+          <button class="w-[147px] h-[54px] text-[24px] leading-[54px] text-center bg-[#1CE89F]  text-[#0D3728] border-[3px] border-solid rounded-[10px]" :style="{background:'#1CE89F',color:'#303030'}" v-ripple>{{t('airdrop.confirmRelease')}}</button>
           <div class="mt-[14px]">
             <div class="text-[16px] text-[#605D75]">
-              发布需要支付XXXUSDT
+              {{t('airdrop.defray')}} XXXUSDT
             </div>
           </div>
         </div>
@@ -90,6 +88,9 @@
 type Props = {
   show:boolean
 }
+import {useI18n} from "vue-i18n";
+
+const { t } = useI18n() // 解构出t方法
 
 
 
@@ -109,19 +110,19 @@ const showPop = computed({
 
 const formList = [
   {
-    label:'输入代币名称',
+    label:'inputTokenName',
     key:"",
   },
   {
-    label:'输入空投总量（枚）',
+    label:'inputAirdropQuantity',
     key:"",
   },
   {
-    label:'输入空投份数（份）',
+    label:'inputAirdropQuantityCopy',
     key:"",
   },
   {
-    label:'输入代币地址',
+    label:'inputTokenAddress',
     key:"",
   },
 

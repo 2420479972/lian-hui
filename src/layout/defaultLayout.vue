@@ -1,9 +1,11 @@
 <template>
-  <var-app-bar class="h-full flex flex-col" round safe-area-top>
-    {{ formatAddress(address) }}
+  <var-app-bar class="h-full flex flex-col " round safe-area-top>
+    <span class="text-[24px]">
+      {{ formatAddress(address) }}
+    </span>
     <template #left>
       <var-button color="transparent" round text @click="showMenu = true">
-        <var-icon :size="24" name="menu" />
+        <var-icon :size="28" name="menu" />
       </var-button>
     </template>
     <template #right>
@@ -11,7 +13,7 @@
         <var-button round text color="transparent" text-color="#fff">
           <img alt="" src="assets/images/layout/wifi.png" class="w-[38px] h-[38px]">
         </var-button>
-        <var-button round text color="transparent" text-color="#fff">
+        <var-button round text color="transparent" text-color="#fff" @click="cutLanguage">
           <img alt="" src="assets/images/layout/lan.png" class="w-[38px] h-[38px]">
         </var-button>
       </div>
@@ -22,9 +24,8 @@
       </div>
     </template>
   </var-app-bar>
-
   <var-popup v-model:show="showMenu" position="left" teleport="#app">
-    <div class="w-[429px] h-[100vh] flex flex-col">
+    <div class="w-[360px] h-[100vh] flex flex-col">
       <div
         class="w-full h-[189px] bg-[url('assets/images/menu/header-bg.png')] bg-cover flex items-center justify-center">
         <img alt="" class="w-[179px] h-[49px]" src="assets/images/menu/logo.png">
@@ -38,12 +39,12 @@
               </div>
               <template v-if="item.noRipple">
                 <div class="text-[24px] flex-1 h-[32px]">
-                  {{ item.label }}
+                  {{ t("menuList." + item.label) }}
                 </div>
               </template>
               <template v-else>
                 <div v-ripple class="text-[24px] flex-1 h-[32px]" @click="goPath(item)">
-                  {{ item.label }}
+                  {{ t("menuList." + item.label) }}
                 </div>
               </template>
             </div>
@@ -53,13 +54,13 @@
           </div>
         </div>
         <div class="h-[110px] w-full px-[23px] space-x-[35px] py-[16px] flex border-t-[2px] border-[#666666]">
-          <div v-for="item in buttonList" :key="item.label" class="flex items-center h-[32px] w-[110px] space-x-[13px]">
+          <div v-for="item in buttonList" :key="item.label" class="flex items-center h-[32px] min-w-[110px] space-x-[13px]">
             <div class="space-x-[22px] flex items-center">
               <div class="w-[32px] h-[32px]">
                 <img :src="item.icon" alt="" class="w-full h-full">
               </div>
               <div v-ripple class="text-[24px]">
-                {{ item.label }}
+                {{ t("menuList." + item.label) }}
               </div>
             </div>
           </div>
@@ -81,6 +82,7 @@ function formatAddress(address) {
   }
   return 'Invalid address';               // 如果地址不符合规范，返回提示
 }
+
 import home from "assets/images/menu/home.png"
 import account from "assets/images/menu/account.png"
 import airdrop from "assets/images/menu/airdrop.png"
@@ -90,43 +92,46 @@ import quit from "assets/images/menu/quit.png"
 import sound from "assets/images/menu/sound.png"
 import telegraph from "assets/images/menu/telegraph.png"
 import theme from "assets/images/menu/theme.png"
-import { StyleProvider } from '@varlet/ui'
+import {Snackbar, StyleProvider} from '@varlet/ui'
 import { ThemeManager } from "store/theme.ts";
+import {useI18n} from "vue-i18n";
 
+const { t,locale } = useI18n() // 解构出t方法
 const themeStore = ThemeManager()
 const showMenu = ref(false);
+
 
 
 const soundSwitch = ref(false);
 
 const menuList = [
   {
-    label: '主页',
+    label: 'home',
     icon: home,
     path:'/hot-token',
   },
   {
-    label: '账户',
+    label: 'account',
     icon: account,
     path:'/member',
   },
   {
-    label: "联盟",
+    label: "alliance",
     icon: airdrop,
     path:'/alliance',
   },
   {
-    label: '空投',
+    label: 'airdrop',
     icon: telegraph,
     path:'/airdrop',
   },
   {
-    label: '简介',
+    label: 'synopsis',
     icon: briefIntroduction,
     path:'/intro',
   },
   {
-    label: '声音',
+    label: 'sound',
     icon: sound,
     noRipple: true,
     render: () => {
@@ -139,15 +144,15 @@ const menuList = [
             style={{ transform: soundSwitch.value ? 'translateX(23px)' : 'translateX(0)' }}></div>
           {
             soundSwitch
-              .value ? <div className="text-[18px] text-[#1CE89F] absolute left-[8px] z-0">开</div> :
-              <div className="text-[18px] text-[#989898] absolute right-[8px] z-0">关</div>
+              .value ? <div className="text-[18px] text-[#1CE89F] absolute left-[8px] z-0">{ t('public.open') }</div> :
+              <div className="text-[18px] text-[#989898] absolute right-[8px] z-0">{ t('public.close') }</div>
           }
         </div>
       </>
     }
   },
   {
-    label: '风格',
+    label: 'theme',
     icon: theme,
     noRipple: true,
     render: () => {
@@ -157,31 +162,31 @@ const menuList = [
             className="w-[74px] h-[32px] rounded-full flex items-center py-[14px] justify-center" style={{
               color: themeStore.theme == 'lightTheme' ? '#1CE89F' : '#959595',
               backgroundColor: themeStore.theme == 'lightTheme' ? '#165046' : '#3A3643'
-            }} onClick={() => themeStore.toggleTheme('lightTheme')}>浅色
+            }} onClick={() => themeStore.toggleTheme('lightTheme')}>{t('menuList.themeType.light')}
           </div>
           <div
             className="w-[74px] h-[32px] rounded-full flex items-center py-[14px] justify-center" style={{
               color: themeStore.theme == 'darkTheme' ? '#1CE89F' : '#959595',
               backgroundColor: themeStore.theme == 'darkTheme' ? '#165046' : '#3A3643'
-            }} onClick={() => themeStore.toggleTheme('darkTheme')}>深色
+            }} onClick={() => themeStore.toggleTheme('darkTheme')}>{t('menuList.themeType.dark')}
           </div>
         </div>
       </>
     }
   },
   {
-    label: '退出',
+    label: 'quit',
     icon: quit
   }
 ]
 
 const buttonList = [
   {
-    label: '电报',
+    label: 'telegraph',
     icon: telegraph
   },
   {
-    label: '聊天',
+    label: 'chat',
     icon: chat
   },
 ]
@@ -190,6 +195,7 @@ const buttonList = [
 const setSound = () => {
   soundSwitch.value = !soundSwitch.value
 }
+const text = ref('1234');
 
 const router = useRouter();
 const goPath =async (item:any)=>{
@@ -203,6 +209,16 @@ const goPath =async (item:any)=>{
   }
 
 }
+
+const cutLanguage = ()=>{
+  if(localStorage.getItem('language') == 'zh'){
+    localStorage.setItem('language', 'en')
+  }else{
+    localStorage.setItem('language', 'zh')
+  }
+  locale.value = localStorage.getItem('language') || 'zh'
+}
+
 
 </script>
 <style lang="scss" scoped>

@@ -1,11 +1,11 @@
 <template>
-  <div class="w-full h-full overflow-y-auto flex flex-col pb-[23px] pt-[15px]">
+  <div class="w-full h-full overflow-y-auto flex flex-col pb-[23px] pt-[10px]">
     <div class="w-full px-[23px]">
       <div class="w-full mb-[32px]">
         <img src="assets/images/hot-token/logo.png" alt="" class="w-[179px] h-[49px]">
       </div>
       <div>
-        <var-swipe class="h-[160px] w-full  py-[21.5px] border-[3px] border-[#0F3B38] rounded-[5px]">
+        <var-swipe class="h-[155px] w-[516px]  py-[21.5px] border-[3px] border-[#0F3B38] rounded-[5px]">
           <var-swipe-item>
             <div class="grid grid-rows-1 grid-cols-4 gap-3 mb-[28px]">
               <div class="flex flex-col justify-center items-center" v-for="item in menuList" :key="item.label"
@@ -13,7 +13,7 @@
                 <div class="h-[61px] w-[61px] flex items-center justify-center">
                   <img :src="item.key == selectedMenu ? item.selected : item.icon" alt="">
                 </div>
-                <div class="mt-[13px] text-[21px]">{{ item.label }}</div>
+                <div class="mt-[13px] text-[21px]">{{ t('hotToken.' + item.label) }}</div>
               </div>
             </div>
           </var-swipe-item>
@@ -38,7 +38,7 @@
         <div class="h-[54px] w-full rounded-[27px] bg-[#201D2D] overflow-hidden flex items-center px-[16px] ">
           <img src="assets/images/hot-token/search.png" class="h-[24px] w-[24px]" alt="">
           <input readonly type="text" class="px-[12px] flex-1 bg-transparent outline-0 text-[18px]"
-                 placeholder="点击搜索" @click="goSearch">
+                 :placeholder="t('public.clickSearch')" @click="goSearch">
         </div>
       </div>
       <div class="w-full flex-1 overflow-y-auto space-y-[15px] content">
@@ -72,16 +72,17 @@
           <var-collapse-transition :expand="item.show">
             <div class="pt-[18px] mt-[18px] flex items-center justify-between border-t-[2px] border-[#666666]">
               <div class="w-[70%] space-y-1">
-                <div class="text-[#58566D] text-[18px]">合约地址：<span class="text-[#fff]">0xc1C***932FB</span></div>
+                <div class="text-[#58566D] text-[18px]">{{t('hotToken.contractAddress')}}：<span class="text-[#fff]">0xc1C***932FB</span></div>
                 <div class="text-[#58566D] text-[18px] flex">
-                  合约LP地址：
+                  {{t('hotToken.contractLPAddress')}}：
                   <span class="text-[#fff]">11111***11111</span>
                   <img src="assets/images/hot-token/copy.png" class="h-[28px] w-[28px] ml-[13px]" alt=""
-                       @click="handleCopy('1232')">
+                       @click="handleCopy('1283409128304')">
                 </div>
               </div>
               <div class="">
-                <var-button color="#0F3334" style="border-radius: 9999px"><span class="text-[#1CE89F]">添加机器人</span>
+                <var-button color="#0F3334" class="w-[132px] !h-[45px] leading-[50px]"  style="border-radius: 9999px">
+                  <div class="text-[#1CE89F] !h-[47px] text-[21px]">{{t('hotToken.addRobot')}}</div>
                 </var-button>
               </div>
             </div>
@@ -91,7 +92,7 @@
     </div>
   </div>
   <var-drag style="left: 82%; top: 31.5%" attraction="x">
-    <img src="assets/images/hot-token/jiqiren.png" class="w-[105px] h-[98px]" alt="">
+    <img src="assets/images/hot-token/jiqiren.png"  alt="">
   </var-drag>
 </template>
 
@@ -107,7 +108,8 @@ import BSC from "assets/images/hot-token/BSC.png"
 import ETHED from "assets/images/hot-token/selected-ETH.png"
 import ETH from "assets/images/hot-token/ETH.png"
 import {handleCopy} from "@/hooks/copy.ts";
-
+import {useI18n} from "vue-i18n";
+const { t } = useI18n() // 解构出t方法
 
 const router = useRouter();
 
@@ -124,7 +126,7 @@ const colorList = [
 const selectedMenu = ref('hot-token');
 const menuList = [
   {
-    label: '热门代币',
+    label: 'hotToken',
     icon: hotToken,
     key: 'hot-token',
     selected: hotTokenED,
@@ -135,7 +137,7 @@ const menuList = [
     }
   },
   {
-    label: '上新代币',
+    label: 'newToken',
     icon: newToken,
     key: 'new-token',
     selected: newTokenED,
@@ -145,14 +147,14 @@ const menuList = [
     }
   },
   {
-    label: 'Ai机器人',
+    label: 'aiRobot',
     icon: Ai,
     fun(){
       router.push('/watch-robot')
     }
   },
   {
-    label: '项目空投',
+    label: 'projectAirdrop',
     icon: kongtou,
     fun(){
       router.push('/airdrop')

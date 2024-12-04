@@ -110,11 +110,6 @@ type Props = {
 }
 
 
-enum robotType {
-  normal = '普通机器人',
-  profession = '专业机器人',
-}
-
 const props = withDefaults(defineProps<Props>(),{
   type: 'profession',
   show:false

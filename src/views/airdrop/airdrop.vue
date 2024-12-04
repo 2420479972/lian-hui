@@ -11,10 +11,10 @@
       </var-tabs>
     </div>
     <div class="mt-[15px] w-full  flex items-center mb-[18px] justify-between">
-      <div class="text-[21px]">空投代币</div>
+      <div class="text-[21px]">{{t('airdrop.airdropTokens')}}</div>
       <button class="h-[45px] bg-[rgba(122,120,131,0.05)] rounded-[2px] flex items-center p-[15px]" v-ripple @click="showRelease = true">
         <var-icon name="plus" :size="22"/>
-        <div class="ml-[8px] text-[18px]" >发布空投</div>
+        <div class="ml-[8px] text-[18px]" >{{t('airdrop.launchAirdrop')}}</div>
       </button>
     </div>
     <div class="flex-1 w-full overflow-y-auto">
@@ -36,15 +36,15 @@
               </div>
             </div>
             <div class="w-full h-[96px] mt-[16px] bg-[rgba(122,120,131,0.05)] p-[9px] flex flex-col">
-              <div class="text-[#605D75] text-[18px]">空投数量</div>
+              <div class="text-[#605D75] text-[18px]">{{t('airdrop.airdropQuantity')}}</div>
               <div class="flex-1 flex items-center justify-center text-[36px]">100</div>
             </div>
             <div class="mt-[16px] w-full flex items-center space-x-[24px]">
-              <div class="text-[18px] opacity-[0.4]">LP流通市值</div>
+              <div class="text-[18px] opacity-[0.4]">{{t('airdrop.lPValue')}}</div>
               <div class="text-[18px]">0.00</div>
             </div>
             <div class="mt-[16px] w-full flex items-center space-x-[24px]">
-              <div class="text-[18px] opacity-[0.4]">LP流通市值</div>
+              <div class="text-[18px] opacity-[0.4]">{{t('airdrop.tokenPrice')}}</div>
               <div class="text-[18px]">0.00</div>
             </div>
           </div>
@@ -62,6 +62,10 @@ import ETH from "assets/images/hot-token/ETH.png";
 import {handleCopy} from "@/hooks/copy.ts";
 import Detail from "views/airdrop/detail.vue";
 import Release from "views/airdrop/release.vue";
+import {useI18n} from "vue-i18n";
+
+const { t } = useI18n() // 解构出t方法
+
 const active = ref(0);
 const selectedTab = ref('BSC')
 const tabList = [

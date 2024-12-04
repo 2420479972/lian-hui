@@ -5,8 +5,8 @@
         <div class="text-[21px]">{{title}}</div>
         <var-icon name="window-close" @click="showPop = false"/>
       </div>
-      <div class="w-full my-[23px] h-[2px] bg-[#92A0AE] opacity-[0.2]" v-if="showTitle"></div>
-      <div class="flex-1 overflow-y-auto">
+      <div class="w-full mt-[23px] h-[2px] bg-[#92A0AE] opacity-[0.2]" v-if="showLine"></div>
+      <div class="flex-1 overflow-y-auto mt-[18px]">
         <slot/>
       </div>
     </div>
@@ -18,11 +18,13 @@ type Props = {
   title:string,
   show:boolean,
   showTitle:boolean,
+  showLine:boolean
 }
 const props = withDefaults(defineProps<Props>(),{
   title: "标题",
   show:false,
   showTitle:true,
+  showLine:true
 })
 
 const emit = defineEmits(['update:show'])

@@ -8,7 +8,6 @@
 import { ThemeManager } from "store/theme.ts";
 const themeStore = ThemeManager()
 themeStore.toggleTheme('darkTheme')
-
 import { useChainId, useConnect } from '@wagmi/vue'
 import { injected, metaMask, safe, walletConnect } from '@wagmi/vue/connectors'
 const chainId = useChainId()

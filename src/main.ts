@@ -15,8 +15,11 @@ import i18n from "@/language"
 import { WagmiPlugin } from '@wagmi/vue'
 import { config } from './wagmi'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
+import plusExtends from "@/hooks/plus.ts";
 const queryClient = new QueryClient()
-
-createApp(App).use(i18n).use(router).use(pinia)
+const app = createApp(App)
+app.use(i18n).use(router).use(pinia)
 .use(WagmiPlugin, { config }).use(VueQueryPlugin, { queryClient })
 .mount('#app')
+
+app.config.globalProperties.$plusExtends = plusExtends

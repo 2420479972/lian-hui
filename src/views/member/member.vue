@@ -39,7 +39,7 @@
             <div
                 :style="{background:activeUserMenu == index ? 'rgba(52,129,215,0.05)' :'rgba(122,120,131,0.05)',color:activeUserMenu == index ? '#3481D7' :'' }"
                 class="px-[35px] min-w-[142px] h-[45px] bg-[rgba(52,129,215,0.05)] rounded  leading-[45px] text-center button-shadow relative">
-              <span>{{ item.label }}</span>
+              <span>{{  t("public." + item.label) }}</span>
               <div v-if="activeUserMenu == index"
                    class="absolute w-[35px] h-[2px] bg-[#3481D7] rounded-[1px] left-1/2 -translate-x-1/2 bottom-0"></div>
             </div>
@@ -71,7 +71,8 @@ import User from "views/member/user.vue";
 import ProfessionMake from "views/member/profession-make.vue";
 import BSCED from "assets/images/hot-token/selected-BSC.png";
 import ETHED from "assets/images/hot-token/selected-ETH.png";
-
+import {useI18n} from "vue-i18n";
+const { t } = useI18n() // 解构出t方法
 
 const nowSelectedRobot = ref<"normal" | "profession">('normal')
 const activeHeader = ref(0);
@@ -96,15 +97,15 @@ const tabList = [
 
 const secondTabList = [
   {
-    label: "会员",
+    label: "member",
     key: "member"
   },
   {
-    label: "普通机器人",
+    label: "ordinaryRobot",
     key: "normal"
   },
   {
-    label: "专业机器人",
+    label: "professionalRobot",
     key: "profession"
   }
 ]

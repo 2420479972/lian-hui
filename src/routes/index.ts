@@ -27,6 +27,18 @@ const routes = [
                 meta: {title: "监听SWAP", requiresAuth: true},
             },
             {
+                path: '/watch-setting',
+                name: 'watch-setting',
+                component: () => import('views/watch-robot/watch-setting/watch-setting.vue'),
+                meta: {title: "设置", requiresAuth: true},
+            },
+            {
+                path: '/watch-start',
+                name: 'watch-start',
+                component: () => import('views/watch-robot/watch-start/watch-start.vue'),
+                meta: {title: "启动", requiresAuth: true},
+            },
+            {
                 path: '/alliance',
                 name: 'alliance',
                 component: () => import('@/views/alliance/alliance.vue'),

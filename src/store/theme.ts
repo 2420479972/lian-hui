@@ -11,6 +11,7 @@ export const ThemeManager = defineStore('ThemeManager',()=>{
         '--icon-size-sm':'18px',
         '--icon-size-md':'20px',
         '--icon-size-lg':'22px',
+        '--app-bar-height':'69px'
     }
     const themeType = reactive({
         "lightTheme": {
