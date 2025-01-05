@@ -43,11 +43,11 @@ function useClipboard() {
 
 const {copyText,isCopied} = useClipboard()
 
-export const handleCopy = async (text: string) => {
+export const handleCopy = async (text: string,t:any) => {
     copyText(text);
     if(isCopied){
         Snackbar.success({
-            content: "复制成功",
+            content: t('public.copy'),
             duration: 1000,
         })
 

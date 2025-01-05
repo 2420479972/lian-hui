@@ -20,11 +20,6 @@ import {nowSelectedRobot} from "views/watch-robot/comment";
 </script>
 
 <style lang="scss" scoped>
-.header {
-  background: #110F20;
-  border: 2px solid;
-  border-image: linear-gradient(90deg, #103B38, #103B38) 2 2;
-}
 
 .button-shadow {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);

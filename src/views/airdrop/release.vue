@@ -1,94 +1,82 @@
 <template>
-  <var-popup v-model:show="showPop">
-    <div class="max-h-[90vh] w-[90vw] p-[20px] rounded-[20px] border-[#0E2C2C] border-[3px] flex flex-col content">
-      <div class="w-full flex items-center justify-between">
-        <div class="text-[21px]">{{t('airdrop.launchAirdrop')}}</div>
-        <var-icon name="window-close" @click="showPop = false"/>
-      </div>
-      <div class="flex items-center space-x-[20px] mt-[38px] mb-[20px]">
-        <div class="flex items-center space-x-[9px]">
-          <div class="h-[25px] w-[25px] rounded-full bg-[#143A39] flex items-center justify-center">
-            <div class="h-[11px] w-[11px] bg-[#1CE89F] rounded-full"></div>
+  <pop-window v-model:show="showPop" :title="t('airdrop.launchAirdrop')" :showLine="false" @close="clear">
+    <z-form :validationSchema="validationSchema" ref="formInstance" @success="define">
+      <z-form-item type="custom" name="type" class="mb-[18px]" #default="{input,fieldValue}">
+          <div class="flex items-center space-x-[20px] mt-[18px] ">
+            <div class="flex items-center space-x-[9px]" @click="input('bsc')">
+              <div class="h-[25px] w-[25px] rounded-full bg-[rgba(134,144,156,0.2)] flex items-center justify-center" >
+                <div class="h-[11px] w-[11px]  rounded-full" :style="{background:fieldValue == 'bsc' ?  '#1CE89F' : '#86909C'}" ></div>
+              </div>
+              <div class="text-[20px] opacity-[0.65]">BSC</div>
+            </div>
+            <div class="flex items-center space-x-[9px]" @click="input('eth')">
+              <div class="h-[25px] w-[25px] rounded-full bg-[rgba(134,144,156,0.2)] flex items-center justify-center" >
+                <div class="h-[11px] w-[11px] bg-[#86909C] rounded-full" :style="{background:fieldValue == 'eth' ?  '#1CE89F' : '#86909C'}" ></div>
+              </div>
+              <div class="text-[20px] opacity-[0.65]">ETH</div>
+            </div>
           </div>
-          <div class="text-[22px]">BSC</div>
+      </z-form-item>
+      <div class="space-y-[18px]">
+        <template v-for="item in formList" :key="item.name">
+          <z-form-item v-bind="item"></z-form-item>
+        </template>
+        <div class="w-full flex items-center space-x-[14px]">
+          <div class="text-[18px] opacity-[0.4]">{{t('airdrop.inputAirdropContract')}}</div>
+          <div class="text-[16px] text-[#605D75]">{{t('airdrop.inputTip')}}</div>
         </div>
-        <div class="flex items-center space-x-[9px]">
-          <div class="h-[25px] w-[25px] rounded-full bg-[#666] flex items-center justify-center">
-            <div class="h-[11px] w-[11px] bg-[#0D081A] rounded-full"></div>
-          </div>
-          <div class="text-[22px]">ETH</div>
-        </div>
+          <z-form-item name="makeAddress" class="flex-1"></z-form-item>
 
-      </div>
-      <div class="flex-1 overflow-y-auto">
-        <div class="space-y-[35px] pt-[18px]">
-          <div class="space-y-[18px]" v-for="item in formList" :key="item.key">
+        <z-form-item type="textarea" name="introduction" :label="t('airdrop.introductionToInputTokens')">
+          <template #label="{label}">
+            <div class="text-[21px] opacity-[0.6]">{{label}}</div>
+          </template>
+        </z-form-item>
+            <div class="space-x-[22px] flex mt-[18px]">
+              <div class="text-[18px] opacity-[0.6]">{{t('airdrop.whetherToHold')}}ERC20</div>
+              <div class="w-[207px]">
+                <z-form-item name="tokenNumber" :placeholder="t('airdrop.numberOfTokens')"></z-form-item>
+              </div>
+            </div>
+
+          <div class="space-x-[22px] flex  mt-[18px]">
             <div class="w-ful">
-              <div class="text-[18px] opacity-[0.4]">{{t( 'airdrop.' + item.label)}}</div>
+              <div class="text-[18px] opacity-[0.6]">{{t('airdrop.pickUpAtASingleAddress')}}</div>
             </div>
-            <div class="flex items-center space-x-[14px]">
-              <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="t( 'public.please') + t( 'airdrop.' + item.label)">
+            <div class="w-[80px]">
+              <z-form-item name="howMany"></z-form-item>
             </div>
-          </div>
-        </div>
-        <div class="space-y-[18px] mt-[35px]">
-          <div class="w-full flex items-center space-x-[14px]">
-            <div class="text-[18px] opacity-[0.4]">{{t('airdrop.inputAirdropContract')}}</div>
-            <div class="text-[16px] text-[#605D75]">{{t('airdrop.inputTip')}}</div>
-          </div>
-          <div class="flex items-center space-x-[14px]">
-            <div class="w-[100px] text-[21px] h-[45px] border-[2px] border-[#1D1A2A] bg-[rgba(122,120,131,0.05)] flex items-center justify-center rounded-[5px]" v-ripple>
-              {{t('public.generate')}}
+            <div class="text-[18px] opacity-[0.6]">{{t('airdrop.hoursDay')}}</div>
+            <div class="w-[80px]">
+              <z-form-item name="severalTimes"></z-form-item>
             </div>
-            <input type="text" class="flex-1 rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="">
+            <div class="text-[18px] opacity-[0.6]">{{t('public.times')}}</div>
           </div>
-        </div>
-        <div class="w-full mt-[24px]">
-          <div class="text-[21px] opacity-[0.4]">{{t('airdrop.introductionToInputTokens')}}</div>
-        </div>
-        <textarea :placeholder="t('airdrop.introductionToInputTokens')" class="w-full outline-0 min-h-[98px] bg-[rgba(122,120,131,0.05)] px-[14px] py-[10px] mt-[18px] rounded-[5px]"></textarea>
-        <div class="space-x-[22px] flex items-center mt-[18px]">
-          <div class="w-ful">
-            <div class="text-[18px] opacity-[0.4]">{{t('airdrop.whetherToHold')}}ERC20</div>
-          </div>
-          <div class="flex items-center space-x-[14px] w-[207px]">
-            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="t('airdrop.numberOfTokens')">
-          </div>
-          <div class="text-[18px] opacity-[0.4]">{{t('public.gold')}}</div>
-        </div>
-        <div class="space-x-[22px] flex items-center mt-[18px]">
-          <div class="w-ful">
-            <div class="text-[18px] opacity-[0.4]">{{t('airdrop.pickUpAtASingleAddress')}}</div>
-          </div>
-          <div class="flex items-center space-x-[14px] w-[80px]">
-            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placehold>
-          </div>
-          <div class="text-[18px] opacity-[0.4]">{{t('airdrop.hoursDay')}}</div>
-          <div class="flex items-center space-x-[14px] w-[80px]">
-            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]">
-          </div>
-          <div class="text-[18px] opacity-[0.4]">{{t('public.times')}}</div>
-        </div>
       </div>
-      <div class="mt-[27px]">
-        <div class="w-full flex items-center justify-center flex-col">
-          <button class="w-[147px] h-[54px] text-[24px] leading-[54px] text-center bg-[#1CE89F]  text-[#0D3728] border-[3px] border-solid rounded-[10px]" :style="{background:'#1CE89F',color:'#303030'}" v-ripple>{{t('airdrop.confirmRelease')}}</button>
-          <div class="mt-[14px]">
-            <div class="text-[16px] text-[#605D75]">
-              {{t('airdrop.defray')}} XXXUSDT
-            </div>
+      <div class="w-full mt-5 flex items-center justify-center flex-col">
+        <button class="w-[147px] h-[54px] text-[24px] leading-[54px] text-center  border-[3px] border-solid rounded-[10px]" :style="{background:'var(--airdrop-card-receive)',color:'var(--airdrop-card-dis-text)'}" v-ripple>{{t('airdrop.confirmRelease')}}</button>
+        <div class="mt-[14px]">
+          <div class="text-[16px] text-[#605D75]">
+            {{t('airdrop.defray')}} {{money}} USDT
           </div>
         </div>
       </div>
-    </div>
-  </var-popup>
+    </z-form>
+  </pop-window>
 </template>
 
 <script setup lang="ts">
+import PopWindow from "@/components/pop-window.vue";
+
 type Props = {
   show:boolean
 }
 import {useI18n} from "vue-i18n";
+import {Snackbar} from "@varlet/ui";
+import {toTypedSchema} from "@vee-validate/zod";
+import * as zod from "zod";
+import ZForm from "@/components/z-form.vue";
+import ZFormItem from "@/components/z-form-item.vue";
 
 const { t } = useI18n() // 解构出t方法
 
@@ -98,7 +86,9 @@ const props = withDefaults(defineProps<Props>(),{
   show:false
 })
 
-const emit = defineEmits(['update:show'])
+
+
+const emit = defineEmits(['update:show','success'])
 
 const showPop = computed({
   get: () => props.show,
@@ -108,26 +98,79 @@ const showPop = computed({
 })
 
 
+const money = ref(0);
+
+
+const validationSchema = toTypedSchema(
+    zod.object({
+      type: zod.string({message: '请选择代币类型'}),
+      tokenName: zod.string({message: '请输入代币名称'}).min(1, {message: '请输入代币名称'}),
+      airdropQuantity: zod.string({message: '请输入空投数量'}).min(1, {message: '请输入空投数量'}).regex(/^[1-9]\d*$/,{
+        message: '数字不合法！'
+      }),
+      airdropQuantityNumber: zod.string({message: '请输入空投份数'}).min(1, {message: '请输入空投份数'}).regex(/^[1-9]\d*$/,{
+        message: '数字不合法！'
+      }),
+      tokenAddress: zod.string({message: '请输入代币地址'}).min(1, {message: '请输入代币地址'}),
+      introduction: zod.string({message: '请输入代币介绍'}).min(1, {message: '请输入代币介绍'}),
+      tokenNumber: zod.string({message: '请输入代币数量'}).regex(/^[1-9]\d*$/,{
+        message: '数字不合法！'
+      }),
+      howMany: zod.string({message: '输入时间'}).min(1, {message: '输入时间'}).regex(/^[1-9]\d*$/,{
+        message: '数字不合法！'
+      }),
+      severalTimes: zod.string({message: '输入次数'}).min(1, {message: '输入次数'}).regex(/^[1-9]\d*$/,{
+        message: '数字不合法！'
+      }),
+      makeAddress: zod.string({message: '未生成合约地址'}),
+    })
+);
+
 const formList = [
   {
-    label:'inputTokenName',
-    key:"",
+    name: 'tokenName',
+    placeholder: t('node.inputAddress'),
+    label:t( 'airdrop.inputTokenName')
   },
   {
-    label:'inputAirdropQuantity',
-    key:"",
+    name: 'airdropQuantity',
+    placeholder: t( 'public.please') + t( 'airdrop.inputAirdropQuantity'),
+    label:t( 'airdrop.inputAirdropQuantity'),
   },
   {
-    label:'inputAirdropQuantityCopy',
-    key:"",
+    name: 'airdropQuantityNumber',
+    placeholder: t( 'public.please') + t( 'airdrop.inputAirdropQuantityCopy'),
+    label:t( 'airdrop.inputAirdropQuantityCopy'),
   },
   {
-    label:'inputTokenAddress',
-    key:"",
+    name: 'tokenAddress',
+    placeholder: t( 'public.please') + t( 'airdrop.inputTokenAddress'),
+    label:t( 'airdrop.inputTokenAddress'),
   },
-
 ]
 
+const formInstance = ref<InstanceType<typeof ZForm>>()
+
+// 确认发布
+const define = (values:any)=>{
+  try{
+    console.log(values)
+    emit('success',values)
+    Snackbar.success({
+      content: t('airdrop.PublishSuccess'),
+      duration: 1000,
+    })
+    clear()
+  }catch (e) {
+    Snackbar.error({
+      content: t('airdrop.PublishFailed'),
+      duration: 1000,
+    })
+  }
+}
+const clear = ()=>{
+  formInstance.value?.resetForm();
+}
 
 </script>
 

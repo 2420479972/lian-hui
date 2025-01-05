@@ -1,85 +1,105 @@
 <template>
-  <var-popup v-model:show="showPop">
-    <div class="max-h-[90vh] w-[90vw] p-[20px] rounded-[20px] border-[#0E2C2C] border-[3px] flex flex-col">
-      <div class="w-full flex items-center justify-between">
-        <div class="text-[21px]">详情</div>
-        <var-icon name="window-close" @click="showPop = false"/>
-      </div>
-      <div class="mt-[60px] relative w-[85%] m-auto header flex items-center justify-between">
-        <div class="relative z-10 flex items-center">
-          <div class="bg-[#22222F] absolute w-full h-[4px]"></div>
-          <div class="h-[25px] w-[25px] rounded-full bg-[#3481D7] leading-[25px] text-center text-[18px] relative">
-            <span>3</span>
-            <div class="absolute -left-1 -top-[30px] text-[18px] whitespace-nowrap">创建</div>
-          </div>
-        </div>
-        <div class="w-[100%] h-[4px] bg-[#3481D7] absolute left-0 z-0"></div>
-        <div class="relative z-10 flex justify-end items-center">
-          <div class="h-[25px] w-[25px] rounded-full bg-[#22222F] text-[#86839D] leading-[25px] text-center text-[18px] relative">
-            <span>5</span>
-            <div class="absolute -left-1 -top-[30px] text-[18px] whitespace-nowrap">启动</div>
+  <pop-window v-model:show="showPop" :title="t('public.detail')" :show-line="false" @close="close">
+    <div class="relative mt-[35px] w-[85%] m-auto header flex items-center justify-between">
+      <div class="relative z-10 flex items-center">
+        <div class="bg-[#22222F] absolute w-full h-[4px]"></div>
+        <div class="h-[25px] w-[25px] rounded-full leading-[25px] text-center text-[18px] text-[#fff] relative"
+             :style="{background:step > 1 ?'var(--member-make-bg-active_d)': 'var(--member-make-bg-active)'}" @click="setStep(1)">
+          <span>1</span>
+          <div class="absolute -left-1 -top-[30px]  text-[18px] whitespace-nowrap"
+               :style="{color:step == 1 ? 'var(--member-step-text-active)' : 'var(--member-step-text)'}">
+            {{ t("member.make") }}
           </div>
         </div>
       </div>
-      <template v-if="robotType == 'buy'">
+      <div class="w-[100%] h-[4px] absolute left-0 z-0"
+           :style="{background:step > 1 ?'var(--member-make-line-bg-active)': 'var(--member-make-line-bg)'}"></div>
+      <div class="relative z-10 flex justify-end items-center">
+        <div class="h-[25px] w-[25px] rounded-full  leading-[25px] text-[#fff] text-center text-[18px] relative"
+             :style="{background:step > 1 ?'var(--member-make-bg-active)': 'var(--member-make-bg)',color:step > 1 ? '#fff':'rgba(255,255,255,0.8)'}" @click="setStep(2)">
+          <span>2</span>
+          <div class="absolute -left-1 -top-[30px]  text-[18px] whitespace-nowrap"
+               :style="{color:step == 2 ? 'var(--member-step-text-active)' : 'var(--member-step-text)'}">
+            {{ t("public.buy") }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <z-form :validation-schema="makeRobotForm" @success="makeRobot" ref="makeRobotFormInstance" v-show="robotType == 'make'" v-model:form-data="makeRobotFormData">
+      <z-form-item label="输入助记词" name="helpWord" placeholder="输入助记词" type="textarea">
+        <template #label="{label}">
+          <div class="mt-[27px]">
+            <div class="text-[18px] opacity-[0.4]">{{ label }}</div>
+          </div>
+        </template>
+      </z-form-item>
+      <z-form-item label="钱包地址" name="walletAddress" placeholder="钱包地址">
+        <template #label="{label}">
+          <div class="mt-[27px]">
+            <div class="text-[18px] opacity-[0.4]">{{ label }}</div>
+          </div>
+        </template>
+      </z-form-item>
         <div class="mt-[27px]">
-          <div class="text-[18px] opacity-[0.4]">输入助记词</div>
+          <div class="text-[18px] opacity-[0.4]">{{ t("member.numberOfSubWallets") }}</div>
         </div>
-        <div class="mt-[20px]">
-          <textarea type="text" class="w-full rounded-[5px] h-[149px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 p-[15px]" placeholder="请输入助记词"/>
+      <div class="flex space-x-[9px] mt-[10px]">
+        <z-form-item name="walletChildNumber" :placeholder="t('member.numberOfSubWallets')"></z-form-item>
+        <div
+            class="w-[100px]  text-[18px] h-[45px] border-[2px] border-[var(--pop-input-border-color)] bg-[rgba(122,120,131,0.05)] flex items-center justify-center rounded-[5px]"
+            v-ripple>
+          <span class="opacity-[0.4]">{{ t("public.confirm") }}</span>
         </div>
-        <div class="mt-[20px]">
-          <div class="text-[18px] opacity-[0.4]">钱包地址</div>
+      </div>
+      <div
+          class="w-full p-[13px] min-h-[65px] border-[2px] border-[var(--pop-input-border-color)] mt-[24px] space-y-4 flex justify-between items-end">
+        <div class="w-[95%] max-h-[120px] overflow-hidden">
+          <template v-for="item in childWalletList">
+            <div class="text-[21px] text-[var(--member-pop-text)]">子钱包地址1：0xBbc***4Af83</div>
+          </template>
         </div>
-        <div class="mt-[20px]">
-          <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 p-[15px]" placeholder="请输入助记词"/>
+        <div
+            v-if="childWalletList.length > 4"
+            class="w-[100px]  text-[16px] h-[35px] border-[2px] border-[var(--pop-input-border-color)] bg-[rgba(122,120,131,0.05)] flex items-center justify-center rounded-[5px]"
+            v-ripple>
+          <span class="opacity-[0.4]" @click="showMore = true">{{ t("public.more") }}</span>
         </div>
-        <div class="mt-[20px]">
-          <div class="text-[18px] opacity-[0.4]">子钱包数量</div>
+      </div>
+      <div class="my-[35px]">
+        <div class="w-full flex items-center justify-center">
+          <button
+              v-ripple
+              class="w-[147px] h-[54px] text-[24px] leading-[54px] text-[var(--color-primary)] text-center bg-[var(--member-confirm-bg)]   rounded-[10px]">{{ t("member.makeItNow") }}
+          </button>
         </div>
-        <div class="flex items-center space-x-[9px] mt-[10px]">
-          <input  type="text" class="w-[80%]  rounded-[5px] h-[45px] text-[#605D75] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]">
-          <div class="w-[100px]  text-[18px] h-[45px] border-[2px] border-[#1D1A2A] bg-[rgba(122,120,131,0.05)] flex items-center justify-center rounded-[5px]" v-ripple>
-            <span class="opacity-[0.4]">确认</span>
-          </div>
-        </div>
-        <div class="w-full p-[13px] min-h-[85px] border-[#1D1A2A] border-2 mt-[24px] space-y-4 flex justify-between items-end">
-          <div class="w-[95%]">
-            <div class="text-[21px] text-[#605D75]">子钱包地址1：0xBbc***4Af83</div>
-            <div class="text-[21px] text-[#605D75]">子钱包地址1：0xBbc***4Af83</div>
-            <div class="text-[21px] text-[#605D75]">子钱包地址1：0xBbc***4Af83</div>
-          </div>
-          <div class="w-[100px]  text-[18px] h-[45px] border-[2px] border-[#1D1A2A] bg-[rgba(122,120,131,0.05)] flex items-center justify-center rounded-[5px]" v-ripple>
-            <span class="opacity-[0.4]">更多</span>
-          </div>
-        </div>
-      </template>
-      <template v-if="robotType == 'make'">
+      </div>
+    </z-form>
+      <z-form :validation-schema="buyRobotForm" @success="buyRobot" ref="buyRobotFormInstance" v-show="robotType == 'buy'" v-model:form-data="buyRobotFormData">
         <div class="mt-[27px]">
           <div class="text-[18px] opacity-[0.4]">选择时间</div>
         </div>
-        <var-menu class="w-full" placement="bottom" same-width>
-          <div class="mt-[20px] flex items-center justify-between  rounded-[5px] w-full h-[45px] border-[2px] border-[#1D1A2A] px-[15px]">
-            <input type="text" class="w-[95%] h-full bg-transparent outline-0 pr-[5px]" placeholder="请输入助记词"/>
-            <div class="-mt-[8px]">
-              <var-icon name="chevron-down" />
-            </div>
-          </div>
-          <template #menu>
-            <var-cell>菜单项</var-cell>
-            <var-cell>菜单项</var-cell>
-            <var-cell>菜单项</var-cell>
+        <z-form-item name="id" type="custom">
+          <template #default="{fieldValue,input}">
+            <var-menu-select class="w-full" placement="bottom" same-width :model-value="fieldValue" @update:modelValue="input">
+              <div
+                  class="mt-[20px] flex items-center justify-between  rounded-[5px] w-full h-[45px] border-[2px] border-[var(--pop-input-border-color)] px-[15px]">
+                <input :value="selectedOptions.find(item=>item.value === fieldValue)?.label" class="w-[95%] h-full bg-transparent outline-0 pr-[5px]" placeholder="请选择时间" readonly type="text"/>
+                <div class="-mt-[8px]">
+                  <var-icon name="chevron-down"/>
+                </div>
+              </div>
+              <template #options>
+                <var-menu-option v-for="item in selectedOptions" :key="item.value" :label="item.label" :value="item.value"></var-menu-option>
+              </template>
+            </var-menu-select>
           </template>
-        </var-menu>
-
+        </z-form-item>
         <div class="mt-[27px]">
           <div class="text-[18px] opacity-[0.4]">开始倒计时</div>
         </div>
-        <div class="mt-[20px] flex items-center justify-between  rounded-[5px] w-full h-[45px] border-[2px] border-[#1D1A2A] px-[15px]">
-          <input type="text" class="w-[95%] h-full bg-transparent outline-0 pr-[5px]" placeholder="请输入助记词"/>
-          <div class="-mt-[8px]">
-            <var-icon name="chevron-down" />
-          </div>
+        <div
+            class="mt-[20px] flex items-center justify-between  rounded-[5px] w-full h-[45px] border-[2px] border-[var(--pop-input-border-color)] px-[15px]">
+          <input class="w-[95%] h-full bg-transparent outline-0 pr-[5px]" :value="timeLeft" readonly type="text"/>
         </div>
         <div class="flex mt-[37px] items-center justify-between w-full">
           <div class=" text-[20px] space-x-1">
@@ -90,47 +110,170 @@
             20
           </div>
         </div>
-
-      </template>
-      <div class="my-[35px] ">
-        <div class="w-full flex items-center justify-center">
-          <div class="w-[147px] h-[54px] text-[24px] leading-[54px] text-center bg-[#1CE89F] text-[#0D3728] border-[3px] border-solid border-[rgba(28,232,159,0.2)] rounded-[10px]" v-ripple>立即购买</div>
+        <div class="my-[35px] ">
+          <div class="w-full flex items-center justify-center">
+            <button
+                v-ripple
+                class="w-[147px] h-[54px] text-[24px] leading-[54px] text-[var(--color-primary)] text-center bg-[var(--member-confirm-bg)]   rounded-[10px]">{{ t("member.buyItNow") }}
+            </button>
+          </div>
         </div>
+      </z-form>
+  </pop-window>
+  <pop-window :title="t('public.more')" v-model:show="showMore" :showLine="false">
+    <div class="w-[95%] space-y-4 min-h-[300px] max-h-[600px]">
+      <div class="text-[22px] text-[#605D75] w-full flex items-center justify-between" v-for="item in 10">
+        <span>{{t('robot.SubWalletsAddress')}}</span>
+        <span>0xBbc***4Af83</span>
       </div>
     </div>
-
-  </var-popup>
+  </pop-window>
+  <CardBuy v-model:show="cardShow" :type="data?.vipname" :data="data" :validity-period="timeLeft"></CardBuy>
 </template>
 
 <script setup lang="ts">
+import {useI18n} from "vue-i18n";
+import PopWindow from "@/components/pop-window.vue";
+import CardBuy from "views/member/card-buy.vue";
+import ZFormItem from "@/components/z-form-item.vue";
+import ZForm from "@/components/z-form.vue";
+import {toTypedSchema} from "@vee-validate/zod";
+import * as zod from "zod";
+import {getNumber} from "utils/base.ts";
+import dayjs from "dayjs";
+
+const {t} = useI18n() // 解构出t方法
+
 type Props = {
-  type:'normal' | 'profession',
-  show:boolean,
-  robotType?:'buy' | 'make'
+  show: boolean,
+  robotType?: 'buy' | 'make',
+  data:any
 }
 
 
-const props = withDefaults(defineProps<Props>(),{
-  type: 'profession',
-  show:false
+const props = withDefaults(defineProps<Props>(), {
+  show: false
 })
 
-const emit = defineEmits(['update:show'])
+const emit = defineEmits(['update:show', 'update:robotType'])
 
 const showPop = computed({
   get: () => props.show,
   set: (val) => {
-    emit('update:show',val)
+    emit('update:show', val)
   }
 })
 
+
+
+const selectedOptions = ref([]);
+
+onMounted(()=>{
+  selectedOptions.value = props.data?.paid_plan.map(_item => {
+    return {
+      value:  1,
+      label: _item.day + "天",
+      price: getNumber(_item,'price',true),
+      day:_item.day
+    }
+  })
+})
+
+const selectedTime =computed(()=>{
+  console.log(buyRobotFormData.value,selectedOptions.value)
+  return selectedOptions.value.find(item=>item.value === buyRobotFormData.value.id)
+})
+
+const timeLeft = computed(()=>{
+  if(!selectedTime.value){
+    return ''
+  }
+  return (dayjs().format('YYYY-MM-DD') + '至' +  dayjs().add(Number(selectedTime.value?.day),'day').format('YYYY-MM-DD'))
+})
+
+
+const clear = ()=>{
+  makeRobotFormInstance.value?.resetForm();
+  buyRobotFormInstance.value?.resetForm();
+}
+
+
+
+const makeRobot = () => {
+  step.value = 2;
+  console.log(makeRobotFormData.value)
+  emit('update:robotType', 'buy');
+}
+
+
+const timeList = ref([
+  {
+    label: '1小时',
+    value: '1',
+  }
+])
+const step = ref(1);
+
+const setStep = (stepNumb: number) => {
+  if (stepNumb == 1) {
+    emit('update:robotType', 'make')
+  } else {
+    emit('update:robotType', 'buy')
+  }
+  step.value = stepNumb
+}
+
+const makeRobotFormInstance = ref<InstanceType<typeof ZForm>>()
+const makeRobotForm = toTypedSchema(
+    zod.object({
+      helpWord: zod.string({message: '输入助记词'}).min(1, {message: '输入助记词'}),
+      walletAddress: zod.string({message: '钱包地址不合法'}).min(1, {message: '钱包地址不合法'}),
+      walletChildNumber: zod.string({message: '输入子钱包数量'}).min(1, {message: '输入子钱包数量'}).regex(/^[1-9]\d*$/,{
+        message: '数字不合法！'
+      })
+    })
+);
+const makeRobotFormData = ref({
+  helpWord: '',
+  walletAddress: '',
+  walletChildNumber:''
+})
+
+
+
+const buyRobotFormInstance = ref<InstanceType<typeof ZForm>>()
+const buyRobotForm = toTypedSchema(
+    zod.object({
+      id: zod.number({message: '选择时间'}).min(1, {message: '选择时间'}),
+    })
+);
+
+const buyRobotFormData = ref({
+  id: '',
+})
+const buyRobot = () => {
+  cardShow.value = true;
+}
+
+const cardShow = ref(false);
+
+const close = () => {
+  showPop.value = false;
+  step.value = 1;
+  emit('update:robotType', 'make')
+  clear();
+}
+
+const showMore = ref(false);
+const childWalletList = ref([{}]);
 </script>
 
 <style lang="scss" scoped>
-input::placeholder{
+input::placeholder {
   color: #605D75;
 }
-:deep(.var-counter__input){
+
+:deep(.var-counter__input) {
   @apply h-[46px] w-[64px] bg-[rgba(122,120,131,0.05)] rounded-[2px] border-2 border-[#1D1A2A] text-[24px];
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
-  <var-popup v-model:show="showPop">
-    <div class="max-h-[80vh] w-[90vw] p-[20px] rounded-[20px] border-[#0E2C2C] border-[3px] flex flex-col">
+  <var-popup v-model:show="showPop" @close="close">
+    <div class="max-h-[80vh] w-[93vw] p-[20px] rounded-[20px] border-[#0E2C2C] border-[3px] flex flex-col bg-[var(--popup-content-background)]  border-[var(--color-primary)]" >
       <div class="w-full flex items-center justify-between" v-if="showTitle">
         <div class="text-[21px]">{{title}}</div>
-        <var-icon name="window-close" @click="showPop = false"/>
+        <var-icon name="window-close" @click="close"/>
       </div>
       <div class="w-full mt-[23px] h-[2px] bg-[#92A0AE] opacity-[0.2]" v-if="showLine"></div>
       <div class="flex-1 overflow-y-auto mt-[18px]">
@@ -17,8 +17,8 @@
 type Props = {
   title:string,
   show:boolean,
-  showTitle:boolean,
-  showLine:boolean
+  showTitle?:boolean,
+  showLine?:boolean
 }
 const props = withDefaults(defineProps<Props>(),{
   title: "标题",
@@ -27,8 +27,7 @@ const props = withDefaults(defineProps<Props>(),{
   showLine:true
 })
 
-const emit = defineEmits(['update:show'])
-
+const emit = defineEmits(['update:show','close'])
 
 const showPop = computed({
   get(){
@@ -39,6 +38,10 @@ const showPop = computed({
   }
 })
 
+const close = ()=>{
+  showPop.value = false
+  emit('close')
+}
 
 </script>
 

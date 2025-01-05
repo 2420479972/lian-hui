@@ -1,5 +1,5 @@
 <template>
-  <input type="text" class="w-full mt-[15px] rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="0xBbc***4Af83">
+  <input type="text" class="w-full mt-[15px] rounded-[5px] h-[45px] bg-transparent border-[2px] border-[var(--input-border-color)] outline-0 px-[15px]" placeholder="0xBbc***4Af83">
   <div class="mt-[28px] w-full">
     <div class="relative min-h-[176px] w-full pb-[30px] bg-[rgba(122,120,131,0.05)] rounded-[5px]">
       <div class="absolute right-[18px] top-[19px] flex items-center space-x-[5px]">
@@ -14,7 +14,7 @@
           <div class="flex items-center space-x-[7px]">
             <div class="text-[24px]">{{type == 'normal' ? t('public.ordinaryRobot') : t('public.professionalRobot')}}</div>
             <div class="h-[24px] w-[24px]">
-              <img class="h-full w-full" src="../../../assets/images/watch-robot/wenhao.png" alt="">
+              <img class="h-full w-full" src="/images/watch-robot/wenhao.png" alt="">
             </div>
           </div>
           <div class="text-[18px]  opacity-[0.4]">
@@ -46,8 +46,8 @@
 </template>
 
 <script setup lang="ts">
-import NormalImage from "assets/images/watch-robot/normal-robot.png"
-import ProfessionImage from "assets/images/watch-robot/profession-robot.png"
+import NormalImage from "/images/watch-robot/normal-robot.png"
+import ProfessionImage from "/images/watch-robot/profession-robot.png"
 import StartSetting from "views/watch-robot/watch-start/start-setting.vue";
 import {useI18n} from "vue-i18n";
 const { t } = useI18n() // 解构出t方法

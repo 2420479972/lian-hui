@@ -1,16 +1,7 @@
 <template>
-  <div class="w-full py-[15px] ">
+  <div class="w-full pb-[15px] ">
     <div class="text-[17px]  flex flex-wrap ">
-      <template v-for="(item,index) in list.slice(0,type == 'normal' ? 6 : list.length)">
-        <div class="space-x-1 flex items-center mr-[18px] mb-[21px]">
-          <div
-              class="h-[22px] w-[22px] leading-[20px] text-center rounded-full border-2 text-[18px] border-[#605D75] text-[#605D75]">
-            {{ index + 1 }}
-          </div>
-          <div class="text-[20px] text-[#605D75]">{{ t('member.' + item) }}</div>
-        </div>
-      </template>
-
+      <div class="text-[20px] text-[#605D75]">{{type == 'normal' ? normalRobot?.info : proRobot?.info}}</div>
       <div class="mt-[28px] w-full">
         <div
             class="h-[136px] w-full bg-[rgba(122,120,131,0.05)] rounded-[5px] py-[31px] px-[21px] flex items-center space-x-[18px]"
@@ -24,7 +15,7 @@
                 {{ type == 'normal' ? t('public.ordinaryRobot') : t('public.professionalRobot') }}
               </div>
               <div class="h-[24px] w-[24px]">
-                <img alt="" class="h-full w-full" src="assets/images/watch-robot/wenhao.png">
+                <img alt="" class="h-full w-full" src="/images/watch-robot/wenhao.png">
               </div>
             </div>
             <div class="text-[18px]  opacity-[0.4]">
@@ -36,27 +27,31 @@
     </div>
     <div class="mt-[22px] w-full">
       <div v-ripple
+           @click="showMake = true"
            class="w-full rounded-[5px] h-[45px] border-[2px] border-[#7A7883] bg-[rgba(122,120,131,0.05)] flex items-center justify-center space-x-1">
         <var-icon class="opacity-[0.5]" name="plus" size="20"/>
-        <div class="opacity-[0.5]" @click="showMake = true">{{ t('member.addRobot') }}</div>
+        <div class="opacity-[0.5]">{{ t('member.addRobot') }}</div>
       </div>
     </div>
   </div>
-  <profession-make v-model:show="showMake" :robotType="robotSettingType" :type="type"></profession-make>
+  <profession-make v-model:show="showMake" v-model:robotType="professionRobotSettingType"  v-if=" type == 'profession'" :data="proRobot"></profession-make>
+  <normal-make v-else v-model:show="showMake" v-model:robotType="normalRobotSettingType" :data="normalRobot"></normal-make>
 </template>
 
 <script lang="ts" setup>
-import NormalImage from "assets/images/watch-robot/normal-robot.png";
-import ProfessionImage from "assets/images/watch-robot/profession-robot.png";
+import NormalImage from "/images/watch-robot/normal-robot.png";
+import ProfessionImage from "/images/watch-robot/profession-robot.png";
 import ProfessionMake from "views/member/profession-make.vue";
 import {useI18n} from "vue-i18n";
+import NormalMake from "views/member/normal-make.vue";
+import abi from "@/localinfo/all.json";
+import {useAccount, useReadContract} from "@wagmi/vue";
 
 type Props = {
   type: 'normal' | 'profession'
 }
 
-const {t} = useI18n() // 解构出t方法
-
+const { t } = useI18n() // 解构出t方法
 
 const list = [
   "canBeCounterBought",
@@ -69,7 +64,23 @@ const list = [
   "subWalletsCanBeGenerated"
 ]
 
-const robotSettingType = ref('buy');
+const netWord_id = import.meta.env.VITE_API_ID as keyof typeof abi;
+
+const {address} = useAccount()
+const userInfo = useReadContract({
+  address: abi[netWord_id]["ERC250115"].address as any,
+  abi: abi[netWord_id]["ERC250115"].abi,
+  functionName: 'gettotalinfo',
+  args: [address],
+}).data as any;
+
+const normalRobot = computed(() => userInfo.value?.vipinfo.find(item=>item.vipname == "普通机器人"))
+const proRobot = computed(() => userInfo.value?.vipinfo.find(item=>item.vipname == "专业机器人"))
+
+
+
+const professionRobotSettingType = ref<'make' | 'buy'>('make');
+const normalRobotSettingType = ref<'make' | 'buy'>('make');
 
 withDefaults(defineProps<Props>(), {
   type: 'normal'
@@ -78,6 +89,7 @@ withDefaults(defineProps<Props>(), {
 const showMake = ref(false);
 
 const showAccountSetting = ref(false)
+
 
 </script>
 

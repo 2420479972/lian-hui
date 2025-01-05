@@ -22,7 +22,7 @@ const messages = {
             hotToken: 'Hot Token',
             newToken: 'New Token',
             aiRobot: "Ai Robot",
-            projectAirdrop: "Airdrop",
+            projectAlliance: "projectAlliance",
             contractAddress: "Contract Address",
             contractLPAddress: "Contract LP",
             addRobot: "Add Robot",
@@ -42,11 +42,16 @@ const messages = {
             playTheAirdropText: "",
         },
         airdrop: {
+            tokenContractAddress:"TokenContractAddress",
+            tokenName: 'Token Name',
+            tokenAbbreviation: 'Token Abbreviation',
+            tokenPrice: 'Token Price',
+            totalSupply:'Total Supply',
+            totalNumberOfCopies:"Total Copies",
             airdropTokens: 'Airdrop Tokens',
             launchAirdrop: "Release Airdrop",
             airdropQuantity: "Airdrop Quantity",
             lPValue: "LP Circulation Value",
-            tokenPrice: "Token Price",
             totalVolume: "Total volume/Additional issue",
             totalAirdrop: "Total Airdrop",
             numberOfAirdrops: "Airdrop Copies",
@@ -63,13 +68,15 @@ const messages = {
             inputTokenAddress: "Enter The TokenAddress",
             inputAirdropContract: 'Generate AirdropContract',
             inputTip: "(Payment Is Required To Generate AContractAddress)",
-            confirmRelease: "Confirm Release",
+            confirmRelease: "Confirm",
             introductionToInputTokens: "Introduction To InputTokens",
             whetherToHold: "Whether To Hold",
             pickUpAtASingleAddress: "ASingleAddress",
             hoursDay: "Hours/Day",
             numberOfTokens: "Enter Number Of Tokens",
-            defray: "Posting Requires Payment"
+            defray: "Posting Requires Payment",
+            PublishFailed:"Publish Failed",
+            PublishSuccess:"Posted Success",
         },
         robot: {
             watchSwap: "WatchSwap",
@@ -109,8 +116,8 @@ const messages = {
             selectStartTime: "Choose Start Time",
             selectEndTime: "Choose End Time",
             setUpMainAccountTrading: "Set the main account buying and selling increasing and decreasing functions",
-            setUpTheMainAccountUSDT: "setUpTheMainAccountUSDT（%）",
-            setUpTheMainAccountERC20Currency: "setUpTheMainAccountERC20Currency（%）",
+            setUpTheMainAccountUSDT: "setUp The Main Account USDT（%）",
+            setUpTheMainAccountERC20Currency: "setUp Main Account ERC20 Currency（%）",
             quickMode: "QuickMode",
             slowMode: "SlowMode",
             executedTo: "ExecutedTo",
@@ -126,7 +133,7 @@ const messages = {
             canReceiveAirdrops:"CanReceiveAirdrops",
             airdropsCanBeReleased:"AirdropsCanBeReleased",
             ecologicalDividends:"EcologicalDividends",
-            totalNumberOfInvitations:"TotalNumberOfInvitations",
+            totalNumberOfInvitations:"TotalNumber",
             directPushAddress:"PushAddress",
             level1:"Level1",
             level2:"Level2",
@@ -141,7 +148,34 @@ const messages = {
             theTransactionIsAFixedAmountOfACoins:"The transaction is a fixed amount of A coins and B coins",
             setAPriceLimitForBuyingAndSelling:"SetUpperAndLowerLimitsForTransactions",
             transactionSettingsACurrency:"Set the price of currency A and currency B in the transaction",
-            subWalletsCanBeGenerated:"SubWalletsCanBeGenerated"
+            subWalletsCanBeGenerated:"SubWalletsCanBeGenerated",
+            make:"Create",
+            start:"Start",
+            helpWords:"Enter Mnemonic Phrase",
+            walletAddress:"Wallet Address",
+            numberOfSubWallets:"Number Of Sub Wallets",
+            selectTime:"Select Time",
+            startCountdown:"Start Countdown",
+            hold:"Hold ",
+            freeToUse:"free to use",
+            buyItNow:"Buy Now",
+            makeItNow:"Make Now"
+        },
+        node:{
+            speed:"Node Speed",
+            block:"Block Height",
+            blockText:"The larger the height value, the more complete the node data synchronization and its better stability. ",
+            blockText2:"When the node speeds are about the same, choose a node with a larger height value for a better experience.",
+            recommendedNodes:"Recommended Nodes",
+            addCustomNode: "Add Custom Node",
+            inputAddress: "Enter Node Name",
+            inputUrl: "Please Enter URL",
+            fast:"Fast",
+            slow:"Slow",
+            in:"In",
+            failed:"Failed To Add",
+            success:"Success To Add",
+            perfect:"Please complete node the information"
         },
         public: {
             open: 'Open',
@@ -156,7 +190,7 @@ const messages = {
             generate: "Generate",
             please: "Please ",
             times: "Times",
-            ordinaryRobot: "Ordinary Robot",
+            ordinaryRobot: "Robot",
             professionalRobot: "Pro Robot",
             add: "AddTo",
             more: "More",
@@ -171,6 +205,7 @@ const messages = {
             start:"Start",
             stop:"Stop",
             member:"Member",
+            copy:"Copied Successfully"
         }
     },
     zh: {
@@ -194,7 +229,7 @@ const messages = {
             hotToken: '热门代币',
             newToken: '上新代币',
             aiRobot: "Ai机器人",
-            projectAirdrop: "项目空投",
+            projectAlliance: "项目联盟",
             contractAddress: "合约地址",
             contractLPAddress: "合约LP地址",
             addRobot: "添加机器人",
@@ -214,11 +249,18 @@ const messages = {
             playTheAirdropText: "",
         },
         airdrop: {
+            tokenContractAddress:"代币合约地址",
+            tokenName: '代币名称',
+            tokenAbbreviation: '代币简称',
+            lPValue: "LP流通市值",
+            tokenPrice: '代币价格',
+            totalSupply:'总供应',
+            totalNumberOfCopies:"总份数",
+
+            tokenTotalSupply: '代币总量',
             airdropTokens: '空投代币',
             launchAirdrop: "发布空投",
             airdropQuantity: "空投数量",
-            lPValue: "LP流通市值",
-            tokenPrice: "代币价格",
             totalVolume: "总量/增发",
             totalAirdrop: "空投总量",
             numberOfAirdrops: "空投份数",
@@ -226,6 +268,7 @@ const messages = {
             airdropContract: "空投合约",
             lpContract: "LP合约",
             tokenIntroduction: "代币介绍",
+
             getItNow: "立即领取",
             receiveTheAirdrop: "购买机器人的地址才能领取空投",
             address: "单个地址领取XX小时/X天/X次 是否持有XXX币，有可领，无不可领",
@@ -241,7 +284,9 @@ const messages = {
             pickUpAtASingleAddress: "单个地址领取",
             hoursDay: "小时/天",
             numberOfTokens: "输入代币数量",
-            defray: "发布需要支付"
+            defray: "发布需要支付",
+            PublishFailed:"发布失败",
+            PublishSuccess:"发布成功",
         },
         robot: {
             watchSwap: "监听SWAP",
@@ -292,7 +337,6 @@ const messages = {
             gather:"归集"
         },
         member:{
-
             ordinaryMember:"普通会员",
             notPurchased:"未购买",
             premiumMember:"高级会员",
@@ -315,9 +359,35 @@ const messages = {
             theTransactionIsAFixedAmountOfACoins:"交易为固定数量的A币、B币",
             setAPriceLimitForBuyingAndSelling:"交易设置上限值和下限值",
             transactionSettingsACurrency:"交易设置A币、B币的价格",
-            subWalletsCanBeGenerated:"可以生成子钱包"
+            subWalletsCanBeGenerated:"可以生成子钱包",
+            make:"创建",
+            start:"启动",
+            helpWords:"输入助记词",
+            walletAddress:"钱包地址",
+            numberOfSubWallets:"子钱包数量",
+            selectTime:"选择时间",
+            startCountdown:"开始倒计时",
+            hold:"持有",
+            freeToUse:"免费使用",
+            buyItNow:"立即购买",
+            makeItNow:"立即创建"
         },
-
+        node:{
+            speed:"节点速度",
+            block:"区块高度",
+            blockText:"区块高度：高度值越大，代表节点数据同步更完善，其稳定性更好。 ",
+            blockText2:"在节点速度差不多的情况下，选择高度值大的节点，体验更好。",
+            recommendedNodes:"推荐节点",
+            addCustomNode: "添加自定义节点",
+            inputAddress: "输入节点名称",
+            inputUrl: "请输入URL",
+            fast:"快",
+            slow:"慢",
+            in:"中",
+            failed:"添加失败",
+            success:"添加成功",
+            perfect:"请完善节点信息"
+        },
         public: {
             open: '开',
             close: '关',
@@ -346,6 +416,8 @@ const messages = {
             start:"启动",
             stop:"停止",
             member:"会员",
+            copy:"复制成功",
+
         }
     }
 }

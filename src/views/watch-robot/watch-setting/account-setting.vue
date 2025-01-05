@@ -1,125 +1,138 @@
 <template>
-  <var-popup v-model:show="showPop">
-    <div class="h-[80vh] w-[90vw] p-[20px] rounded-[20px] border-[#0E2C2C] border-[3px] flex flex-col">
-      <div class="w-full flex items-center justify-between">
-        <div class="text-[21px]">{{type == 'normal' ? t('public.ordinaryRobot') : t('public.professionalRobot')}}</div>
-        <var-icon name="window-close" @click="showPop = false"/>
-      </div>
-      <div class="w-full my-[23px] h-[2px] bg-[#92A0AE] opacity-[0.2]"></div>
-      <div class="flex-1 overflow-y-auto">
-        <div class="w-full  flex items-center justify-between">
-          <div class="text-[21px]"> {{t('robot.watchSetting1')}}</div>
-        </div>
-        <div class="mt-[21px] w-full">
-          <div class="pt-[15px] w-full text-[#297EFE] rounded-[5px]  text-[18px] p-[16px] bg-[#141934] text-[##297EFE] space-y-1">
-            <div class="">
-              USDT {{t('public.buy')}} ERC20{{t('public.token')}}【XXX】
+  <pop-window v-model:show="showPop" :title="nowSelectedRobot == 'normal' ? t('public.ordinaryRobot') : t('public.professionalRobot')" @close="clear">
+      <div class="flex-1 overflow-y-auto ">
+        <z-form :validationSchema="validationSchema" @success="success" ref="formInstance" v-model:form-data="formData">
+          <div class="w-full  flex items-center justify-between">
+            <div class="text-[21px]"> {{t('robot.watchSetting1')}}</div>
+          </div>
+          <div class="mt-[21px] w-full">
+            <div class="pt-[15px] w-full text-[#297EFE] rounded-[5px]  text-[18px] p-[16px] bg-[var(--pop-text-bg)]  space-y-1">
+              <div class="">
+                USDT {{t('public.buy')}} ERC20{{t('public.token')}}【XXX】
+              </div>
+              <div class="">USDT 1 {{t('public.realTimePrice')}}：100 ERC20{{t('public.token')}}【XXX】</div>
+              <div class="">USDT 1 {{t('public.atLeast')}}{{t('public.exchange')}}20{{t('public.token')}}</div>
             </div>
-            <div class="">USDT 1 {{t('public.realTimePrice')}}：100 ERC20{{t('public.token')}}【XXX】</div>
-            <div class="">USDT 1 {{t('public.atLeast')}}{{t('public.exchange')}}20{{t('public.token')}}</div>
-          </div>
-          <div class="w-full my-[18px]">
-            <div class="text-[18px] opacity-[0.4]">{{t('robot.priceLimit')}}</div>
-          </div>
-          <div class="flex items-center space-x-[14px]">
-            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="t('robot.upperLimit')">
-            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="t('robot.lowerLimit')">
-          </div>
-          <template  v-if="type == 'profession'">
             <div class="w-full my-[18px]">
-              <div class="text-[18px] opacity-[0.4]">单次交易数量随机上限/下限值</div>
+              <div class="text-[18px] opacity-[0.4]">{{t('robot.priceLimit')}}</div>
             </div>
             <div class="flex items-center space-x-[14px]">
-              <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="上限">
-              <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="下限">
+              <z-form-item :placeholder="t('robot.upperLimit')" name="usdPriceUpperLimit"></z-form-item>
+              <z-form-item :placeholder="t('robot.lowerLimit')" name="usdPriceLowerLimit"></z-form-item>
             </div>
-            <div class="w-full my-[23px] h-[2px] bg-[#92A0AE] opacity-[0.2]"></div>
-          </template>
-          <div class="w-full my-[18px]">
-            <div class="text-[21px]">{{t('robot.buySellNum')}}</div>
-          </div>
-
-          <div class="flex mt-[23px] items-center space-x-[14px]">
-            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="t('robot.buy')">
-            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="t('robot.sell')">
-          </div>
-
-          <template v-if="type == 'profession'">
-            <div class="w-full flex items-center justify-between mt-[32px]">
-              <div class="text-[18px] opacity-[0.4]">{{t('robot.setMainUser')}}</div>
-              <var-counter v-model="value"/>
-            </div>
-          </template>
-
-          <div class="w-full mt-[23px] h-[2px] bg-[#92A0AE] opacity-[0.2]"></div>
-
-          <div class="w-full my-[18px]">
-            <div class="text-[21px]">{{t('robot.watchSetting2')}}</div>
-          </div>
-
-          <div class="pt-[15px] w-full text-[#297EFE] rounded-[5px]  text-[18px] p-[16px] bg-[#141934] text-[##297EFE] space-y-1">
-            <div class="">
-              USDT {{t('public.buy')}} ERC20{{t('public.token')}}【XXX】
-            </div>
-            <div class="">USDT 1 {{t('public.realTimePrice')}}：100 ERC20{{t('public.token')}}【XXX】</div>
-            <div class="">USDT 1 {{t('public.atLeast')}}{{t('public.exchange')}}20{{t('public.token')}}</div>
-          </div>
-          <div class="w-full my-[18px]">
-            <div class="text-[18px] opacity-[0.4]">{{t('robot.priceLimit')}}</div>
-          </div>
-
-          <div class="flex items-center space-x-[14px]">
-            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="t('robot.upperLimit')">
-            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="t('robot.lowerLimit')">
-          </div>
-
-          <template v-if="type == 'profession'">
+            <template  v-if="nowSelectedRobot == 'profession'">
+              <div class="w-full my-[18px]">
+                <div class="text-[18px] opacity-[0.4]">单次交易数量随机上限/下限值</div>
+              </div>
+              <div class="flex items-center space-x-[14px]">
+                <z-form-item :placeholder="t('robot.upperLimit')" name="usdNumberUpperLimit"></z-form-item>
+                <z-form-item :placeholder="t('robot.lowerLimit')" name="usdNumberLowerLimit"></z-form-item>
+              </div>
+              <div class="w-full my-[23px] h-[2px] bg-[#92A0AE] opacity-[0.2]"></div>
+            </template>
             <div class="w-full my-[18px]">
-              <div class="text-[18px] opacity-[0.4]">{{t('robot.buySellRound')}}</div>
+              <div class="text-[21px]">{{t('robot.buySellNum')}}</div>
+            </div>
+            <div class="flex mt-[23px] items-center space-x-[14px]">
+              <z-form-item :placeholder="t('robot.buy')" name="usdBuyNumber"></z-form-item>
+              <z-form-item :placeholder="t('robot.sell')" name="usdSellNumber"></z-form-item>
+            </div>
+            <template v-if="nowSelectedRobot == 'profession'">
+              <z-form-item type="custom" name="usdMainAccount">
+                <template #default="{fieldValue,input}">
+                  <div class="flex items-center justify-between">
+                    <div class="w-full flex items-center mt-[32px]">
+                      <div class="text-[18px] whitespace-nowrap opacity-[0.4]">最大亏损</div>
+                      <var-counter :min="0" :max="100" :model-value="fieldValue" @update:modelValue="input"/>
+                    </div>
+                    <div class="w-full flex items-center mt-[32px]">
+                      <div class="text-[18px] whitespace-nowrap opacity-[0.4]">最大盈利</div>
+                      <var-counter :min="0" :max="100" :model-value="fieldValue" @update:modelValue="input"/>
+                    </div>
+                  </div>
+                </template>
+              </z-form-item>
+            </template>
+
+            <div class="w-full mt-[23px] h-[2px] bg-[#92A0AE] opacity-[0.2]"></div>
+
+            <div class="w-full my-[18px]">
+              <div class="text-[21px]">{{t('robot.watchSetting2')}}</div>
+            </div>
+
+            <div class="pt-[15px] w-full text-[#297EFE] rounded-[5px]  text-[18px] p-[16px] bg-[var(--pop-text-bg)]  space-y-1">
+              <div class="">
+                USDT {{t('public.buy')}} ERC20{{t('public.token')}}【XXX】
+              </div>
+              <div class="">USDT 1 {{t('public.realTimePrice')}}：100 ERC20{{t('public.token')}}【XXX】</div>
+              <div class="">USDT 1 {{t('public.atLeast')}}{{t('public.exchange')}}20{{t('public.token')}}</div>
+            </div>
+            <div class="w-full my-[18px]">
+              <div class="text-[18px] opacity-[0.4]">{{t('robot.priceLimit')}}</div>
             </div>
             <div class="flex items-center space-x-[14px]">
-              <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="t('robot.upperLimit')">
-              <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="t('robot.lowerLimit')">
+              <z-form-item :placeholder="t('robot.upperLimit')" name="ercPriceUpperLimit"></z-form-item>
+              <z-form-item :placeholder="t('robot.lowerLimit')" name="ercPriceLowerLimit"></z-form-item>
             </div>
-            <div class="w-full my-[23px] h-[2px] bg-[#92A0AE] opacity-[0.2]"></div>
-          </template>
-
-          <div class="w-full my-[18px]">
-            <div class="text-[21px]">{{t('robot.buySellNum')}}</div>
-          </div>
-
-          <div class="flex mt-[23px] items-center space-x-[14px]">
-            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="t('robot.upperLimit')">
-            <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" :placeholder="t('robot.lowerLimit')">
-          </div>
-
-          <template  v-if="type == 'profession'">
-            <div class="w-full flex items-center justify-between mt-[32px]">
-              <div class="text-[18px] opacity-[0.4]">{{t('robot.buySellRound')}}</div>
-              <var-counter v-model="value"/>
+            <template  v-if="nowSelectedRobot == 'profession'">
+              <div class="w-full my-[18px]">
+                <div class="text-[18px] opacity-[0.4]">单次交易数量随机上限/下限值</div>
+              </div>
+              <div class="flex items-center space-x-[14px]">
+                <z-form-item :placeholder="t('robot.upperLimit')" name="ercNumberUpperLimit"></z-form-item>
+                <z-form-item :placeholder="t('robot.lowerLimit')" name="ercNumberLowerLimit"></z-form-item>
+              </div>
+              <div class="w-full my-[23px] h-[2px] bg-[#92A0AE] opacity-[0.2]"></div>
+            </template>
+            <div class="w-full my-[18px]">
+              <div class="text-[21px]">{{t('robot.buySellNum')}}</div>
             </div>
-          </template>
-        </div>
+            <div class="flex mt-[23px] items-center space-x-[14px]">
+              <z-form-item :placeholder="t('robot.buy')" name="ercBuyNumber"></z-form-item>
+              <z-form-item :placeholder="t('robot.sell')" name="ercSellNumber"></z-form-item>
+            </div>
+            <template v-if="nowSelectedRobot == 'profession'">
+              <z-form-item type="custom" name="usdMainAccount">
+                <template #default="{fieldValue,input}">
+                  <div class="flex items-center justify-between">
+                    <div class="w-full flex items-center mt-[32px]">
+                      <div class="text-[18px] whitespace-nowrap opacity-[0.4]">最大亏损</div>
+                      <var-counter :min="0" :max="100" :model-value="fieldValue" @update:modelValue="input"/>
+                    </div>
+                    <div class="w-full flex items-center mt-[32px]">
+                      <div class="text-[18px] whitespace-nowrap opacity-[0.4]">最大盈利</div>
+                      <var-counter :min="0" :max="100" :model-value="fieldValue" @update:modelValue="input"/>
+                    </div>
+                  </div>
+                </template>
+              </z-form-item>
+            </template>
+          </div>
+          <div class="mt-[27px]">
+            <div class="w-full flex items-center justify-center">
+              <button class="w-[147px] h-[54px] text-[24px] leading-[54px] text-center bg-[var(--member-confirm-bg)] text-[var(--airdrop-card-dis-text)] border-[3px] border-[rgba(28,232,159,0.2)] rounded-[10px]" v-ripple>确定</button>
+            </div>
+          </div>
+        </z-form>
       </div>
-      <div class="mt-[27px]">
-        <div class="w-full flex items-center justify-center">
-          <div class="w-[147px] h-[54px] text-[24px] leading-[54px] text-center bg-[#1CE89F] text-[#0D3728] border-[3px] border-[rgba(28,232,159,0.2)] rounded-[10px]" v-ripple @click="emit('changeRobot')">确定</div>
-        </div>
-      </div>
-    </div>
-  </var-popup>
+  </pop-window>
 </template>
 
 <script setup lang="ts">
+import ZForm from "@/components/z-form.vue";
+import {useI18n} from "vue-i18n";
+import ZFormItem from "@/components/z-form-item.vue";
+import {toTypedSchema} from "@vee-validate/zod";
+import * as zod from "zod";
+import {nowSelectedRobot} from "views/watch-robot/comment";
+import PopWindow from "@/components/pop-window.vue";
+
+const { t } = useI18n() // 解构出t方法
 type Props = {
-  type:'normal' | 'profession',
   show:boolean
 }
-import {useI18n} from "vue-i18n";
-const { t } = useI18n() // 解构出t方法
 
 const props = withDefaults(defineProps<Props>(),{
-  type: 'profession',
   show:false
 })
 
@@ -132,6 +145,74 @@ const showPop = computed({
   }
 })
 
+const formInstance = ref<InstanceType<typeof ZForm>>();
+const formData = ref({});
+
+let validationSchema = null as any;
+watch(()=>nowSelectedRobot.value,(newVal)=>{
+  validationSchema = toTypedSchema(
+      (()=>{
+        const normal = zod.object({
+          usdPriceUpperLimit: zod.string({message: '请输入价格上限'}).min(1, {message: '请输入价格上限'}).regex(/^[1-9]\d*$/, {
+            message: '数字不合法！'
+          }),
+          usdPriceLowerLimit: zod.string({message: '请输入价格下限'}).min(1, {message: '请输入价格下限'}).regex(/^[1-9]\d*$/, {
+            message: '数字不合法！'
+          }),
+          usdBuyNumber: zod.string({message: '请输入单次买入数量'}).min(1, {message: '请输入单次买入数量'}).regex(/^[1-9]\d*$/, {
+            message: '数字不合法！'
+          }),
+          usdSellNumber: zod.string({message: '请输入单次卖入数量'}).min(1, {message: '请输入单次卖入数量'}).regex(/^[1-9]\d*$/, {
+            message: '数字不合法！'
+          }),
+          ercPriceUpperLimit: zod.string({message: '请输入价格上限'}).min(1, {message: '请输入价格上限'}).regex(/^[1-9]\d*$/, {
+            message: '数字不合法！'
+          }),
+          ercPriceLowerLimit: zod.string({message: '请输入价格下限'}).min(1, {message: '请输入价格下限'}).regex(/^[1-9]\d*$/, {
+            message: '数字不合法！'
+          }),
+          ercBuyNumber: zod.string({message: '请输入单次买入数量'}).min(1, {message: '请输入单次买入数量'}).regex(/^[1-9]\d*$/, {
+            message: '数字不合法！'
+          }),
+          ercSellNumber: zod.string({message: '请输入单次卖入数量'}).min(1, {message: '请输入单次卖入数量'}).regex(/^[1-9]\d*$/, {
+            message: '数字不合法！'
+          }),
+        })
+        const pro = zod.object({
+          usdMainAccount:zod.number({message: '主账户递减功能'}),
+          ercMainAccount:zod.number({message: '主账户递减功能'}),
+          usdNumberUpperLimit: zod.string({message: '请输入数量上限'}).min(1, {message: '请输入数量上限'}).regex(/^[1-9]\d*$/,{
+            message: '数字不合法！'
+          }),
+          usdNumberLowerLimit: zod.string({message: '请输入数量下限'}).min(1, {message: '请输入数量下限'}).regex(/^[1-9]\d*$/,{
+            message: '数字不合法！'
+          }),
+          ercNumberUpperLimit: zod.string({message: '请输入数量上限'}).min(1, {message: '请输入数量上限'}).regex(/^[1-9]\d*$/,{
+            message: '数字不合法！'
+          }),
+          ercNumberLowerLimit: zod.string({message: '请输入数量下限'}).min(1, {message: '请输入数量下限'}).regex(/^[1-9]\d*$/,{
+            message: '数字不合法！'
+          }),
+        })
+        if(newVal == 'profession'){
+          return zod.intersection(normal,pro)
+        }
+        return normal
+      })())
+},{
+  deep:true,
+  immediate: true
+})
+
+
+const success = (value:any)=>{
+  console.log(formData.value)
+}
+
+const clear = ()=>{
+  formInstance.value?.resetForm()
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -139,6 +220,18 @@ input::placeholder{
   color: #605D75;
 }
 :deep(.var-counter__input){
-  @apply h-[46px] w-[64px] bg-[rgba(122,120,131,0.05)] rounded-[2px] border-2 border-[#1D1A2A] text-[24px];
+  @apply h-[46px] w-[64px] bg-[rgba(122,120,131,0.05)] rounded-[2px] border-2 border-[var(--pop-input-border-color)] text-[24px];
+}
+
+:deep(.var-elevation--2){
+  box-shadow: none;
+}
+:deep(.var-counter__controller){
+  border-radius: 0;
+}
+:deep(.var-counter__input){
+  border: 3px solid var(--input-border-color);
+  background: rgba(255,255,255,0.05);
+  color: var(--color-text);
 }
 </style>

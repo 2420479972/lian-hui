@@ -1,88 +1,224 @@
 <template>
   <div class="p-[23px] flex flex-col h-full">
-    <div class="pt-[15px] w-full text-[#297EFE]  text-[15px] p-[16px] bg-[#141934] text-[##297EFE] space-y-2">
+    <div class="pt-[15px] w-full text-[#297EFE]  text-[15px] p-[16px] bg-[var(--pop-text-bg)] space-y-2">
       <div class="flex items-center">
-        <span>节点速度</span>
+        <span>{{ t("node.speed") }}</span>
         <div class="ml-[30px] flex items-center space-x-4">
           <div class="flex space-x-1 items-center ">
             <div class="h-[9px] w-[9px] bg-[#1CE89F] rounded-full"></div>
-            <span>快</span>
+            <span>{{ t("node.fast") }}</span>
           </div>
           <div class="flex space-x-1 items-center">
             <div class="h-[9px] w-[9px] bg-[#FFC513] rounded-full"></div>
-            <span>中</span>
+            <span>{{ t("node.in") }}</span>
           </div>
           <div class="flex space-x-1 items-center">
             <div class="h-[9px] w-[9px] bg-[#FF3D3D] rounded-full"></div>
-            <span>慢</span>
+            <span>{{ t("node.slow") }}</span>
           </div>
         </div>
       </div>
       <div class="">
-        区块高度：高度值越大，代表节点数据同步更完善，其稳定性更好。
+        {{ t("node.blockText") }}
       </div>
       <div class="">
-        在节点速度差不多的情况下，选择高度值大的节点，体验更好
+        {{ t("node.blockText2") }}
       </div>
     </div>
     <div class="pt-[23px] w-full pb-[25px] opacity-[0.4] text-[21px]">
-      推荐节点
+      {{ t("node.recommendedNodes") }}
     </div>
     <div class="flex-1 flex flex-col overflow-y-auto">
-      <div class="h-[90%] overflow-y-auto content w-full space-y-[12px]" >
-        <div class="w-[100%] h-[90px] rounded card-shadow bg-[#140E20] px-[16px] flex items-center justify-between" v-for="item in 10">
+      <div class="h-[90%] overflow-y-auto content w-full space-y-[12px]">
+        <div
+            v-for="(nodeItem,index) in nodeList"
+            :key="index + '//'"
+            class="w-[100%] h-[90px] rounded card-shadow bg-[var(--node-card-bg)] px-[16px] flex items-center justify-between"
+            @click="selectNode(nodeItem)">
           <div class="text-[24px] w-[60%]">
-            BSC-Binance10
+            {{ nodeItem.address }}
           </div>
           <div class="flex-1 flex flex-col items-end">
+            <template  v-if="nodeItem.ping != 0">
             <div class="text-[24px] flex items-center space-x-[11px]">
-              <span>249</span>
-              <div class="text-[18px]">ms</div>
-              <div class="h-[9px] w-[9px] bg-[#1CE89F] rounded-full"></div>
+              <span>{{ nodeItem.ping }}</span>
+                <div class="text-[18px]">ms</div>
+                <div class="h-[9px] w-[9px] bg-[#1CE89F] rounded-full" :style="{background:nodeItem.ping < 500 ? '#1CE89F' : nodeItem.ping > 500 && nodeItem.ping < 1000 ? '#FFC513' : '#FF3D3D'}"></div>
             </div>
-            <div class="text-[18px] opacity-[0.4]">
-              区块高度 43216784
-            </div>
+            </template>
+            <template v-else>
+              <div class="text-[18px] text-[#FF3D3D]">获取节点失败</div>
+            </template>
           </div>
         </div>
       </div>
       <div class="flex-1 pt-[30px]">
-        <div class="w-[70%] m-auto h-[54px] flex items-center justify-center rounded-[10px] text-[24px] text-[#0D3728] bg-[#1CE89F]" v-ripple @click="showCustomNode = true">添加自定义节点</div>
-      </div>
-    </div>
-  </div>
-  <var-popup v-model:show="showCustomNode">
-    <div class="w-[499px] h-[403px] bg-[#110F20] border-[3px] border-[#0F3B38] rounded-[10px] p-[30px] ">
-      <div class="w-full flex items-center justify-between">
-        <div class="text-[21px]">添加自定义节点</div>
-          <var-icon name="window-close" @click="showCustomNode = false"/>
-      </div>
-      <div class="mt-[18px] w-full">
-        <input type="text" class="w-full rounded-[5px] h-[45px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 px-[15px]" placeholder="请输入节点名称">
-        <textarea cols="30" rows="5" class="w-full rounded-[5px] h-[154px] mt-[25px] bg-transparent border-[2px] border-[#1D1A2A] outline-0 p-[15px]" placeholder="请输入URL"></textarea>
-        <div class="w-full my-[10px] flex items-center justify-center">
-          <div class="w-[147px] h-[54px] text-[24px] leading-[54px] text-center bg-[#1CE89F] text-[#0D3728] border-[3px] border-[rgba(28,232,159,0.2)] rounded-[10px]" v-ripple>确定</div>
+        <div
+            v-ripple
+            class="w-[70%] m-auto h-[54px] flex items-center justify-center rounded-[10px] text-[24px] bg-[var(--member-confirm-bg)] text-[var(--color-primary)]"
+            @click="addNode">{{ t("node.addCustomNode") }}
         </div>
       </div>
     </div>
-  </var-popup>
+  </div>
+  <pop-window v-model:show="showCustomNode" :show-line="false" :title="t('node.addCustomNode')"  @close="clear">
+    <z-form :validationSchema="validationSchema" @success="addNodeDefine" ref="formInstance">
+      <template v-for="item in formItemList" :key="item.name">
+        <z-form-item v-bind="item"  class="mb-2"></z-form-item>
+      </template>
+      <div class="w-full my-[10px] flex items-center justify-center">
+        <button
+            v-ripple
+            class="w-[147px] h-[54px] text-[24px] leading-[54px] text-center bg-[var(--member-confirm-bg)] text-[var(--color-primary)] rounded-[10px]">
+          {{ t("public.confirm") }}
+        </button>
+      </div>
+    </z-form>
+  </pop-window>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
+import {useI18n} from "vue-i18n";
+import PopWindow from "@/components/pop-window.vue";
+import {Snackbar} from "@varlet/ui";
+import {toTypedSchema} from "@vee-validate/zod";
+import * as zod from 'zod';
+import ZFormItem from "@/components/z-form-item.vue";
+import ZForm from "@/components/z-form.vue";
+import {pingTest} from "utils/base.ts";
+import { LoadingBar } from '@varlet/ui'
+import {useUserInfo} from "store/userInfo.ts";
+import {useSwapInfo} from "store/swap.ts";
+import {ethers} from "ethers";
 
+const {t} = useI18n() // 解构出t方法
 const showCustomNode = ref(false);
+const userInfo =  useUserInfo()
+const swap = useSwapInfo();
+
+
+
+LoadingBar.setDefaultOptions({
+  errorColor: '#ff8800',
+  color: '#10afef',
+  height: '5px',
+})
+
+//节点列表
+const nodeList = ref()
+
+async function getPingSpeeds(list:any) {
+  LoadingBar.start()
+  nodeList.value = [];
+  for (const node of list) {
+    const ping = await pingTest(node.url);
+    nodeList.value.push({
+      address: node.address,
+      url: node.url,
+      ping: ping,
+    });
+  }
+  LoadingBar.finish()
+}
+onMounted(()=>{
+  getPingSpeeds(userInfo.nodeList);
+})
+
+
+//选择节点
+const selectNode = (nodeItem:any) => {
+  swap.etherProvider = new ethers.JsonRpcProvider(nodeItem.url)
+  Snackbar.success({
+    content: "切换节点成功",
+  })
+}
+
+
+const validationSchema = toTypedSchema(
+    zod.object({
+      nodeName: zod.string({message: t('node.inputAddress')}).min(1, {message: t('node.inputAddress')}),
+      nodeUrl: zod.string({message: t('node.inputUrl')}).min(1, {message: t('node.inputUrl')}).refine(isValidDomain,{message:'链接地址错误'})
+    })
+);
+
+function isValidDomain(domain:string) {
+  // 先检查是否以 http:// 或 https:// 开头
+  const protocolRegex = /^(https?:\/\/)/;
+  if (!protocolRegex.test(domain)) {
+    return false; // 不包含 http:// 或 https://
+  }
+
+  // 域名格式检查
+  const domainRegex = /^(?!:\/\/)(?=.{1,255}$)(?![0-9]+$)(?!.*\.$)[A-Za-z0-9-]{1,63}(?:\.[A-Za-z0-9-]{1,63})*(?:\.[A-Za-z]{2,})$/;
+  return domainRegex.test(domain.replace(protocolRegex, '')); // 去除协议部分进行域名验证
+}
+
+const formItemList = [
+  {
+    name: 'nodeName',
+    placeholder: t('node.inputAddress'),
+  },
+  {
+    name: 'nodeUrl',
+    placeholder: t('node.inputUrl'),
+    type:"textarea"
+  }
+]
+
+const formInstance = ref<InstanceType<typeof ZForm>>();
+
+// 添加
+const addNode = () => {
+  showCustomNode.value = true;
+}
+
+// 确定添加节点
+const addNodeDefine = async (values: any) => {
+  try {
+    //添加节点的逻辑
+    Snackbar.loading({
+      content: t('public.loading'),
+    })
+    const ping = await pingTest(values.nodeUrl);
+    if(ping == 0){
+      throw new Error('获取节点失败')
+    }
+    const item = {
+      address: values.nodeName,
+      url: values.nodeUrl,
+      ping
+    }
+    nodeList.value.push(item)
+    Snackbar.success({
+      content: t('node.success'),
+      duration: 1000,
+    })
+    userInfo.nodeList.push(item)
+    showCustomNode.value = false;
+    clear()
+  } catch (e) {
+    Snackbar.error({
+      content: t('node.failed'),
+      duration: 1000,
+    })
+  }
+}
+
+const clear = ()=>{
+  formInstance.value?.resetForm();
+}
+
 
 </script>
 
 <style lang="scss" scoped>
-.card-shadow{
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-}
+
 .content {
   -ms-overflow-style: none; /* 隐藏滚动条 */
   scrollbar-width: none; /* 隐藏滚动条 */
 }
-textarea{
+
+textarea {
   resize: none;
 }
 </style>

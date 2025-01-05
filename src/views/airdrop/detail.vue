@@ -1,65 +1,62 @@
 <template>
-  <var-popup v-model:show="showPop">
-    <div class="max-h-[90vh] w-[90vw] p-[20px] rounded-[20px] border-[#0E2C2C] border-[3px] flex flex-col">
-      <div class="w-full flex items-center justify-between">
-        <div class="text-[21px]">{{t('public.detail')}}</div>
-        <var-icon name="window-close" @click="showPop = false"/>
-      </div>
-      <div class="w-full my-[23px] h-[2px] bg-[#92A0AE] opacity-[0.2]"></div>
-      <div class="flex-1 overflow-y-auto">
-        <div class="w-full">
-          <div class="pt-[15px] w-full text-[#297EFE] rounded-[5px]  text-[17px] p-[16px] bg-[#141934] text-[##297EFE] space-y-1">
-            {{t('airdrop.address')}}
-          </div>
-          <template v-for="item in detailsTextList" :key="item.key">
-            <div class="w-full mt-[24px] flex items-center justify-between">
-              <div class="text-[21px] opacity-[0.4]">{{t('airdrop.' + item.label)}}</div>
-              <div class="text-[21px]">100000000枚/否</div>
-            </div>
-          </template>
-
-          <div class="w-full mt-[24px]">
-            <div class="text-[21px] opacity-[0.4]">{{t('airdrop.tokenIntroduction')}}</div>
-          </div>
-          <div class="w-full min-h-[98px] bg-[rgba(122,120,131,0.05)] px-[14px] py-[23px] mt-[24px] rounded-[5px]">
-            <div class="text-[21px] opacity-[0.4]">
-              Become part of a mission-aligned communi ty stew arding the ZKs
-            </div>
-          </div>
+  <pop-window v-model:show="showPop" :title="t('public.detail')" :show-line="false">
+    <div class="flex-1 overflow-y-auto">
+      <div class="w-full">
+        <div class="pt-[15px] w-full text-[#297EFE] rounded-[5px]  text-[17px] p-[16px] bg-[var(--pop-text-bg)] text-[##297EFE] space-y-1">
+          {{t('airdrop.address')}}
         </div>
-      </div>
-      <div class="mt-[27px]">
-        <div class="w-full flex items-center justify-center flex-col">
-          <button class="w-[147px] h-[54px] text-[24px] leading-[54px] text-center bg-[#1CE89F] text-[#0D3728] border-[3px] border-solid rounded-[10px]" :style="{background:'#919094',color:'#303030'}" v-ripple>{{t('airdrop.getItNow')}}</button>
-          <div class="mt-[14px]">
-            <div class="text-[16px] text-[#605D75]">
-              {{t('airdrop.receiveTheAirdrop')}}
-            </div>
+        <template v-for="item in detailsTextList" :key="item.key">
+          <div class="w-full mt-[24px] flex items-center justify-between">
+            <div class="text-[21px] opacity-[0.5]">{{t('airdrop.' + item.label)}}</div>
+            <div class="text-[21px] opacity-[0.5]">{{item.format(data[item.key])}}</div>
+          </div>
+        </template>
+        <div class="w-full mt-[24px]">
+          <div class="text-[21px] opacity-[0.4]">{{t('airdrop.tokenIntroduction')}}</div>
+        </div>
+        <div class="w-full min-h-[98px] bg-[rgba(122,120,131,0.05)] px-[14px] py-[23px] mt-[24px] rounded-[5px]">
+          <div class="text-[21px] opacity-[0.4]">
+            {{data["token_introduce"]}}
           </div>
         </div>
       </div>
     </div>
-  </var-popup>
+    <div class="mt-[27px]">
+      <div class="w-full flex items-center justify-center flex-col">
+        <button class="w-[147px] h-[54px] text-[24px] leading-[54px] text-center  border-[3px] border-solid rounded-[10px]" @click="receiveAirdrop" :style="{background:'var(--airdrop-card-disabled)',color:'var(--airdrop-card-dis-text)'}" v-ripple>{{t('airdrop.getItNow')}}</button>
+        <div class="mt-[14px]">
+          <div class="text-[16px] text-[#605D75]">
+            {{t('airdrop.receiveTheAirdrop')}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </pop-window>
 </template>
 
 <script setup lang="ts">
+import PopWindow from "@/components/pop-window.vue";
+
 type Props = {
   type:'normal' | 'profession',
-  show:boolean
+  show:boolean,
+  data:any
 }
 
 import {useI18n} from "vue-i18n";
+import {formatAddress, getNumber} from "utils/base.ts";
+import {useWriteContract} from "@wagmi/vue";
+import abi from "@/localinfo/all.json";
+import {Snackbar} from "@varlet/ui";
+
+const netWord_id = import.meta.env.VITE_API_ID as keyof typeof abi;
 
 const { t } = useI18n() // 解构出t方法
 
-enum robotType {
-  normal = '普通机器人',
-  profession = '专业机器人',
-}
-
 const props = withDefaults(defineProps<Props>(),{
   type: 'profession',
-  show:false
+  show:false,
+  data:()=>({})
 })
 
 const emit = defineEmits(['update:show'])
@@ -73,36 +70,87 @@ const showPop = computed({
 
 const detailsTextList = [
   {
-    label:'totalVolume',
-    key:"",
-    value:'100000000枚',
+    label:'tokenContractAddress',
+    key:"coin",
+    format(value:string){
+      return formatAddress(value)
+    }
   },
   {
-    label:'totalAirdrop',
-    key:"",
-    value:'100000000枚',
+    label:'tokenName',
+    key:"name",
+    format(value:string){
+      return value
+    }
   },
   {
-    label:'numberOfAirdrops',
-    key:"",
-    value:'100000000枚',
+    label:'tokenAbbreviation',
+    key:"symbol",
+    format(value:string){
+      return value
+    }
   },
   {
-    label:'holdingAddress',
-    key:"",
-    value:'100000000枚',
+    label:'lPValue',
+    key:"lpprice",
+    format(value:BigInt){
+      return getNumber(value)
+    }
   },
   {
-    label:'airdropContract',
-    key:"",
-    value:'100000000枚',
+    label:'tokenPrice',
+    key:"price",
+    format(value:BigInt){
+      return getNumber(value)
+    }
   },
   {
-    label:'lpContract',
-    key:"",
-    value:'100000000枚',
-  }
+    label:'totalSupply',
+    key:"total_supply",
+    format(value:BigInt){
+      return getNumber(value)
+    }
+  },
+  {
+    label:'totalNumberOfCopies',
+    key:"total_copies",
+    format(value:BigInt){
+      return getNumber(value)
+    }
+  },
+
 ]
+const {
+  isPending,
+  writeContract,
+} = useWriteContract()
+
+const receiveAirdrop = ()=>{
+  if(isPending.value) return; // 防止多次点击
+  Snackbar.loading({
+    content: '领取中...',
+  })
+  // 接收空投的逻辑
+  writeContract({
+    address: abi[netWord_id]["ERC250115"].address as any,
+    abi: abi[netWord_id]["ERC250115"].abi,
+    functionName: 'get_airdrop',
+    args: [props.data.index],
+  },{
+    onError(data){
+      console.error('领取空投失败',data)
+      Snackbar.error({
+        content: '领取失败',
+      });
+    },
+    onSuccess(){
+      Snackbar.success({
+        content: '领取成功',
+      });
+    }
+  })
+}
+
 
 </script>
 

@@ -5,13 +5,13 @@
         <template #title>
           <div class="flex items-center space-x-[6px] py-[20px]">
             <div
-                class="h-[28px] w-[28px] rounded-full leading-[28px] text-center bg-[#0F3636] text-[21px] text-[#1CE89F]">
+                class="h-[28px] w-[28px] rounded-full leading-[28px] text-center bg-[var(--intro-number-bg)] text-[21px] text-[var(--intro-number-color)] number">
               {{index+1}}
             </div>
             <div class="text-[21px]">{{t('intro.' + item.label)}}</div>
           </div>
         </template>
-        <div class="bg-[#201C2A] p-[16px] rounded-[5px] text-[24px]">
+        <div class="bg-[var(--intro-bg)] text-[var(--intro-bg-text-color)] p-[16px] rounded-[5px] text-[24px]">
           {{t('intro.' + item.content)}}
         </div>
       </var-collapse-item>
@@ -62,6 +62,9 @@ const introductionList = [
 
 <style lang="scss" scoped>
 :deep(.var-collapse-item){
-  border-bottom: 3px solid #262131;
+  border-bottom: 3px solid var(--intro-line-color);
+}
+.number{
+  font-family: "YOUSHEBIAOTIHEI-2",serif;
 }
 </style>
