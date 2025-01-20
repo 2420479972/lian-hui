@@ -3,7 +3,6 @@
     <Step :steps="1"></Step>
     <div class="w-full flex-1 flex flex-col overflow-y-auto mt-[20px] px-[23px]">
       <Tabs></Tabs>
-      <tab-robot></tab-robot>
       <div class="flex-1 flex flex-col w-full">
         <robot-content :type="nowSelectedRobot"></robot-content>
       </div>
@@ -13,7 +12,6 @@
 
 <script setup lang="ts">
 import RobotContent from "views/watch-robot/robot-content/robot-content.vue";
-import TabRobot from "views/watch-robot/comment/tab-robot.vue";
 import Tabs from "views/watch-robot/comment/tabs.vue";
 import Step from "views/watch-robot/comment/step.vue";
 import {nowSelectedRobot} from "views/watch-robot/comment";

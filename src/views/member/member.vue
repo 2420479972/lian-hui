@@ -70,28 +70,27 @@ import User from "views/member/user.vue";
 import {ethers} from "ethers";
 import {formatAddress, getNumber} from "utils/base.ts";
 import abi from '@/localinfo/all.json';
+import {isVip} from "@/hooks/isVip.ts";
 
 const netWord_id = import.meta.env.VITE_API_ID as keyof typeof abi;
-
-const list = ['item1', 'item2', 'item3']
 
 const {address} = useAccount()
 
 const userInfo = useReadContract({
-  address: abi[netWord_id]["ERC250115"].address,
+  address: abi[netWord_id]["ERC250115"].address as any,
   abi: abi[netWord_id]["ERC250115"].abi,
   functionName: 'gettotalinfo',
   args: [address],
 }).data as any;
 
 const accountInfo = computed(()=>userInfo.value?.accountinfo)
-
+const vipInfo = computed(()=>userInfo.value?.vipinfo)
 
 
 const { t } = useI18n() // 解构出t方法
 const Theme = ThemeManager()
 const activeHeader = ref(0);
-const activeUserMenu = ref(0);
+const activeUserMenu = ref<string | number>(0);
 const selectedTab = ref('BSC')
 const selectedSecondTab = ref<any>('member')
 const tabList = ref([
@@ -133,8 +132,9 @@ const secondTabList = [
 ]
 
 const checkSecondTab = (selectedSelect: number) => {
-  selectedSecondTab.value = secondTabList[selectedSelect].key;
-
+  isVip('isNotVip');
+  activeUserMenu.value = 0;
+  // selectedSecondTab.value = secondTabList[selectedSelect].key
 }
 
 const checkTab = (key: string) => {

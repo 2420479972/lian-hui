@@ -37,6 +37,8 @@ const chainId = useChainId();
 const {address, status} = useAccount()
 const {connect} = useConnect()
 
+console.log(chainId)
+
 const useDetermine = (success?:()=>void)=>{
   connect({connector: metaMask()})
   if (status.value == 'connected') {

@@ -13,6 +13,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Te: typeof import('./src/components/te.vue')['default']
     VarAppBar: typeof import('@varlet/ui')['_AppBarComponent']
+    VarAutoComplete: typeof import('@varlet/ui')['_AutoCompleteComponent']
     VarBackTop: typeof import('@varlet/ui')['_BackTopComponent']
     VarButton: typeof import('@varlet/ui')['_ButtonComponent']
     VarCollapse: typeof import('@varlet/ui')['_CollapseComponent']

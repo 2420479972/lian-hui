@@ -1,5 +1,5 @@
 <template>
-  <normal-robot v-if="nowSelectedRobot == 'normal'" v-bind="$attrs"></normal-robot>
+  <normal-robot v-if="nowSelectedRobot == 'normal'" v-bind="$attrs" @LinkSuccess="linkSuccess"></normal-robot>
   <profession-robot v-else v-bind="$attrs"></profession-robot>
   <div class="w-full mt-[37px] grid grid-cols-3">
     <div class="text-[18px]  flex flex-col items-center justify-center relative">
@@ -7,7 +7,7 @@
         USDT
       </div>
       <div class="text-[23px] text-[#65B6FF]">
-        <span class="text-[40px]">0</span></div>
+        <span class="text-[40px]">{{state.balance.ustd}}</span></div>
     </div>
     <div class="text-[18px] flex flex-col items-center justify-center relative">
       <div class="mb-[10px] opacity-[0.4]">
@@ -95,6 +95,7 @@ import PopWindow from "@/components/pop-window.vue";
 import {nowSelectedRobot} from "views/watch-robot/comment";
 import {useAccount, useReadContract} from "@wagmi/vue";
 import abi from '@/localinfo/all.json'
+import {useSwapInfo} from "store/swap.ts";
 import {ethers} from "ethers";
 
 const netWord_id = import.meta.env.VITE_API_ID as keyof typeof abi;
@@ -110,6 +111,29 @@ const token_bal = (useReadContract({
   functionName: 'balanceOf',
   args: [address]
 }).data)
+
+let provider:any = null;
+const swap = useSwapInfo();
+watch(()=>swap.etherInfo.selectedNodeUrl,(newVal)=>{
+  provider = new ethers.JsonRpcProvider(newVal)
+},{
+  immediate:true,
+  deep:true,
+})
+
+
+
+const state = reactive({
+  balance: {
+    value: BigInt(0),
+    ustd: '0'
+  }
+});
+const linkSuccess =async (mainWallet:any)=>{
+  const balance = await provider.getBalance(mainWallet.address);
+  state.balance.value = balance;
+  state.balance.ustd = ethers.formatEther(balance);
+}
 
 </script>
 

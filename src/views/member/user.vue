@@ -3,8 +3,14 @@
     <div v-for="item in vipInfo" v-ripple
          class="px-[18px] py-[30px] min-h-[177px] w-full user bg-[var(--member-card-bg)] rounded-xl relative" @click="buyMember(item)">
       <div class="absolute right-[18px] top-[18px] flex items-center space-x-[12px]">
-        <div class="w-[7px] h-[7px] rounded-full bg-[var(--member-header-text-bg)] opacity-[0.4]"></div>
-        <div class="opacity-[0.4] text-[18px]">{{ t('member.notPurchased') }}</div>
+        <template v-if="!item?.vipendtime">
+          <div class="w-[7px] h-[7px] rounded-full bg-[var(--member-header-text-bg)] opacity-[0.4]"></div>
+          <div class="opacity-[0.4] text-[18px]">{{ t('member.notPurchased') }}</div>
+        </template>
+        <template v-else>
+          <div class="w-[7px] h-[7px] rounded-full bg-[#1CE89F] opacity-[0.4]"></div>
+          <div class="opacity-[0.4] text-[18px] text-[#1CE89F]">{{ item?.vipendtime }}</div>
+        </template>
       </div>
       <div class="flex items-center h-[65px] space-x-[20px]">
         <div class="h-[65px] w-[65px] rounded-full">
@@ -13,7 +19,7 @@
         <div class="space-y-[16px]">
           <div class="text-[22px]">{{ item.vipname }}</div>
           <div class="text-[18px] text-[#605D75]">
-            价格：{{ ethers.formatEther(getNumber(item?.paid_plan[0], "price",true)) }}
+            价格：{{ getNumber(item?.paid_plan[0], "price",true) }}
           </div>
           <!--          <div class="text-[18px] text-[#605D75]">{{item?.paid_plan[0]?.day || '&#45;&#45;'}}</div>-->
         </div>
@@ -80,15 +86,15 @@ import {useAccount, useReadContract} from "@wagmi/vue";
 import abi from "@/localinfo/all.json";
 import {formatAddress, getNumber} from "utils/base.ts";
 import {getResource} from "utils/getFile.ts";
-import {ethers} from "ethers";
 import BuyVip from "views/member/buy-vip.vue";
 
 const {t} = useI18n() // 解构出t方法
 const netWord_id = import.meta.env.VITE_API_ID as keyof typeof abi;
 
 const {address} = useAccount()
+
 const userInfo = useReadContract({
-  address: abi[netWord_id]["ERC250115"].address,
+  address: abi[netWord_id]["ERC250115"].address as any,
   abi: abi[netWord_id]["ERC250115"].abi,
   functionName: 'gettotalinfo',
   args: [address],

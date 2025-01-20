@@ -89,7 +89,6 @@ import {pingTest} from "utils/base.ts";
 import { LoadingBar } from '@varlet/ui'
 import {useUserInfo} from "store/userInfo.ts";
 import {useSwapInfo} from "store/swap.ts";
-import {ethers} from "ethers";
 
 const {t} = useI18n() // 解构出t方法
 const showCustomNode = ref(false);
@@ -127,7 +126,7 @@ onMounted(()=>{
 
 //选择节点
 const selectNode = (nodeItem:any) => {
-  swap.etherProvider = new ethers.JsonRpcProvider(nodeItem.url)
+  swap.etherInfo.selectedNodeUrl = nodeItem.url;
   Snackbar.success({
     content: "切换节点成功",
   })

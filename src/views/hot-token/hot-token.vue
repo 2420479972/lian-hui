@@ -90,7 +90,7 @@
     </div>
   </div>
   <var-drag style="left: 82%; top: 31.5%" attraction="x">
-    <img src="/images/hot-token/jiqiren.png" class="h-[88px]" alt="">
+    <img src="/images/hot-token/jiqiren.png" class="h-[88px]" alt="" @click="goRobot">
   </var-drag>
 </template>
 
@@ -102,7 +102,8 @@ import {getResource} from "utils/getFile.ts";
 import {useAccount, useReadContract} from "@wagmi/vue";
 import abi from "@/localinfo/all.json";
 import {cloneDeep} from "lodash"
-import {formatAddress, getNumber} from "../../utils/base.ts";
+import {formatAddress, getNumber} from "utils/base.ts";
+import {isVip} from "@/hooks/isVip.ts";
 const { t } = useI18n() // 解构出t方法
 
 const router = useRouter();
@@ -167,7 +168,7 @@ const menuList = ref([
       return Theme.theme == "lightTheme" ? getResource('hot-token/light/', "kongtou.png") : getResource('hot-token/dark/', "kongtou.png")
     }),
     fun(){
-      router.push('/alliance')
+      router.push('/airdrop')
     }
   }
 ])
@@ -273,14 +274,9 @@ const getTokenList = (type:'bsc' | 'eth')=>{
 
 
 const goRobot = ()=>{
+  isVip('isNotVip');
   router.push('/watch-robot')
 }
-
-
-onMounted(()=>{
-  // getTokenList();
-})
-
 
 
 

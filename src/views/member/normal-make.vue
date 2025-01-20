@@ -97,7 +97,7 @@
         </div>
       </z-form>
   </pop-window>
-  <CardBuy v-model:show="cardShow" :type="data?.vipname" :data="data" :validityPeriod="timeLeft"></CardBuy>
+  <CardBuy v-model:show="cardShow" :type="data?.vipname" :data="data" :validityPeriod="timeLeft" :price="selectedTime?.price"></CardBuy>
 </template>
 
 <script lang="ts" setup>
@@ -144,7 +144,6 @@ onMounted(()=>{
 })
 
 const selectedTime =computed(()=>{
-  console.log(buyRobotFormData.value,selectedOptions.value)
   return selectedOptions.value.find(item=>item.value === buyRobotFormData.value.id)
 })
 

@@ -11,9 +11,9 @@
       <slot  :fieldValue="fieldValue"
              :input="updateFieldValue"></slot>
     </template>
-    <template v-if="!type || type == 'text' || type == 'password'">
+    <template v-if="!type || type == 'text' || type == 'password' || type == 'number'" >
       <input :placeholder="placeholder"
-             :type="!type ? 'text' : type "
+             :type="!type ? 'text' : type"
              :name="name"
              v-model="fieldValue"
              v-bind="$attrs"
@@ -35,7 +35,7 @@
 import {useField} from "vee-validate";
 
 type Props = {
-  type?: 'text' | 'password' | 'select' | 'textarea' | 'custom',
+  type?: 'text' | 'password' | 'select' | 'textarea' | 'custom' | 'number',
   placeholder?: string,
   options?: Array<{ label: string, value: string }>,
   disabled?: boolean,

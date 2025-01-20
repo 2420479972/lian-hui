@@ -22,7 +22,7 @@ const messages = {
             hotToken: 'Hot Token',
             newToken: 'New Token',
             aiRobot: "Ai Robot",
-            projectAlliance: "projectAlliance",
+            projectAlliance: "Airdrop",
             contractAddress: "Contract Address",
             contractLPAddress: "Contract LP",
             addRobot: "Add Robot",
@@ -123,7 +123,9 @@ const messages = {
             executedTo: "ExecutedTo",
             subWalletsTakeTime: "subWalletsTakeTime",
             second:"second",
-            gather:"Gather"
+            gather:"Gather",
+            linkPurse:"LinkWallet",
+            linked:"Linked",
         },
         member:{
             ordinaryMember:"OrdinaryMember",
@@ -229,7 +231,7 @@ const messages = {
             hotToken: '热门代币',
             newToken: '上新代币',
             aiRobot: "Ai机器人",
-            projectAlliance: "项目联盟",
+            projectAlliance: "项目空投",
             contractAddress: "合约地址",
             contractLPAddress: "合约LP地址",
             addRobot: "添加机器人",
@@ -334,7 +336,9 @@ const messages = {
             executedTo: "执行到",
             subWalletsTakeTime: "个子钱包需要花费时间",
             second:"秒",
-            gather:"归集"
+            gather:"归集",
+            linkPurse:"链接钱包",
+            linked:"已链接",
         },
         member:{
             ordinaryMember:"普通会员",

@@ -128,7 +128,7 @@
       </div>
     </div>
   </pop-window>
-  <CardBuy v-model:show="cardShow" :type="data?.vipname" :data="data" :validity-period="timeLeft"></CardBuy>
+  <CardBuy v-model:show="cardShow" :type="data?.vipname" :data="data" :validity-period="timeLeft"  :price="selectedTime?.price"></CardBuy>
 </template>
 
 <script setup lang="ts">
@@ -205,13 +205,6 @@ const makeRobot = () => {
   emit('update:robotType', 'buy');
 }
 
-
-const timeList = ref([
-  {
-    label: '1小时',
-    value: '1',
-  }
-])
 const step = ref(1);
 
 const setStep = (stepNumb: number) => {

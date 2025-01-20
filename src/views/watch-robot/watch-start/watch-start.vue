@@ -3,7 +3,6 @@
     <Step :steps="3"></Step>
     <div class="w-full flex-1 flex flex-col overflow-y-auto mt-[20px] px-[23px]">
       <Tabs></Tabs>
-      <tab-robot></tab-robot>
       <div class="flex-1 flex flex-col w-full">
         <start-robot :type="nowSelectedRobot"></start-robot>
       </div>
