@@ -23,7 +23,7 @@ const routes = [
             {
                 path: '/watch-robot',
                 name: 'watch-robot',
-                component: () => import('@/views/watch-robot/watch-robot.vue'),
+                component: () => import('views/watch-robot/robot-content/watch-robot.vue'),
                 meta: {title: "监听SWAP", requiresAuth: true},
             },
             {

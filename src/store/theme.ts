@@ -120,6 +120,13 @@ export const ThemeManager = defineStore('ThemeManager', () => {
             "--member-pop-text":"#86909C",
 
             "--node-card-bg":"#F3F3F4",
+            "--date-picker-body-background-color":'#fff',
+            "--date-picker-header-color":'#000',
+            "--date-picker-main-color":'#000',
+            "--day-picker-head-item-color":'#000',
+            "--button-primary-color":'hsla(220, 99%, 61%)',
+            "--date-picker-title-color":"#000",
+            "--date-picker-title-hint-color":'#000'
         },
         "darkTheme": {
             "--color-primary": "#0F0D1E",
@@ -222,6 +229,13 @@ export const ThemeManager = defineStore('ThemeManager', () => {
 
 
             "--node-card-bg":"#140E20",
+            "--date-picker-body-background-color":'#110D1E',
+            "--date-picker-header-color":'#fff',
+            "--date-picker-main-color":'#fff',
+            "--day-picker-head-item-color":'#fff',
+            "--button-primary-color":'hsla(220, 99%, 61%)',
+            "--date-picker-title-color":"#fff",
+            "--date-picker-title-hint-color":'#fff'
         }
     })
     const toggleTheme = (type: 'lightTheme' | 'darkTheme') => {

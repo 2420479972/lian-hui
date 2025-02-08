@@ -87,12 +87,12 @@ import ZFormItem from "@/components/z-form-item.vue";
 import ZForm from "@/components/z-form.vue";
 import {pingTest} from "utils/base.ts";
 import { LoadingBar } from '@varlet/ui'
-import {useUserInfo} from "store/userInfo.ts";
+import {useNodeInfo} from "store/useNodeInfo.ts";
 import {useSwapInfo} from "store/swap.ts";
 
 const {t} = useI18n() // 解构出t方法
 const showCustomNode = ref(false);
-const userInfo =  useUserInfo()
+const userInfo =  useNodeInfo()
 const swap = useSwapInfo();
 
 

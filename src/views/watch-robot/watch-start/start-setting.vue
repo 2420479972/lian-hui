@@ -7,13 +7,13 @@
           <div class="w-full mb-[18px]">
             <div class="text-[18px] opacity-[0.4]">{{ t('robot.startEndTime') }}</div>
           </div>
-          <div class="flex items-center justify-between space-x-[14px] w-full">
+          <div class="flex  justify-between space-x-[14px] w-full">
             <z-form-item name="startTime" type="custom">
               <template #default="{fieldValue}">
                 <div
                     class="rounded-[5px] flex items-center space-x-2 h-[45px] bg-transparent border-[2px] border-[var(--input-border-color)]  outline-0 px-[15px]">
                   <input :placeholder="t('robot.startTime')" :value="fieldValue" class="w-full h-full bg-transparent outline-0"
-                         readonly type="text" @click="showStartTime = true">
+                         readonly type="text" @click="showSelectTime = true">
                   <div class="h-[22px] w-[24px]">
                     <img alt="" class="h-full w-full" src="/images/watch-robot/time.png">
                   </div>
@@ -25,7 +25,7 @@
                 <div
                     class="rounded-[5px] flex items-center space-x-2 h-[45px] bg-transparent border-[2px] border-[var(--input-border-color)]  outline-0 px-[15px]">
                   <input :placeholder="t('robot.endTime')" :value="fieldValue" class="w-full h-full bg-transparent outline-0"
-                         readonly type="text" @click="showEndTime = true">
+                         readonly type="text" @click="showSelectTime = true">
                   <div class="h-[22px] w-[24px]">
                     <img alt="" class="h-full w-full" src="/images/watch-robot/time.png">
                   </div>
@@ -142,25 +142,8 @@
       </div>
     </div>
   </pop-window>
-  <pop-window v-model:show="showStartTime" :title="t('robot.selectStartTime')">
-    <var-time-picker v-model="formData['startTime']" format="24hr">
-      <template #actions>
-        <div class="flex items-center space-x-2">
-          <div v-ripple class="px-[20px] rounded-md py-[5px]" @click="close('startTime')">{{ t('public.cancel') }}</div>
-          <div v-ripple class="px-[20px] rounded-md py-[5px]" @click="close()">{{ t('public.confirm') }}</div>
-        </div>
-      </template>
-    </var-time-picker>
-  </pop-window>
-  <pop-window v-model:show="showEndTime" :title="t('robot.selectStartTime')">
-    <var-time-picker v-model="formData['endTime']" format="24hr">
-      <template #actions>
-        <div class="flex items-center space-x-2">
-          <div v-ripple class="px-[20px] rounded-md py-[5px]" @click="close('endTime')">{{ t('public.cancel') }}</div>
-          <div v-ripple class="px-[20px] rounded-md py-[5px]" @click="close()">{{ t('public.confirm') }}</div>
-        </div>
-      </template>
-    </var-time-picker>
+  <pop-window v-model:show="showSelectTime" :title="t('robot.selectStartTime')">
+    <var-date-picker v-model="date" type="date" range @change="change"/>
   </pop-window>
 </template>
 
@@ -181,6 +164,7 @@ type Props = {
 const props = withDefaults(defineProps<Props>(), {
   show: false
 })
+
 const emit = defineEmits(['update:show'])
 const showPop = computed({
   get: () => props.show,
@@ -190,20 +174,29 @@ const showPop = computed({
 })
 
 
-const showStartTime = ref(false);
-const showEndTime = ref(false);
+const showSelectTime = ref(false);
+const date = ref([])
+
+
+
 const formData = ref({
-  startTime: "00:00",
-  endTime: "00:00",
+  startTime: "",
+  endTime: "",
   splitPoints: "",
-  reverseTime: "",
+  reverseTime: "123",
   autoTime: ""
 });
+
+const change = (time:string[])=>{
+  formData.value.startTime = time[0]
+  formData.value.endTime = time[1]
+}
+
 
 const validationSchema = toTypedSchema(
     (()=>{
      const normal =  zod.object({
-        startTime: zod.string({message: t('robot.startTime')}),
+        startTime: zod.string({message: t('robot.startTime')}).min(1, {message: t('robot.endTime')}),
         endTime: zod.string({message: t('robot.endTime')}).min(1, {message: t('robot.endTime')}),
         splitPoints: zod.string({message: t('robot.setSlippage')}).min(1, {message: t('robot.setSlippage')}).regex(/^[1-9]\d*$/,{
           message: '数字不合法！'

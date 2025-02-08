@@ -1,7 +1,7 @@
 <template>
   <pop-window v-model:show="showPop" :title="nowSelectedRobot == 'normal' ? t('public.ordinaryRobot') : t('public.professionalRobot')" @close="clear">
       <div class="flex-1 overflow-y-auto ">
-        <z-form :validationSchema="validationSchema" @success="success" ref="formInstance" v-model:form-data="formData">
+        <z-form :validationSchema="validationSchema" ref="formInstance" v-model:form-data="formData" :is-custom="true">
           <div class="w-full  flex items-center justify-between">
             <div class="text-[21px]"> {{t('robot.watchSetting1')}}</div>
           </div>
@@ -16,17 +16,17 @@
             <div class="w-full my-[18px]">
               <div class="text-[18px] opacity-[0.4]">{{t('robot.priceLimit')}}</div>
             </div>
-            <div class="flex items-center space-x-[14px]">
-              <z-form-item :placeholder="t('robot.upperLimit')" name="usdPriceUpperLimit"></z-form-item>
-              <z-form-item :placeholder="t('robot.lowerLimit')" name="usdPriceLowerLimit"></z-form-item>
+            <div class="flex space-x-[14px]">
+              <z-form-item  type="number" :placeholder="t('robot.upperLimit')" name="usdPriceUpperLimit"></z-form-item>
+              <z-form-item  type="number" :placeholder="t('robot.lowerLimit')" name="usdPriceLowerLimit"></z-form-item>
             </div>
             <template  v-if="nowSelectedRobot == 'profession'">
               <div class="w-full my-[18px]">
                 <div class="text-[18px] opacity-[0.4]">单次交易数量随机上限/下限值</div>
               </div>
-              <div class="flex items-center space-x-[14px]">
-                <z-form-item :placeholder="t('robot.upperLimit')" name="usdNumberUpperLimit"></z-form-item>
-                <z-form-item :placeholder="t('robot.lowerLimit')" name="usdNumberLowerLimit"></z-form-item>
+              <div class="flex  space-x-[14px]">
+                <z-form-item type="number"  :placeholder="t('robot.upperLimit')" name="A2BTopLimit"></z-form-item>
+                <z-form-item type="number"  :placeholder="t('robot.lowerLimit')" name="A2BLowLimit"></z-form-item>
               </div>
               <div class="w-full my-[23px] h-[2px] bg-[#92A0AE] opacity-[0.2]"></div>
             </template>
@@ -34,17 +34,24 @@
               <div class="text-[21px]">{{t('robot.buySellNum')}}</div>
             </div>
             <div class="flex mt-[23px] items-center space-x-[14px]">
-              <z-form-item :placeholder="t('robot.buy')" name="usdBuyNumber"></z-form-item>
-              <z-form-item :placeholder="t('robot.sell')" name="usdSellNumber"></z-form-item>
+              <z-form-item type="number"  :placeholder="t('robot.buy')" name="usdBuyNumber"></z-form-item>
+              <z-form-item type="number"  :placeholder="t('robot.sell')" name="usdSellNumber"></z-form-item>
             </div>
             <template v-if="nowSelectedRobot == 'profession'">
-              <z-form-item type="custom" name="usdMainAccount">
+              <div class="flex items-center space-x-[14px]">
+              <z-form-item type="custom" name="usdMaxLossPercent">
                 <template #default="{fieldValue,input}">
                   <div class="flex items-center justify-between">
                     <div class="w-full flex items-center mt-[32px]">
                       <div class="text-[18px] whitespace-nowrap opacity-[0.4]">最大亏损</div>
                       <var-counter :min="0" :max="100" :model-value="fieldValue" @update:modelValue="input"/>
                     </div>
+                  </div>
+                </template>
+              </z-form-item>
+              <z-form-item type="custom" name="usdMaxProfitPercent">
+                <template #default="{fieldValue,input}">
+                  <div class="flex items-center justify-between">
                     <div class="w-full flex items-center mt-[32px]">
                       <div class="text-[18px] whitespace-nowrap opacity-[0.4]">最大盈利</div>
                       <var-counter :min="0" :max="100" :model-value="fieldValue" @update:modelValue="input"/>
@@ -52,6 +59,7 @@
                   </div>
                 </template>
               </z-form-item>
+              </div>
             </template>
 
             <div class="w-full mt-[23px] h-[2px] bg-[#92A0AE] opacity-[0.2]"></div>
@@ -70,35 +78,42 @@
             <div class="w-full my-[18px]">
               <div class="text-[18px] opacity-[0.4]">{{t('robot.priceLimit')}}</div>
             </div>
-            <div class="flex items-center space-x-[14px]">
-              <z-form-item :placeholder="t('robot.upperLimit')" name="ercPriceUpperLimit"></z-form-item>
-              <z-form-item :placeholder="t('robot.lowerLimit')" name="ercPriceLowerLimit"></z-form-item>
+            <div class="flex  space-x-[14px]">
+              <z-form-item  type="number" :placeholder="t('robot.upperLimit')" name="ercPriceUpperLimit"></z-form-item>
+              <z-form-item type="number" :placeholder="t('robot.lowerLimit')" name="ercPriceLowerLimit"></z-form-item>
             </div>
             <template  v-if="nowSelectedRobot == 'profession'">
               <div class="w-full my-[18px]">
                 <div class="text-[18px] opacity-[0.4]">单次交易数量随机上限/下限值</div>
               </div>
               <div class="flex items-center space-x-[14px]">
-                <z-form-item :placeholder="t('robot.upperLimit')" name="ercNumberUpperLimit"></z-form-item>
-                <z-form-item :placeholder="t('robot.lowerLimit')" name="ercNumberLowerLimit"></z-form-item>
+                <z-form-item type="number" :placeholder="t('robot.upperLimit')" name="B2ATopLimit"></z-form-item>
+                <z-form-item type="number" :placeholder="t('robot.lowerLimit')" name="B2ALowLimit"></z-form-item>
               </div>
               <div class="w-full my-[23px] h-[2px] bg-[#92A0AE] opacity-[0.2]"></div>
             </template>
             <div class="w-full my-[18px]">
               <div class="text-[21px]">{{t('robot.buySellNum')}}</div>
             </div>
-            <div class="flex mt-[23px] items-center space-x-[14px]">
-              <z-form-item :placeholder="t('robot.buy')" name="ercBuyNumber"></z-form-item>
-              <z-form-item :placeholder="t('robot.sell')" name="ercSellNumber"></z-form-item>
+            <div class="flex mt-[23px]  space-x-[14px]">
+              <z-form-item type="number" :placeholder="t('robot.buy')" name="ercBuyNumber"></z-form-item>
+              <z-form-item type="number" :placeholder="t('robot.sell')" name="ercSellNumber"></z-form-item>
             </div>
             <template v-if="nowSelectedRobot == 'profession'">
-              <z-form-item type="custom" name="usdMainAccount">
+              <div class="flex items-center space-x-[14px]">
+              <z-form-item type="custom" name="ercMaxLossPercent">
                 <template #default="{fieldValue,input}">
                   <div class="flex items-center justify-between">
                     <div class="w-full flex items-center mt-[32px]">
                       <div class="text-[18px] whitespace-nowrap opacity-[0.4]">最大亏损</div>
                       <var-counter :min="0" :max="100" :model-value="fieldValue" @update:modelValue="input"/>
                     </div>
+                  </div>
+                </template>
+              </z-form-item>
+              <z-form-item type="custom" name="ercMaxProfitPercent">
+                <template #default="{fieldValue,input}">
+                  <div class="flex items-center justify-between">
                     <div class="w-full flex items-center mt-[32px]">
                       <div class="text-[18px] whitespace-nowrap opacity-[0.4]">最大盈利</div>
                       <var-counter :min="0" :max="100" :model-value="fieldValue" @update:modelValue="input"/>
@@ -106,11 +121,12 @@
                   </div>
                 </template>
               </z-form-item>
+              </div>
             </template>
           </div>
           <div class="mt-[27px]">
             <div class="w-full flex items-center justify-center">
-              <button class="w-[147px] h-[54px] text-[24px] leading-[54px] text-center bg-[var(--member-confirm-bg)] text-[var(--airdrop-card-dis-text)] border-[3px] border-[rgba(28,232,159,0.2)] rounded-[10px]" v-ripple>确定</button>
+              <button class="w-[147px] h-[54px] text-[24px] leading-[54px] text-center bg-[var(--member-confirm-bg)] text-[var(--airdrop-card-dis-text)] border-[3px] border-[rgba(28,232,159,0.2)] rounded-[10px]" v-ripple @click="success">确定</button>
             </div>
           </div>
         </z-form>
@@ -126,6 +142,7 @@ import {toTypedSchema} from "@vee-validate/zod";
 import * as zod from "zod";
 import {nowSelectedRobot} from "views/watch-robot/comment";
 import PopWindow from "@/components/pop-window.vue";
+import {useSwapInfo} from "store/swap.ts";
 
 const { t } = useI18n() // 解构出t方法
 type Props = {
@@ -138,6 +155,8 @@ const props = withDefaults(defineProps<Props>(),{
 
 const emit = defineEmits(['update:show','changeRobot'])
 
+const swapStore = useSwapInfo();
+
 const showPop = computed({
   get: () => props.show,
   set: (val) => {
@@ -146,53 +165,33 @@ const showPop = computed({
 })
 
 const formInstance = ref<InstanceType<typeof ZForm>>();
-const formData = ref({});
+
+const formData = ref(swapStore.watchSettings);
+
 
 let validationSchema = null as any;
 watch(()=>nowSelectedRobot.value,(newVal)=>{
   validationSchema = toTypedSchema(
       (()=>{
         const normal = zod.object({
-          usdPriceUpperLimit: zod.string({message: '请输入价格上限'}).min(1, {message: '请输入价格上限'}).regex(/^[1-9]\d*$/, {
-            message: '数字不合法！'
-          }),
-          usdPriceLowerLimit: zod.string({message: '请输入价格下限'}).min(1, {message: '请输入价格下限'}).regex(/^[1-9]\d*$/, {
-            message: '数字不合法！'
-          }),
-          usdBuyNumber: zod.string({message: '请输入单次买入数量'}).min(1, {message: '请输入单次买入数量'}).regex(/^[1-9]\d*$/, {
-            message: '数字不合法！'
-          }),
-          usdSellNumber: zod.string({message: '请输入单次卖入数量'}).min(1, {message: '请输入单次卖入数量'}).regex(/^[1-9]\d*$/, {
-            message: '数字不合法！'
-          }),
-          ercPriceUpperLimit: zod.string({message: '请输入价格上限'}).min(1, {message: '请输入价格上限'}).regex(/^[1-9]\d*$/, {
-            message: '数字不合法！'
-          }),
-          ercPriceLowerLimit: zod.string({message: '请输入价格下限'}).min(1, {message: '请输入价格下限'}).regex(/^[1-9]\d*$/, {
-            message: '数字不合法！'
-          }),
-          ercBuyNumber: zod.string({message: '请输入单次买入数量'}).min(1, {message: '请输入单次买入数量'}).regex(/^[1-9]\d*$/, {
-            message: '数字不合法！'
-          }),
-          ercSellNumber: zod.string({message: '请输入单次卖入数量'}).min(1, {message: '请输入单次卖入数量'}).regex(/^[1-9]\d*$/, {
-            message: '数字不合法！'
-          }),
+          usdPriceUpperLimit: zod.number({message: '请输入价格上限'}).min(1, {message: '请输入价格上限'}),
+          usdPriceLowerLimit: zod.number({message: '请输入价格下限'}).min(1, {message: '请输入价格下限'}),
+          usdBuyNumber: zod.number({message: '请输入单次买入数量'}).min(1, {message: '请输入单次买入数量'}),
+          usdSellNumber: zod.number({message: '请输入单次卖入数量'}).min(1, {message: '请输入单次卖入数量'}),
+          ercPriceUpperLimit: zod.number({message: '请输入价格上限'}).min(1, {message: '请输入价格上限'}),
+          ercPriceLowerLimit: zod.number({message: '请输入价格下限'}).min(1, {message: '请输入价格下限'}),
+          ercBuyNumber: zod.number({message: '请输入单次买入数量'}).min(1, {message: '请输入单次买入数量'}),
+          ercSellNumber: zod.number({message: '请输入单次卖入数量'}).min(1, {message: '请输入单次卖入数量'}),
         })
         const pro = zod.object({
-          usdMainAccount:zod.number({message: '主账户递减功能'}),
-          ercMainAccount:zod.number({message: '主账户递减功能'}),
-          usdNumberUpperLimit: zod.string({message: '请输入数量上限'}).min(1, {message: '请输入数量上限'}).regex(/^[1-9]\d*$/,{
-            message: '数字不合法！'
-          }),
-          usdNumberLowerLimit: zod.string({message: '请输入数量下限'}).min(1, {message: '请输入数量下限'}).regex(/^[1-9]\d*$/,{
-            message: '数字不合法！'
-          }),
-          ercNumberUpperLimit: zod.string({message: '请输入数量上限'}).min(1, {message: '请输入数量上限'}).regex(/^[1-9]\d*$/,{
-            message: '数字不合法！'
-          }),
-          ercNumberLowerLimit: zod.string({message: '请输入数量下限'}).min(1, {message: '请输入数量下限'}).regex(/^[1-9]\d*$/,{
-            message: '数字不合法！'
-          }),
+          usdMaxLossPercent:zod.number({message: '最大亏损'}),
+          usdMaxProfitPercent:zod.number({message: '最大盈利'}),
+          ercMaxLossPercent:zod.number({message: '最大亏损'}),
+          ercMaxProfitPercent:zod.number({message: '最大盈利'}),
+          A2BTopLimit: zod.number({message: '请输入数量上限'}).min(1, {message: '请输入数量上限'}),
+          A2BLowLimit: zod.number({message: '请输入数量下限'}).min(1, {message: '请输入数量下限'}),
+          B2ATopLimit: zod.number({message: '请输入数量上限'}).min(1, {message: '请输入数量上限'}),
+          B2ALowLimit: zod.number({message: '请输入数量下限'}).min(1, {message: '请输入数量下限'}),
         })
         if(newVal == 'profession'){
           return zod.intersection(normal,pro)
@@ -204,9 +203,12 @@ watch(()=>nowSelectedRobot.value,(newVal)=>{
   immediate: true
 })
 
-
-const success = (value:any)=>{
-  console.log(formData.value)
+const router = useRouter()
+const success = ()=>{
+  formInstance.value?.validateForm(()=>{
+    swapStore.watchSettings = {...formData.value}
+    router.push('/watch-robot');
+  })
 }
 
 const clear = ()=>{

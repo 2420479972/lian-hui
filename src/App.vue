@@ -8,13 +8,21 @@
 import {ThemeManager} from "store/theme.ts";
 import {useChainId, useConnect} from '@wagmi/vue'
 import {metaMask} from '@wagmi/vue/connectors'
+import {useSwapDemo} from "@/hooks/useSwapDemo.ts";
+import {nowSelectedRobot} from "views/watch-robot/comment";
 const themeStore = ThemeManager()
 themeStore.toggleTheme('darkTheme')
-
 const chainId = useChainId()
 const {connect, connectors, error, status} = useConnect()
 connect({connector: metaMask()});
 
+const useSwap = useSwapDemo()
+
+provide('useSwap',{
+  useSwap,
+  nowSelectedRobot,
+  useSwapDemo
+})
 </script>
 
 <style  lang="scss">

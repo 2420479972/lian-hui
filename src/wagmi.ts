@@ -32,9 +32,6 @@ export const config = createConfig({
     // ,localhost,DEVnet
   ],
   connectors: [
-    walletConnect({
-      projectId: import.meta.env.VITE_WC_PROJECT_ID,
-    }),
     coinbaseWallet({ appName: 'Vite Vue Playground', darkMode: true }),
   ],
   storage: createStorage({ storage: localStorage, key: 'vite-vue' }),

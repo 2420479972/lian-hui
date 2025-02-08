@@ -20,6 +20,7 @@ declare module 'vue' {
     VarCollapseItem: typeof import('@varlet/ui')['_CollapseItemComponent']
     VarCollapseTransition: typeof import('@varlet/ui')['_CollapseTransitionComponent']
     VarCounter: typeof import('@varlet/ui')['_CounterComponent']
+    VarDatePicker: typeof import('@varlet/ui')['_DatePickerComponent']
     VarDrag: typeof import('@varlet/ui')['_DragComponent']
     VarIcon: typeof import('@varlet/ui')['_IconComponent']
     VarList: typeof import('@varlet/ui')['_ListComponent']

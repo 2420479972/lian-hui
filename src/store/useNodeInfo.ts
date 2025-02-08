@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-export const useUserInfo = defineStore("userInfo",()=>{
+export const useNodeInfo = defineStore("useNodeInfo",()=>{
     const nodeList = ref([
             {
                 address: 'bsc.rpc.blxrbdn',

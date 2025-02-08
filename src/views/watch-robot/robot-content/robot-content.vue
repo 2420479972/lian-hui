@@ -1,6 +1,6 @@
 <template>
   <normal-robot v-if="nowSelectedRobot == 'normal'" v-bind="$attrs" @LinkSuccess="linkSuccess"></normal-robot>
-  <profession-robot v-else v-bind="$attrs"></profession-robot>
+  <profession-robot v-else v-bind="$attrs"  @LinkSuccess="linkSuccess"></profession-robot>
   <div class="w-full mt-[37px] grid grid-cols-3">
     <div class="text-[18px]  flex flex-col items-center justify-center relative">
       <div class="mb-[10px] opacity-[0.4]">
@@ -31,19 +31,21 @@
       <div class="text-[18px] mb-[10px] text-[#65B6FF]">{{ t('public.latest') }} pancake swap
         {{ t('public.message') }}
       </div>
-      <div class="h-[320px] relative">
-        <vue3-seamless-scroll :list="list" direction="up" :step="0.15" :wheel="true" class="w-full  space-y-[20px] h-full overflow-hidden  list">
-          <div class="w-full" v-for="item in list">
-            <div class="text-[18px] text-[#605D75]">2024/10/15 17:54:52</div>
-            <div class="text-[18px] text-[#65B6FF] mt-[12px] opacity-[0.7]">0x987***58964 使用11.061866065222256 USDT 交换
-              959.0523296531131686
+      <div class="max-h-[320px] relative">
+        <vue3-seamless-scroll :list="swapStore.getSwapEvents" direction="up" :step="0.15" :wheel="true" class="w-full  space-y-[20px] h-full overflow-hidden  list">
+          <div class="w-full  mb-2" v-for="item in swapStore.getSwapEvents">
+            <div class="text-[18px] text-[#605D75]"> {{ item.time }} {{ `${item.to.slice(0, 6)}....${item.to.slice(-4)}` }}</div>
+            <div class="text-[18px] text-[#65B6FF] mt-[12px] opacity-[0.7]">使用 {{
+                item.amountin }} {{ item.intoken }} 交换 {{
+                item.amountout }} {{
+                item.outtoken }} 价格：{{
+                item.amountout / item.amountin }} {{ item.intoken }}/{{
+                item.outtoken }}
             </div>
-            <div class="text-[18px] text-[var(--color-text)] mt-[16px]">0x987***58964 使用11.061866065222256 USDT 交换
-              959.0523296531131686
-            </div>
+
           </div>
         </vue3-seamless-scroll>
-        <div class="absolute bottom-2 right-2" v-if="list.length > 4">
+        <div class="absolute bottom-2 right-2" v-if="swapStore.getSwapEvents.length > 4">
           <div class="w-[100px]  text-[18px] h-[45px] border-[2px] border-[var(--input-border-color)]  bg-[var(--node-card-bg)] flex items-center justify-center rounded-[5px]" v-ripple @click="showMore = true">
             <span class="opacity-[0.4]">{{t('public.more')}}</span>
           </div>
@@ -55,19 +57,20 @@
       <div class="text-[18px] text-[#FF964E] mb-[19px]">{{ t('public.latest') }} pancake swap
         {{ t('public.message') }}
       </div>
-      <div class="h-[320px] relative">
-        <vue3-seamless-scroll :list="list" direction="up" :step="0.15" :wheel="true" class="w-full  space-y-[20px]  overflow-hidden h-full list">
-          <div class="w-full" v-for="item in list">
-            <div class="text-[18px] text-[#605D75]">2024/10/15 17:54:52</div>
-            <div class="text-[18px] text-[#FF964E] mt-[12px] opacity-[0.7]">0x987***58964 使用11.061866065222256 USDT 交换
-              959.0523296531131686
-            </div>
-            <div class="text-[18px] text-[var(--color-text)] mt-[16px]">0x987***58964 使用11.061866065222256 USDT 交换
-              959.0523296531131686
+      <div class="max-h-[320px] relative">
+        <vue3-seamless-scroll :list="swapStore.getSubSwapEvents" direction="up" :step="0.15" :wheel="true" class="w-full  space-y-[20px]  overflow-hidden h-full list">
+          <div class="w-full mb-2" v-for="item in swapStore.getSubSwapEvents">
+            <div class="text-[18px] text-[#605D75]"> {{ item.time }} {{ `${item.to.slice(0, 6)}....${item.to.slice(-4)}` }}</div>
+            <div class="text-[18px] text-[#FF964E] mt-[12px] opacity-[0.7]">使用 {{
+                item.amountin }} {{ item.intoken }} 交换 {{
+                item.amountout }} {{
+                item.outtoken }} 价格：{{
+                item.amountout / item.amountin }} {{ item.intoken }}/{{
+                item.outtoken }}
             </div>
           </div>
         </vue3-seamless-scroll>
-        <div class="absolute bottom-2 right-2" v-if="list.length > 4">
+        <div class="absolute bottom-2 right-2" v-if="swapStore.getSubSwapEvents.length > 4">
           <div class="w-[100px]  text-[18px] h-[45px] border-[2px] border-[var(--input-border-color)]  bg-[var(--node-card-bg)] flex items-center justify-center rounded-[5px]" v-ripple @click="showMore = true">
             <span class="opacity-[0.4]">{{t('public.more')}}</span>
           </div>
@@ -97,13 +100,14 @@ import {useAccount, useReadContract} from "@wagmi/vue";
 import abi from '@/localinfo/all.json'
 import {useSwapInfo} from "store/swap.ts";
 import {ethers} from "ethers";
+import {useProvider} from "@/hooks/useProvider.ts";
 
 const netWord_id = import.meta.env.VITE_API_ID as keyof typeof abi;
 const {t} = useI18n() // 解构出t方法
 
 const showMore = ref(false);
 
-const list = ['item1', 'item2', 'item3']
+const list = ['item1']
 const {address} = useAccount()
 const token_bal = (useReadContract({
   address: abi[netWord_id]["ttoken"].address,//用了wagmi后，异步莫名不给用，不能改成活的，对于前端我也不熟，看怎么处理。
@@ -112,14 +116,8 @@ const token_bal = (useReadContract({
   args: [address]
 }).data)
 
-let provider:any = null;
-const swap = useSwapInfo();
-watch(()=>swap.etherInfo.selectedNodeUrl,(newVal)=>{
-  provider = new ethers.JsonRpcProvider(newVal)
-},{
-  immediate:true,
-  deep:true,
-})
+const swapStore = useSwapInfo();
+const {provider} = useProvider()
 
 
 
@@ -129,6 +127,9 @@ const state = reactive({
     ustd: '0'
   }
 });
+
+
+
 const linkSuccess =async (mainWallet:any)=>{
   const balance = await provider.getBalance(mainWallet.address);
   state.balance.value = balance;

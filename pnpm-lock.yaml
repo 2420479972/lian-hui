@@ -36,7 +36,7 @@ importers:
         specifier: ^1.11.13
         version: 1.11.13
       ethers:
-        specifier: ^6.13.4
+        specifier: ^6.13.3
         version: 6.13.4(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       gsap:
         specifier: ^3.12.5

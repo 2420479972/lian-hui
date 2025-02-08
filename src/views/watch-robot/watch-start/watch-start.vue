@@ -14,8 +14,10 @@
 import StartRobot from "views/watch-robot/watch-start/start-robot.vue";
 import Step from "views/watch-robot/comment/step.vue";
 import Tabs from "views/watch-robot/comment/tabs.vue";
-import TabRobot from "views/watch-robot/comment/tab-robot.vue";
 import {nowSelectedRobot} from "views/watch-robot/comment";
+
+
+
 </script>
 
 <style lang="scss" scoped>

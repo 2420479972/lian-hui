@@ -1,41 +1,30 @@
 import {Contract, ethers} from "ethers";
-import {useSwapInfo} from "store/swap.ts";
 import abiinfo from "@/localinfo/abi.json";
 import {Snackbar} from "@varlet/ui";
+import {useProvider} from "@/hooks/useProvider.ts";
+import {useSwapInfo} from "store/swap.ts";
 
-export const useSwapDemo = (walletList: any[]) => {
-    // 存储 swap 事件信息
-    const swapEvents = ref<any[]>([]);
+export const useSwapDemo = () => {
+    const swapStore = useSwapInfo();
+    const watchSetting = swapStore.watchSettings
+    const walletList:any = [];
+    
+    const botRetry = {
+        lastTime: 0,
+        times: 0
+    };
+
+    const settingParams = swapStore.watchStartSettings
+
     // 最后时间
     let lastTime = 0;
-    // 存储 swap 事件信息// 存储 swap 事件信息
-    const sub_swapEvents = ref<any[]>([]);
+
     // 钱包余额
     const walletBalance = ref("0");
-    // 代币A信息
-    const tokenAInfo = ref<any>({
-        symbol: '',
-        balance: ''
-    });
-    // 代币B信息
-    const tokenBInfo = ref<any>({
-        symbol: '',
-        balance: ''
-    });
-    const listenStart = ref(false);
-    const botStart = ref(false);
 
-
-    // 交易价格限制
-    const A2BPriceLimit = ref(2);
-    // 交易价格下线
-    const A2BLowLimit = ref(10);
-// 交易价格上线
-    const A2BTopLimit = ref(10);
-    const B2ATopLimit = ref(10)       // 交易随机量最大值
-    const B2ALowLimit = ref(1)        // 交易随机量最小值
-    const B2APriceLimit = ref(2)    // 交易限制价格
-
+    const listenStartFlag = ref(false);
+    const listenStartLoading = ref(false);
+    const botStartFlag = ref(false);
 
     // 滑点
     const slip = ref(0);
@@ -50,33 +39,33 @@ export const useSwapDemo = (walletList: any[]) => {
     }
 
     // 监听节点切换
-
-    const swapStore = useSwapInfo();
-    let provider: any = null;
-    watch(() => swapStore.etherInfo.selectedNodeUrl, (newVal) => {
-        provider = new ethers.JsonRpcProvider(newVal)
-    }, {
-        immediate: true,
-        deep: true,
-    })
-
+    const {provider} = useProvider()
     // 加载Swap信息
     const loadSwapInfo = async (data: any) => {
         // 与合约进行交互
+        if (walletList.length === 0) {
+            Snackbar.error({
+                content: "请先链接钱包！",
+                duration: 1000,
+            })
+            return;
+        }
+        listenStartLoading.value = true;
         {
             contract.pairs = new Contract(
                 data.s_pair_add,
                 abiinfo.pairs,
                 walletList[0]
-            );
+            )
+
             contract.router = new Contract(
-                data.mainrouter,
+                data.mainRouter,
                 abiinfo.router,
                 walletList[0]
-            );
+            )
         }
         // 获取储备金额
-        let [reserve0, reserve1] = await contract.pairs.getReserves()
+        const [reserve0, reserve1] = await contract.pairs?.getReserves();
         //加载代币
         {
             const loadToken0 = async () => {
@@ -88,8 +77,7 @@ export const useSwapDemo = (walletList: any[]) => {
                 );
                 let [decimals, symbol, balance] =
                     await Promise.all([contract.token0.decimals(), contract.token0.symbol(), contract.token0.balanceOf(walletList[0].address)])
-
-                tokenAInfo.value = {
+                swapStore.tokenAInfo.value = {
                     symbol: symbol,
                     decimals: decimals,
                     balance: ethers.formatUnits(balance, decimals),
@@ -107,7 +95,7 @@ export const useSwapDemo = (walletList: any[]) => {
                 );
                 let [decimals, symbol, balance] =
                     await Promise.all([contract.token1.decimals(), contract.token1.symbol(), contract.token1.balanceOf(walletList[0].address)])
-                tokenBInfo.value = {
+                swapStore.tokenBInfo.value = {
                     symbol: symbol,
                     decimals: decimals,
                     balance: ethers.formatUnits(balance, decimals),
@@ -119,18 +107,19 @@ export const useSwapDemo = (walletList: any[]) => {
                 loadToken0(), loadToken1()
             ])
         }
+
         const factory_add = await contract.pairs.factory()
         const factory_add2 = await contract.router.factory()
         if (factory_add != factory_add2) {
-            Snackbar.success({
+            Snackbar.error({
                 content: "环境不符合要求：配对合约和路由合约不相关",
                 duration: 1000,
             })
             return;
         }
+
         const pushSwapMessage = async (event: any) => {
             const {to, amount0In, amount1In, amount0Out, amount1Out} = event.args; // 提取参数
-            //
             const block = await provider.getBlock(event.blockNumber);
             const date = new Date(block.timestamp * 1000); // 将 Unix 时间戳转换为 JS 日期
             const baseInfo = {
@@ -138,18 +127,19 @@ export const useSwapDemo = (walletList: any[]) => {
                 to: to,
                 time: date.toLocaleString(), // 转换为本地时间格式
             }
+
             const info = Object.assign(baseInfo, {
-                intoken: amount0In > 0 ? tokenAInfo.value.symbol : tokenBInfo.value.symbol, // 根据输入和输出判断是哪个代币
-                amountin: amount0In > 0 ? ethers.formatUnits(amount0In, tokenAInfo.value.decimals) : ethers.formatUnits(amount1In, tokenBInfo.value.decimals),
-                outtoken: amount0In > 0 ? tokenBInfo.value.symbol : tokenAInfo.value.symbol,
-                amountout: amount0In > 0 ? ethers.formatUnits(amount1Out, tokenBInfo.value.decimals) : ethers.formatUnits(amount0Out, tokenAInfo.value.decimals),
+                intoken: amount0In > 0 ? swapStore.tokenAInfo.value.symbol : swapStore.tokenBInfo.value.symbol, // 根据输入和输出判断是哪个代币
+                amountin: amount0In > 0 ? ethers.formatUnits(amount0In, swapStore.tokenAInfo.value.decimals) : ethers.formatUnits(amount1In, swapStore.tokenBInfo.value.decimals),
+                outtoken: amount0In > 0 ? swapStore.tokenBInfo.value.symbol : swapStore.tokenAInfo.value.symbol,
+                amountout: amount0In > 0 ? ethers.formatUnits(amount1Out, swapStore.tokenBInfo.value.decimals) : ethers.formatUnits(amount0Out, swapStore.tokenAInfo.value.decimals),
             })
-            const isToInWallets = walletList.some(wallet => wallet.address.toLowerCase() === to.toLowerCase());
+            const isToInWallets = walletList.some((wallet:any) => wallet.address.toLowerCase() === to.toLowerCase());
 
             if (isToInWallets) {
-                sub_swapEvents.value.push(info);
+                swapStore.subSwapEvents.push(info);
             } else {
-                swapEvents.value.push(info);
+                swapStore.swapEvents.push(info)
                 let random_num = Math.floor(Math.random() * (data.sub_number - 1)) + 1;
                 if (amount0In > 0) {
                     await swap(false, walletList[random_num]);
@@ -175,8 +165,9 @@ export const useSwapDemo = (walletList: any[]) => {
                 contract.pairs?.off("Swap", swapListener);
                 // const filter = contract.pairs.filters.Swap(); // 获取 Swap 事件的过滤器
                 contract.pairs?.on("Swap", swapListener);
-                listenStart.value = true;
-                while (listenStart.value) {
+                listenStartFlag.value = true;
+                listenStartLoading.value = false;
+                while (listenStartFlag.value) {
                     await wait(2000);
                 }
                 contract.pairs?.off("Swap", swapListener);
@@ -194,9 +185,10 @@ export const useSwapDemo = (walletList: any[]) => {
                         contract.pairs?.off("Swap", swapListener);
                         await listenSwap()
                     } else {
-                        listenStart.value = false;
+                        listenStartFlag.value = false;
                     }
                 }
+                listenStartLoading.value = false;
             }
         }
 
@@ -205,6 +197,7 @@ export const useSwapDemo = (walletList: any[]) => {
             return
         }
         await loadSwapEvents()
+
     }
     // 更新余额
     const updateBalance = async () => {
@@ -218,11 +211,10 @@ export const useSwapDemo = (walletList: any[]) => {
             contract.pairs?.getReserves()
         ])
         walletBalance.value = ethers.formatEther(balance)
-        tokenAInfo.value.balance = ethers.formatUnits(t0bal, tokenAInfo.value.decimals)
-        tokenBInfo.value.balance = ethers.formatUnits(t1bal, tokenBInfo.value.decimals)
-
-        tokenAInfo.value.price = Number(reserve1) / Number(reserve0);
-        tokenBInfo.value.price = Number(reserve0) / Number(reserve1);
+        swapStore.tokenAInfo.value.balance = ethers.formatUnits(t0bal, swapStore.tokenAInfo.value.decimals)
+        swapStore.tokenBInfo.value.balance = ethers.formatUnits(t1bal, swapStore.tokenBInfo.value.decimals)
+        swapStore.tokenAInfo.value.price = Number(reserve1) / Number(reserve0);
+        swapStore.tokenBInfo.value.price = Number(reserve0) / Number(reserve1);
     }
     // 选择和发送Gas
     const checkAndSendGas = async (gas: bigint, wallet: any) => {
@@ -248,19 +240,19 @@ export const useSwapDemo = (walletList: any[]) => {
     const swap = async (trad_dire: boolean, wallet: any) => {
         let info;
         lastTime = Math.floor(new Date().getTime() / 1000);
-        if (!(botStart.value && listenStart.value)) {
+        if (!(botStartFlag.value && listenStartFlag.value)) {
             return
         }
         {
             await updateBalance()
-            const A2BPrice = tokenAInfo.value.price;
+            const A2BPrice = swapStore.tokenAInfo.value.price;
             if (trad_dire) {
-                if (A2BPriceLimit.value > A2BPrice) {
-                    console.log("out of price", "true 1A2B:", A2BPrice, "wish 1A2B:", A2BPriceLimit.value);
+                if (watchSetting.A2BPriceLimit > A2BPrice) {
+                    console.log("out of price", "true 1A2B:", A2BPrice, "wish 1A2B:", watchSetting.A2BPriceLimit);
                     return
                 }
-                const min = Number(A2BLowLimit.value);  // 将字符串转换为数字
-                const max = Number(A2BTopLimit.value);
+                const min = Number(watchSetting.A2BLowLimit);  // 将字符串转换为数字
+                const max = Number(watchSetting.A2BTopLimit);
                 const randomValue = ethers.parseEther(String(Math.random() * (max - min) + min));
                 let allow = await contract.token0?.allowance(wallet, contract.router);
 
@@ -301,12 +293,12 @@ export const useSwapDemo = (walletList: any[]) => {
                     9999999999
                 ]
             } else {
-                if (B2APriceLimit.value * A2BPrice > 1) {
-                    console.log("out of price", "true 1B2A:", 1 / A2BPrice, "wish 1B2A:", B2ATopLimit.value);
+                if (watchSetting.B2APriceLimit * A2BPrice > 1) {
+                    console.log("out of price", "true 1B2A:", 1 / A2BPrice, "wish 1B2A:", watchSetting.B2ATopLimit);
                     return
                 }
-                const min = Number(B2ALowLimit.value);  // 将字符串转换为数字
-                const max = Number(B2ATopLimit.value);
+                const min = Number(watchSetting.B2ALowLimit);  // 将字符串转换为数字
+                const max = Number(watchSetting.B2ATopLimit);
                 const randomValue = ethers.parseEther(String(Math.random() * (max - min) + min));
                 let allow = await contract.token1?.allowance(wallet, contract.router);
 
@@ -347,7 +339,7 @@ export const useSwapDemo = (walletList: any[]) => {
                     9999999999
                 ]
             }
-            let gas = await contract.router?.connect(wallet)
+            const gas = await contract.router?.connect(wallet)
                 .swapExactTokensForTokensSupportingFeeOnTransferTokens.estimateGas(
                     ...info
                 )
@@ -409,4 +401,73 @@ export const useSwapDemo = (walletList: any[]) => {
         }
     }
 
+    const botStart = async()=> {
+        try {
+            botStartFlag.value = true
+            const timesTampStartTime = Math.floor(new Date(settingParams.startTime).getTime() / 1000);
+            const timesTampEndTime = Math.floor(new Date(settingParams.endTime).getTime() / 1000);
+            while (botStartFlag.value && listenStartFlag.value) {
+                let nowTime = Math.floor(new Date().getTime() / 1000);
+                if (nowTime < timesTampStartTime) {
+                    await wait(2000);
+                    continue
+                }
+                if (nowTime >= timesTampEndTime) {
+                    botStartFlag.value = false;
+                    continue;
+                }
+                await botTask(nowTime)
+                await wait(2000);
+            }
+            alert('机器人开始运行');
+            botStartFlag.value = false;
+        } catch (error:any) {
+            if (!(botStartFlag.value && listenStartFlag.value)) {
+                alert('机器人结束运行'+error);
+                botStartFlag.value = false;
+                return
+            }
+            if ((botRetry.lastTime + 3600) < Math.floor(new Date().getTime() / 1000)) {
+                botRetry.lastTime = Math.floor(new Date().getTime() / 1000)
+                botRetry.times = 1;
+                await wait(2000)
+                await botStart()
+            } else {
+                if (botRetry.times < 20) {
+                    botRetry.times++
+                    await wait(2000)
+                    await botStart()
+                } else {
+                    alert('机器人结束运行'+error);
+                    botStartFlag.value = false;
+                }
+            }
+        }
+        return
+    }
+
+    async function botTask(nowTime:number) {
+        if (lastTime < nowTime - (settingParams.autoTime * 60)) {
+            lastTime = Math.floor(new Date().getTime() / 1000);
+            let random_num = Math.floor(Math.random() * (swapStore.monitorDetails.subNumber - 1)) + 1;
+            let random = Math.random();
+            if ("bal0" == await swap(
+                random < 0.5, walletList[random_num]
+            )) {
+                await swap(
+                    random >= 0.5, walletList[random_num]
+                )
+            }
+
+            lastTime = Math.floor(new Date().getTime() / 1000);
+        }
+    }
+    return {
+        loadSwapInfo,
+        walletList,
+        listenStartFlag,
+        listenStartLoading,
+        botStartFlag,
+        botStart,
+    }
 }

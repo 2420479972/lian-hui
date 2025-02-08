@@ -62,17 +62,15 @@ import {Snackbar} from "@varlet/ui";
 import {useI18n} from "vue-i18n";
 import ZFormItem from "@/components/z-form-item.vue";
 import {Contract, ethers, HDNodeWallet, Mnemonic} from 'ethers'
-import {useSwapInfo} from "store/swap.ts";
 import ZForm from "@/components/z-form.vue";
 import {toTypedSchema} from "@vee-validate/zod";
 import * as zod from "zod";
 import abiinfo from "@/localinfo/abi.json"
+import {useProvider} from "@/hooks/useProvider.ts";
 
-const emit = defineEmits(["now-type-status", "LinkSuccess"]);
+const emit = defineEmits(["LinkSuccess"]);
 
 const {t} = useI18n() // 解构出t方法
-
-const swap = useSwapInfo();
 
 const linkForm = toTypedSchema(
     zod.object({
@@ -95,7 +93,7 @@ const contract: any = {
 }
 
 const subWalletsAddress = ref<any>();
-
+const {provider} = useProvider()
 const isLinked = ref(false);
 const swapEvents = ref([]); // 存储 swap 事件信息
 const sub_swapEvents = ref([]); // 存储 swap 事件信息
@@ -111,13 +109,13 @@ const linkPurse = async (value: any) => {
     }
     const mnemonicInstance = Mnemonic.fromPhrase(value.mnemonic);
     const path = "m/44'/60'/0'/0/" + 1;
-    const wallect = HDNodeWallet.fromMnemonic(mnemonicInstance, path).connect(swap.etherProvider);
-    subWalletsAddress.value = Object.assign(wallect);
+    const wallet = HDNodeWallet.fromMnemonic(mnemonicInstance, path).connect(provider);
+    subWalletsAddress.value = Object.assign(wallet);
     Snackbar.success({
       content: "链接成功！",
       duration: 1000,
     })
-    emit('LinkSuccess',Object.assign(wallect));
+    emit('LinkSuccess',Object.assign(wallet));
     isLinked.value = true;
   } catch (e) {
     Snackbar.error({
@@ -140,14 +138,6 @@ const tokenBinfo = ref({
   symbol: '',
   balance: ''
 });
-
-let provider:any = null;
-watch(()=>swap.etherInfo.selectedNodeUrl,(newVal)=>{
-  provider = new ethers.JsonRpcProvider(newVal)
-},{
-  immediate:true,
-  deep:true,
-})
 
 const tradingFrom = ref<InstanceType<typeof ZForm>>();
 const startListening = async () => {
