@@ -82,7 +82,7 @@
                 >
                   <i class="fas fa-sign-out-alt text-white text-xs"></i>
                 </div>
-                <div class="text-sm text-white">退出登录</div>
+                <div class="text-sm text-white">断开链接</div>
               </div>
             </div>
           </div>
@@ -93,16 +93,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { useI18n } from "vue-i18n";
+import {computed} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {useI18n} from "vue-i18n";
 
 // 定义属性
 interface Props {
   modelValue: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   modelValue: false,
 });
 
@@ -112,13 +112,13 @@ const emit = defineEmits(["update:modelValue", "close"]);
 // 使用路由和国际化
 const router = useRouter();
 const route = useRoute();
-const { locale, t } = useI18n();
+const { locale } = useI18n();
 
 // 获取当前路由路径（去除前导斜杠）
 const currentPath = computed(() => {
   // 获取当前路由路径或当前路由name
-  const path = route.path.substring(1); // 去除前导斜杠
-  return path;
+   // 去除前导斜杠
+  return route.path.substring(1);
 });
 
 // 判断菜单项是否为当前选中项

@@ -1,5 +1,5 @@
 <template>
-  <div :class="['grid   py-3  text-xs text-gray-400 font-medium','grid-cols-'+cols]">
+  <div :class="['grid   py-3  text-xs text-gray-400 font-medium',`grid-cols-${cols}`]">
       <slot name="header"></slot>
   </div>
   <div :class="['flex-1 w-full overflow-y-auto overflow-x-hidden',customClass]">
