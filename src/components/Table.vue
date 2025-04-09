@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<Props>(),{
 const Header = h('div',{
   class:['grid   py-3  text-xs text-gray-400 font-medium',`grid-cols-${props.cols}`]
 },{
-  header: () => h('h1', '我是标题'),
+  header: () => h('h1', ''),
 })
 
 </script>
