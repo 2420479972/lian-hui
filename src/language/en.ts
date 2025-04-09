@@ -2,7 +2,8 @@ export default {
   common: {
     submit: 'Submit',
     view_all: 'View All',
-    close: 'Close'
+    close: 'Close',
+    back: 'Back'
   },
   tab: {
     home: 'Chain Ark',
@@ -31,5 +32,27 @@ export default {
     tip2: 'Genesis members need to retrieve remaining tokens',
     tip3: 'No action needed if airdrop is complete',
     tip4: 'Early retrieval requires payment'
+  },
+  error: {
+    pageNotFound: 'Page Not Found',
+    pageNotFoundDesc: 'The page you are looking for does not exist or has been removed',
+    backToHome: 'Back to Home',
+    unauthorized: 'Unauthorized Access',
+    unauthorizedDesc: 'You do not have permission to access this page. Please login or contact an administrator',
+    loginRequired: 'Login Required',
+    adminRequired: 'Admin Access Required',
+    reportIssue: 'If you have any questions, please contact our support team'
+  },
+  auth: {
+    login: 'Login',
+    logout: 'Logout',
+    register: 'Register',
+    username: 'Username',
+    password: 'Password',
+    confirmPassword: 'Confirm Password',
+    forgotPassword: 'Forgot Password',
+    rememberMe: 'Remember Me',
+    loginSuccess: 'Login Successful',
+    loginFailed: 'Login Failed'
   }
 } 

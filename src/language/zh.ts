@@ -2,7 +2,8 @@ export default {
   common: {
     submit: '提交',
     view_all: '查看全部',
-    close: '关闭'
+    close: '关闭',
+    back: '返回'
   },
   tab: {
     home: '链汇方舟',
@@ -31,5 +32,27 @@ export default {
     tip2: '需要创世会员发布者在赎回中心操作剩余的代币取回',
     tip3: '如果已经空投完则不用此操作',
     tip4: '如果提前操作需要付费取回空投代币'
+  },
+  error: {
+    pageNotFound: '页面不存在',
+    pageNotFoundDesc: '您访问的页面不存在或已被移除',
+    backToHome: '返回首页',
+    unauthorized: '无权限访问',
+    unauthorizedDesc: '您没有权限访问该页面，请登录或联系管理员',
+    loginRequired: '请先登录',
+    adminRequired: '需要管理员权限',
+    reportIssue: '如有疑问，请联系我们的支持团队'
+  },
+  auth: {
+    login: '登录',
+    logout: '退出登录',
+    register: '注册',
+    username: '用户名',
+    password: '密码',
+    confirmPassword: '确认密码',
+    forgotPassword: '忘记密码',
+    rememberMe: '记住我',
+    loginSuccess: '登录成功',
+    loginFailed: '登录失败'
   }
 } 
