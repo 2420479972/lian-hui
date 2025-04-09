@@ -1,7 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   transition: background-color .25s, color .25s;
-  color: var(--color-text);
-  background-color: var(--color-body);
+  background-color: #121212;
+  color: #ffffff;
 }
 
 html,body,#app{
@@ -10,7 +14,7 @@ html,body,#app{
   padding: 0;
   width: 100%;
   box-sizing: border-box;
-  background-color: var(--color-body);
+
 }
 
 *{
@@ -18,7 +22,6 @@ html,body,#app{
   margin: 0;
   padding: 0;
   outline: none;
-
 }
 
 button{
@@ -27,22 +30,41 @@ button{
   outline: none;
 }
 
-@font-face {
-  font-family:"PINGFANG BOLD";
-  src: url("../font/PINGFANG BOLD_0.TTF");
+.gradient-text {
+  background: linear-gradient(90deg, #00F5FF, #FF1493);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.gradient-bg {
+  background: linear-gradient(90deg, #00F5FF, #FF1493);
 }
 
-@font-face {
-  font-family:"PINGFANG MEDIUM";
-  src: url("../font/PINGFANG MEDIUM_0.TTF");
+input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+input:focus {
+  border-color: #00F5FF;
+  outline: none;
 }
 
-@font-face {
-  font-family:"PINGFANG REGULAR";
-  src: url("../font/PINGFANG REGULAR_0.TTF");
+/* 滚动条轨道 */
+*::-webkit-scrollbar-track {
+  background: transparent; /* 轨道背景色 */
+  border-radius: 4px; /* 轨道圆角 */
 }
 
-@font-face {
-  font-family:"YOUSHEBIAOTIHEI-2";
-  src: url("../font/YOUSHEBIAOTIHEI-2.TTF");
+/* 滚动条滑块 */
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.1); /* 滑块颜色 */
+  border-radius: 4px; /* 滑块圆角 */
+  border: 2px solid transparent; /* 滑块边框，使其看起来更小 */
+}
+
+/* 整体滚动条 */
+*::-webkit-scrollbar {
+  width: 6px; /* 滚动条宽度 */
+  height: 37px; /* 横向滚动条高度 */
+  background: transparent;
+  opacity: 0.1;
 }

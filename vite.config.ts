@@ -2,21 +2,20 @@ import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import {VarletImportResolver} from '@varlet/import-resolver'
 import vueJsx from "@vitejs/plugin-vue-jsx"
 import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
-    base:'./',
+    base:'.',
     plugins: [
         vue(),
-        AutoImport({imports: ['vue', 'vue-router'], resolvers: [VarletImportResolver({autoImport: true})]}),
+        AutoImport({imports: ['vue', 'vue-router'], resolvers: []}),
         Components({
             dts: true,
             dirs: ['src/components'], // 按需加载的文件夹
             resolvers: [
-                VarletImportResolver()
+
             ]
         }),
         vueJsx(),
