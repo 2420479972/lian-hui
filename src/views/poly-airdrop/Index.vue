@@ -2,7 +2,7 @@
   <Main>
     <div class="grid grid-cols-2 gap-4 mb-8">
       <!-- FCH 卡片 -->
-      <div class="bg-darkBlue rounded-xl p-4 card-glow glass-effect">
+      <div class="bg-darkBlue rounded-xl p-4  glass-effect">
         <div class="flex items-center mb-3">
           <div class="w-10 h-10 rounded-full bg-darkBlue flex items-center justify-center neon-icon">
             <i class="fas fa-coins text-xl text-neonPurple"></i>
@@ -47,7 +47,7 @@
         </button>
       </div>
       <!-- DMH 卡片 -->
-      <div class="bg-darkBlue rounded-xl p-4 card-glow glass-effect">
+      <div class="bg-darkBlue rounded-xl p-4  glass-effect">
         <div class="flex items-center mb-3">
           <div class="w-10 h-10 rounded-full bg-darkBlue flex items-center justify-center neon-icon">
             <i class="fas fa-coins text-xl text-neonBlue"></i>
@@ -214,9 +214,7 @@ const list = Array.from({ length: 20 }, (_, i) => ({
 .neon-icon {
   filter: drop-shadow(0 0 5px #00F0FF) drop-shadow(0 0 10px #FF3366);
 }
-.card-glow {
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-}
+
 .progress-bar {
   background: linear-gradient(90deg, #FF3366 0%, #00F0FF 100%);
 }
