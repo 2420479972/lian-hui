@@ -24,7 +24,8 @@
           <div class="flex mb-3">
             <div class="w-16 h-16 rounded-lg overflow-hidden mr-3">
               <img alt="社区Logo"
-                   class="w-full h-full object-cover" src="https://ai-public.mastergo.com/ai/img_res/f45a2240c6748baa7ec73b6ab2c79e41.jpg">
+                   class="w-full h-full object-cover"
+                   src="https://ai-public.mastergo.com/ai/img_res/f45a2240c6748baa7ec73b6ab2c79e41.jpg">
             </div>
             <div class="flex-1">
               <div class="text-sm font-medium mb-1 flex items-center">
@@ -82,7 +83,8 @@
             <div class="flex flex-col items-center">
               <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
                 <img alt="应用Logo"
-                     class="w-full h-full object-cover" src="https://ai-public.mastergo.com/ai/img_res/b45f51038ac037c429dd242ed487f2fe.jpg">
+                     class="w-full h-full object-cover"
+                     src="https://ai-public.mastergo.com/ai/img_res/b45f51038ac037c429dd242ed487f2fe.jpg">
               </div>
               <div class="text-sm font-medium text-center mb-1">DEX聚合器</div>
               <div
@@ -117,21 +119,22 @@ $50
         <h2 class="text-lg font-bold gradient-text">联盟发现</h2>
       </div>
       <!-- 统计图表区 -->
-      <div class="glass-effect rounded-xl p-4 mb-4 fault-effect">
+      <div class="glass-effect rounded-xl p-4 mb-8 fault-effect">
         <h3 class="text-sm font-medium mb-3 neon-pink">Web3.0探索者</h3>
         <div class="w-full h-40">
           <LineCharts></LineCharts>
         </div>
       </div>
       <!-- 合作详情区 -->
-      <div>
+      <div class="mt-4">
         <FindTabs></FindTabs>
         <div class="flex space-x-3 overflow-x-auto scrollbar-hide pb-2">
           <!-- 交易类卡片 -->
           <div class="flex-shrink-0 w-40 glass-effect rounded-xl p-3 fault-effect" data-category="trading">
             <div class="w-10 h-10 rounded-full overflow-hidden mb-2 mx-auto">
               <img alt="合作Logo"
-                   class="w-full h-full object-cover" src="https://ai-public.mastergo.com/ai/img_res/5e821efa14dae8abf81850d1bb030246.jpg">
+                   class="w-full h-full object-cover"
+                   src="https://ai-public.mastergo.com/ai/img_res/5e821efa14dae8abf81850d1bb030246.jpg">
             </div>
             <div class="text-xs font-medium text-center mb-1">数字交易所</div>
             <div class="text-xs text-gray-400 text-center mb-2">交易类</div>
@@ -141,7 +144,8 @@ $50
           <div class="flex-shrink-0 w-40 glass-effect rounded-xl p-3 fault-effect" data-category="tools">
             <div class="w-10 h-10 rounded-full overflow-hidden mb-2 mx-auto">
               <img alt="合作Logo"
-                   class="w-full h-full object-cover" src="https://ai-public.mastergo.com/ai/img_res/01e3165f7e2701311c7b4a2c4d3d0a2f.jpg">
+                   class="w-full h-full object-cover"
+                   src="https://ai-public.mastergo.com/ai/img_res/01e3165f7e2701311c7b4a2c4d3d0a2f.jpg">
             </div>
             <div class="text-xs font-medium text-center mb-1">区块浏览器</div>
             <div class="text-xs text-gray-400 text-center mb-2">工具类</div>
@@ -151,7 +155,8 @@ $50
           <div class="flex-shrink-0 w-40 glass-effect rounded-xl p-3 fault-effect" data-category="games">
             <div class="w-10 h-10 rounded-full overflow-hidden mb-2 mx-auto">
               <img alt="合作Logo"
-                   class="w-full h-full object-cover" src="https://ai-public.mastergo.com/ai/img_res/860e3a7be7ae69a392511b82e10ca310.jpg">
+                   class="w-full h-full object-cover"
+                   src="https://ai-public.mastergo.com/ai/img_res/860e3a7be7ae69a392511b82e10ca310.jpg">
             </div>
             <div class="text-xs font-medium text-center mb-1">元宇宙游戏</div>
             <div class="text-xs text-gray-400 text-center mb-2">游戏类</div>
@@ -161,7 +166,8 @@ $50
           <div class="flex-shrink-0 w-40 glass-effect rounded-xl p-3 fault-effect" data-category="shops">
             <div class="w-10 h-10 rounded-full overflow-hidden mb-2 mx-auto">
               <img alt="合作Logo"
-                   class="w-full h-full object-cover" src="https://ai-public.mastergo.com/ai/img_res/bd281a7c5e5e2e4ecdc1f8c02621f2a5.jpg">
+                   class="w-full h-full object-cover"
+                   src="https://ai-public.mastergo.com/ai/img_res/bd281a7c5e5e2e4ecdc1f8c02621f2a5.jpg">
             </div>
             <div class="text-xs font-medium text-center mb-1">数字商城</div>
             <div class="text-xs text-gray-400 text-center mb-2">商城类</div>
@@ -171,7 +177,7 @@ $50
       </div>
     </div>
   </Main>
-  <Modal title="应用赏金猎人" v-model="showTip">
+  <Modal v-model="showTip" title="应用赏金猎人">
     <div class="text-sm text-gray-300 mb-4 space-y-2">
       <div>① 参与此应用连接并注册</div>
       <div>② 向应用官方申请奖金</div>
@@ -183,9 +189,10 @@ $50
       我知道了
     </button>
   </Modal>
-  <Modal title="发现社区" v-model="showSearch">
+  <Modal v-model="showSearch" title="发现社区">
     <div class="flex items-center mb-4">
-      <input type="text" placeholder="请输入名称" class="flex-1 bg-darkLighter text-white rounded-button py-2 px-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary">
+      <input class="flex-1 bg-darkLighter text-white rounded-button py-2 px-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="请输入名称"
+             type="text">
       <button class="ml-2 w-10 h-10 bg-primary rounded-button flex items-center justify-center">
         <i class="fas fa-search text-dark w-4 h-4"></i>
       </button>

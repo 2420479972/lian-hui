@@ -8,7 +8,7 @@
         <p class="text-sm text-gray-200">加入我们的数字社区，开启未来之旅</p>
       </div>
     </div>
-    <div class="neon-card rounded-lg p-6">
+    <div class="w-full">
       <div class="flex items-center gap-2 mb-6">
         <i class="fas fa-rocket text-primary"></i>
         <h2 class="text-xl font-bold gradient-text">申请合作</h2>

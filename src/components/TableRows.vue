@@ -1,5 +1,5 @@
 <template>
-  <div class="grid  py-3 text-sm bg-darkBlue bg-opacity-40" :style="{'grid-template-columns':`repeat(${cols}, minmax(0, 1fr))`}">
+  <div class="grid  py-3 text-sm" :style="{'grid-template-columns':`repeat(${cols}, minmax(0, 1fr))`}">
     <slot></slot>
   </div>
 </template>

@@ -96,7 +96,7 @@
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-neonBlue to-neonPurple">聚合记录</h2>
       </div>
-      <div class="bg-darkBlue rounded-xl overflow-hidden glass-effect px-4">
+      <div class="rounded-xl overflow-hidden">
         <Table :cols="12"  custom-class="overflow-y-hidden max-h-[300px]">
           <template #header>
             <div class="col-span-2">身份</div>

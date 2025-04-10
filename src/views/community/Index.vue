@@ -8,7 +8,7 @@
         </div>
       </section>
       <section class="space-y-6">
-        <div class="glass-effect rounded-lg p-6 space-y-6">
+        <div class="w-full">
           <div class="space-y-4">
             <div class="relative">
               <i class="fas fa-users absolute left-3 top-1/2 -translate-y-1/2 text-primary"></i>
@@ -45,7 +45,7 @@
               </div>
             </div>
           </div>
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between mt-4">
             <div class="text-primary text-lg">
               发布价格: <span class="text-secondary">$50</span>
             </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative bg-darkBlue overflow-hidden px-4">
+  <div class="relative overflow-hidden px-4">
     <div class="flex overflow-x-auto scrollbar-hide py-3" id="title-slider" ref="tabsContainer">
       <div 
         v-for="(tab, index) in tabs" 

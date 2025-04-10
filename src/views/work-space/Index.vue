@@ -1,9 +1,8 @@
 <template>
   <Main>
-    <div class="space-y-2">
-      <div class="bg-[#0F0F0F] rounded-xl p-5 shadow-lg border border-[#252525]">
+    <div class="space-y-4">
+      <div class="w-full">
         <h2 class="text-lg font-bold bg-gradient-to-r from-primary to-white bg-clip-text text-transparent text-left mb-2">平台数据概览 (近10天)</h2>
-
         <div style="width: 100%; height: 240px;">
           <LineCharts></LineCharts>
         </div>
@@ -26,7 +25,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-[#0F0F0F] rounded-lg p-3 border border-[#252525]">
+      <div class="w-full">
         <div class="flex items-center justify-between mb-3">
           <h3 class="text-lg font-bold bg-gradient-to-r from-primary to-white bg-clip-text text-transparent">参与方式</h3>
           <button id="toggleCardsBtn" class="text-primary text-sm flex items-center" @click="showMoreMember = !showMoreMember">
@@ -45,7 +44,7 @@
             <p class="text-xs text-yellow-400 mb-3">等待开放</p>
             <button class="bg-gradient-to-r from-primary to-blue-500 text-white px-4 py-1.5 rounded-button text-sm w-full transition-all duration-300 hover:from-blue-500 hover:to-primary">购买</button>
           </div>
-          <div class="bg-[#121212] rounded-lg p-4 flex flex-col items-center border border-[#252525]">
+          <div class="rounded-lg p-4 flex flex-col items-center border border-[#252525]">
             <div class="w-20 h-20 rounded-full overflow-hidden mb-3">
               <img src="/images/berryMembership.png" class="w-full h-full object-cover" />
             </div>
@@ -56,7 +55,7 @@
             <button class="bg-gradient-to-r from-primary to-blue-500 text-white px-4 py-1.5 rounded-button text-sm w-full transition-all duration-300 hover:from-blue-500 hover:to-primary">购买</button>
           </div>
           <div v-show="showMoreMember" class="col-span-2 grid grid-cols-2 gap-3">
-            <div class="bg-[#121212] rounded-lg p-4 flex flex-col items-center border border-[#252525]">
+            <div class="rounded-lg p-4 flex flex-col items-center border border-[#252525]">
               <div class="w-20 h-20 rounded-full overflow-hidden mb-3">
                 <img src="/images/nodeMembership.png" class="w-full h-full object-cover" />
               </div>
@@ -66,7 +65,7 @@
               <p class="text-xs text-yellow-400 mb-3">等待开放</p>
               <button class="bg-gradient-to-r from-primary to-blue-500 text-white px-4 py-1.5 rounded-button text-sm w-full transition-all duration-300 hover:from-blue-500 hover:to-primary">购买</button>
             </div>
-            <div class="bg-[#121212] rounded-lg p-4 flex flex-col items-center border border-[#252525]">
+            <div class="rounded-lg p-4 flex flex-col items-center border border-[#252525]">
               <div class="w-20 h-20 rounded-full overflow-hidden mb-3">
                 <img src="/images/creationMember.png" class="w-full h-full object-cover" />
               </div>
@@ -79,7 +78,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-[#0F0F0F] rounded-lg p-3 mt-1 border border-[#252525]">
+      <div class="w-full">
         <div class="flex items-center space-x-2 mb-2">
           <h3 class="text-lg font-bold bg-gradient-to-r from-primary to-white bg-clip-text text-transparent">平台预售</h3>
         </div>
@@ -92,7 +91,7 @@
             <i id="dataToggleIcon" class="fas fa-chevron-down text-gray-400 transition-transform duration-200" style="width: 16px; height: 16px;"></i>
           </div>
         </div>
-        <div class="bg-[#121212] rounded-lg p-4 mt-4 border border-[#252525]">
+        <div class="rounded-lg p-4 mt-4 border border-[#252525]">
           <div class="grid grid-cols-2 gap-3 text-sm">
             <div>
               <p class="text-gray-400">认购一份</p>

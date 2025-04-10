@@ -1,9 +1,9 @@
 <template>
   <main class="p-4">
-    <div class="mb-6 rounded-lg overflow-hidden neon-border">
+    <div class="mb-6 rounded-lg overflow-hidden">
       <img src="https://ai-public.mastergo.com/ai/img_res/6b333193e8a9859a366f045f0f9b83ba.jpg" class="w-full h-[200px] object-cover" alt="Banner">
     </div>
-    <div class="mb-6 glass-effect rounded-lg p-4">
+    <div class="w-full">
       <div class="text-center mb-4 relative">
         <div class="text-2xl font-bold text-primary animate-pulse" id="tradingAmount">￥5,000</div>
         <div class="text-sm text-gray-400 mb-2">24小时交易金额</div>
@@ -29,7 +29,7 @@
         </button>
       </div>
     </div>
-    <div class="glass-effect rounded-lg p-4">
+    <div class="w-full">
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-lg font-medium">质押记录</h2>
         <button class="text-primary text-sm" @click="showAll = true">查看全部</button>

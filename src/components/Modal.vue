@@ -3,7 +3,7 @@
     <Transition name="modal-fade">
       <div v-if="modelValue" class="fixed inset-0 flex items-center justify-center z-50">
         <div class="fixed inset-0 bg-black bg-opacity-80" aria-hidden="true" @click="closeModal"></div>
-        <div class="bg-[#1A1A1A] rounded-lg p-6 flex flex-col relative z-10" 
+        <div class="bg-[#1A1A1A] rounded-lg p-4 flex flex-col relative z-10"
              :class="[{'w-[85%]': !width, 'max-h-[500px]': !height},customClass]"
              :style="{width: width, height: height}">
           <div v-if="!hideHeader" class="flex justify-between items-center mb-4">

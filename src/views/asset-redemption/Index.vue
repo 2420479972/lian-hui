@@ -3,7 +3,7 @@
       <div class="rounded-lg overflow-hidden mb-6">
         <img src="https://ai-public.mastergo.com/ai/img_res/0fcae4af0c5387bb29f8acb952086669.jpg" alt="banner" class="w-full h-[200px] object-cover">
       </div>
-      <div class="bg-[#1A1A1A] rounded-lg p-4 mb-6">
+      <div class="rounded-lg mb-4">
         <div class="flex justify-between items-center mb-4">
           <h2 class="gradient-text text-lg font-medium">{{ $t('asset.title') }}</h2>
           <button id="infoBtn" class="w-6 h-6 rounded-full bg-[#00F5FF] flex items-center justify-center" @click="showTip = true">
@@ -37,7 +37,7 @@
           </button>
         </div>
       </div>
-      <div class="bg-[#1A1A1A] rounded-lg p-4">
+      <div class="rounded-lg">
         <div class="flex justify-between items-center mb-4">
           <h3 class="text-lg font-medium gradient-text">{{ $t('asset.records') }}</h3>
           <button id="viewAllBtn" class="text-[#00F5FF] text-sm" @click="getAll">{{ $t('common.view_all') }}</button>

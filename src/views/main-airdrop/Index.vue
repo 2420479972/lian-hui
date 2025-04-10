@@ -1,14 +1,12 @@
 <template>
   <Main>
     <div class="grid grid-cols-1 gap-4">
-      <section class="glass-card rounded-xl overflow-hidden">
-        <div class="h-[180px] relative overflow-hidden rounded-t-xl">
+        <div class="h-[180px] relative rounded-xl">
           <div class="absolute inset-0 bg-[url('https://ai-public.mastergo.com/ai/img_res/d978cbd30e236a79dad65b15a68e4a4c.jpg')] bg-cover bg-center"></div>
           <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
             <div class="text-5xl font-bold neon-text glitch-effect" style="animation-duration: 5s">100,000 枚</div>
           </div>
         </div>
-        <div class="p-4">
           <div class="flex items-center justify-between mb-3">
             <h3 class="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               <i class="fas fa-coins mr-2"></i>MGK
@@ -49,14 +47,12 @@
             </div>
           </div>
           <div class="flex gap-3 mt-4">
-            <button id="claimBtn" class="w-full bg-secondary hover:bg-opacity-90 text-white py-2 !rounded-button flex items-center justify-center gap-2">
+            <button id="claimBtn" class="w-full bg-secondary hover:bg-opacity-90 text-white py-2 rounded-button flex items-center justify-center gap-2">
               <i class="fas fa-gift"></i>领取空投
             </button>
           </div>
-        </div>
-      </section>
     </div>
-    <section class="glass-card rounded-xl p-4 relative overflow-hidden mt-4">
+    <section class="rounded-xl relative  mt-4">
       <div class="absolute inset-0 bg-[url('https://ai-public.mastergo.com/ai/img_res/3a73050b9722588201e6e56aee19fd81.jpg')] opacity-10"></div>
       <div class="relative">
         <h2 class="text-lg font-bold mb-3 flex items-center gap-2">

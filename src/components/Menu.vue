@@ -165,28 +165,10 @@ const menu = [
     meta: { title: "链汇方舟" },
   },
   {
-    path: "asset",
-    name: "asset",
-    component: () => import("../views/asset-redemption/Index.vue"),
-    meta: { title: "资产赎回" },
-  },
-  {
-    path: "pledge",
-    name: "pledge",
-    component: () => import("../views/pledge/Index.vue"),
-    meta: { title: "资产质押" },
-  },
-  {
-    path: "poly-airdrop",
-    name: "poly-airdrop",
-    component: () => import("../views/poly-airdrop/Index.vue"),
-    meta: { title: "聚合空投" },
-  },
-  {
-    path: "main-airdrop",
-    name: "main-airdrop",
-    component: () => import("../views/main-airdrop/Index.vue"),
-    meta: { title: "链汇空投" },
+    path: "cooperation",
+    name: "cooperation",
+    component: () => import("../views/cooperation/Index.vue"),
+    meta: { title: "合作申请" },
   },
   {
     path: "community",
@@ -195,22 +177,36 @@ const menu = [
     meta: { title: "社区申请" },
   },
   {
-    path: "cooperation",
-    name: "cooperation",
-    component: () => import("../views/cooperation/Index.vue"),
-    meta: { title: "合作申请" },
+    path: "pledge",
+    name: "pledge",
+    component: () => import("../views/pledge/Index.vue"),
+    meta: { title: "质押取现" },
   },
   {
-    path: "find",
-    name: "find",
-    component: () => import("../views/find/Index.vue"),
-    meta: { title: "发现" },
+    path: "asset",
+    name: "asset",
+    component: () => import("../views/asset-redemption/Index.vue"),
+    meta: { title: "赎回空投" },
   },
+
   {
     path: "release-airdrop",
     name: "release-airdrop",
     component: () => import("../views/release-airdrop/Index.vue"),
-    meta: { title: "发布空投" },
+    meta: { title: "创世中心" },
+  },
+  {
+    path: "home1",
+    name: "home2",
+    component: () => import("../views/work-space/Index.vue"),
+    meta: { title: "电报" },
+  },
+
+  {
+    path: "pledge",
+    name: "pledge",
+    component: () => import("../views/pledge/Index.vue"),
+    meta: { title: "推特" },
   },
 ];
 
@@ -220,15 +216,14 @@ const menuItems = menu;
 // 根据路径获取菜单项图标
 const getMenuItemIcon = (path: string) => {
   const iconMap: Record<string, string> = {
-    home: "fas fa-home",
-    asset: "fas fa-wallet",
-    pledge: "fas fa-lock",
+    asset:"fas fa-parachute-box",
+    pledge: "fas fa-coins",
     "poly-airdrop": "fas fa-gifts",
     "main-airdrop": "fas fa-parachute-box",
     community: "fas fa-users",
     cooperation: "fas fa-handshake",
     find: "fas fa-search",
-    "release-airdrop": "fas fa-paper-plane",
+    "release-airdrop": "fas fa-globe",
     user: "fas fa-user",
   };
 

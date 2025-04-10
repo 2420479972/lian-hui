@@ -1,7 +1,7 @@
 <template>
   <main class="p-4">
     <!-- 社区中心轮播图 -->
-    <div class="relative mb-8 rounded-xl overflow-hidden h-48 neon-border">
+    <div class="relative mb-8 rounded-xl overflow-hidden h-48 ">
       <img src="https://ai-public.mastergo.com/ai/img_res/2b778a8699dffb737c3aae21eca7eedf.jpg"
            alt="社区中心"
            class="w-full h-full object-cover object-center">
@@ -11,7 +11,7 @@
       </div>
     </div>
     <!-- 发布项目表单 -->
-    <div class="glass-effect rounded-xl p-6 mb-6 neon-border">
+    <div class="w-full mb-6">
       <h2 class="text-lg font-semibold mb-6 flex items-center text-white">
         <i class="fas fa-rocket text-primary mr-2"></i>
         <span>发布项目</span>
@@ -145,7 +145,7 @@
           </div>
         </div>
         <!-- 发布价格 -->
-        <div class="flex items-center justify-between bg-darkLight rounded-md px-4 py-3 neon-border">
+        <div class="flex items-center justify-between rounded-md px-4 py-3 neon-border">
           <div class="flex items-center">
             <div class="input-icon text-primary mr-3">
               <i class="fas fa-money-bill-wave"></i>
@@ -157,7 +157,7 @@
       </div>
     </div>
     <!-- 提交按钮 -->
-    <div class="glass-effect rounded-xl p-6 shadow-md">
+    <div class="pb-6">
       <button class="w-full gradient-bg text-white font-bold py-3 rounded-md hover:opacity-90 transition duration-200 !rounded-button neon-border">
         提交项目
       </button>
@@ -185,15 +185,7 @@ const startTime = ref('2025-04-15')
   border: 1px solid rgba(0, 240, 255, 0.2);
   box-shadow: 0 4px 20px rgba(0, 240, 255, 0.1);
 }
-.neon-text {
-  text-shadow: 0 0 5px #00F0FF, 0 0 10px #00F0FF;
-}
-.neon-border {
-  box-shadow: 0 0 10px #00F0FF, 0 0 20px rgba(0, 240, 255, 0.3);
-}
-.gradient-bg {
-  background: linear-gradient(135deg, #00F0FF 0%, #FF3366 100%);
-}
+
 .input-icon {
   display: flex;
   justify-content: center;

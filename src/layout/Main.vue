@@ -2,7 +2,7 @@
 <div class="w-full h-full flex flex-col">
     <Announcement></Announcement>
     <Tabs></Tabs>
-  <div class="flex-1 overflow-x-hidden overflow-y-auto p-4 py-6">
+  <div class="flex-1 overflow-x-hidden overflow-y-auto p-4">
     <slot></slot>
   </div>
 </div>
