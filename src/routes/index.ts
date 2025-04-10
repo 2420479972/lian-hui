@@ -101,6 +101,6 @@ const router = createRouter({
 });
 
 // 设置路由拦截器
-setupRouteGuard(router);
+// setupRouteGuard(router);
 
 export default router;

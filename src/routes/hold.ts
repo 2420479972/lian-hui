@@ -1,4 +1,4 @@
-import { Router, RouteLocationNormalized, NavigationGuardNext } from 'vue-router';
+import { Router, RouteLocationNormalized } from 'vue-router';
 import { LocalStorage } from '../utils/storage';
 
 // 用户角色枚举
