@@ -10,29 +10,29 @@
         </div>
         <div class="flex-1">
           <div class="text-sm font-medium bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            当前等级: 种子会员
+            {{ $t('user.level') }}: {{ $t('dashboard.seed') }}
           </div>
           <div class="flex items-center text-xs text-gray-400 mt-1">
             <i class="fas fa-users mr-1"></i>
-            团队人数: 15个
+            {{ $t('user.team') }}: 15
           </div>
         </div>
       </div>
       <div class="space-y-2 text-xs">
         <div class="flex items-center justify-between bg-gray-800 rounded px-3 py-2">
-          <div class="text-gray-300 truncate">推广地址: https://mastergo.com/file/15595327721968</div>
+          <div class="text-gray-300 truncate">{{ $t('user.referral') }}: https://mastergo.com/file/15595327721968</div>
           <button class="text-primary">
             <i class="fas fa-copy"></i>
           </button>
         </div>
         <div class="flex items-center justify-between bg-gray-800 rounded px-3 py-2">
-          <div class="text-gray-300">上级地址: 0x7a3...d4f</div>
+          <div class="text-gray-300">{{ $t('user.superior') }}: 0x7a3...d4f</div>
           <button class="text-primary">
             <i class="fas fa-copy"></i>
           </button>
         </div>
         <div class="flex items-center justify-between bg-gray-800 rounded px-3 py-2">
-          <div class="text-gray-300">下级地址: 0x9b2...e5c</div>
+          <div class="text-gray-300">{{ $t('user.subordinate') }}: 0x9b2...e5c</div>
           <button class="text-primary">
             <i class="fas fa-copy"></i>
           </button>
@@ -45,28 +45,28 @@
         <div class="w-10 h-10 rounded-full bg-gradient-to-r from-[#00FFFF] to-[#FF69B4] flex items-center justify-center mb-1">
           <i class="fas fa-handshake text-white"></i>
         </div>
-        <div class="text-xs text-white">合作申请</div>
+        <div class="text-xs text-white">{{ $t('user.features.partnership') }}</div>
       </button>
       <button class="bg-gray-900 rounded-lg p-3 flex flex-col items-center">
         <div class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mb-1">
           <i class="fas fa-users text-white"></i>
         </div>
-        <div class="text-xs text-white">社区申请</div>
+        <div class="text-xs text-white">{{ $t('user.features.community') }}</div>
       </button>
       <button class="bg-gray-900 rounded-lg p-3 flex flex-col items-center">
         <div class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mb-1">
           <i class="fas fa-coins text-white"></i>
         </div>
-        <div class="text-xs text-white">质押取现</div>
+        <div class="text-xs text-white">{{ $t('user.features.withdraw') }}</div>
       </button>
       <div class="relative">
         <button class="bg-gray-900 rounded-lg p-3 flex flex-col items-center w-full">
           <div class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mb-1">
             <i class="fas fa-globe text-white"></i>
           </div>
-          <div class="text-xs text-white">创世中心</div>
+          <div class="text-xs text-white">{{ $t('user.features.genesis') }}</div>
         </button>
-        <button class="absolute top-0 right-0 p-1 text-gray-400" onclick="document.getElementById('genesis-notice').classList.remove('hidden')">
+        <button class="absolute top-0 right-0 p-1 text-gray-400">
           <i class="fas fa-bell"></i>
         </button>
       </div>
@@ -74,29 +74,25 @@
         <div class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mb-1">
           <i class="fas fa-parachute-box text-white"></i>
         </div>
-        <div class="text-xs text-white">空投赎回</div>
+        <div class="text-xs text-white">{{ $t('user.features.redeem') }}</div>
       </button>
-
       <button class="bg-gray-900 rounded-lg p-3 flex flex-col items-center">
         <div class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mb-1">
           <i class="fab fa-telegram text-white"></i>
         </div>
-        <div class="text-xs text-white">电报</div>
+        <div class="text-xs text-white">{{ $t('user.features.telegram') }}</div>
       </button>
       <button class="bg-gray-900 rounded-lg p-3 flex flex-col items-center">
         <div class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mb-1">
           <i class="fab fa-twitter text-white"></i>
         </div>
-        <div class="text-xs text-white">推特</div>
+        <div class="text-xs text-white">{{ $t('user.features.twitter') }}</div>
       </button>
     </div>
   </main>
 </template>
 
 <script setup lang="ts">
-
-
-import MakeTip from "views/user/MakeTip.vue";
 </script>
 
 <style lang="scss" scoped>

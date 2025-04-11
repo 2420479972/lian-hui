@@ -2,13 +2,13 @@
   <div v-if="isVisible" class="fixed inset-0 z-50  flex items-center justify-center bg-black bg-opacity-50">
     <div class="glass-effect rounded-xl p-6 w-80 max-w-full">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold text-white">选择日期</h3>
+        <h3 class="text-lg font-semibold text-white">{{ $t('datepicker.title') }}</h3>
         <button @click="isVisible = false" class="text-gray-400 hover:text-white">
           <i class="fas fa-times"></i>
         </button>
       </div>
       <div class="grid grid-cols-7 gap-1 mb-4">
-        <div v-for="day in weekDays" :key="day" class="text-center text-sm text-gray-400">{{ day }}</div>
+        <div v-for="day in $t('datepicker.weekdays')" :key="day" class="text-center text-sm text-gray-400">{{ day }}</div>
       </div>
       <div class="grid grid-cols-7 gap-1 mb-4">
         <div v-for="(day, index) in calendarDays" :key="index"
@@ -19,19 +19,19 @@
       </div>
       <div class="flex justify-between">
         <button @click="prevMonth" class="px-3 py-1 text-sm text-white hover:text-primary">
-          <i class="fas fa-chevron-left"></i> 上月
+          <i class="fas fa-chevron-left"></i> {{ $t('datepicker.prev') }}
         </button>
         <div class="text-white font-medium">{{ currentYearMonth }}</div>
         <button @click="nextMonth" class="px-3 py-1 text-sm text-white hover:text-primary">
-          下月 <i class="fas fa-chevron-right"></i>
+          {{ $t('datepicker.next') }} <i class="fas fa-chevron-right"></i>
         </button>
       </div>
       <div class="mt-4 flex justify-end space-x-2">
         <button @click="isVisible = false" class="px-4 py-2 text-sm text-white bg-darkLight rounded-md hover:bg-opacity-80">
-          取消
+          {{ $t('common.cancel') }}
         </button>
         <button @click="confirm" class="px-4 py-2 text-sm text-white bg-primary rounded-md hover:bg-opacity-90 !rounded-button">
-          确定
+          {{ $t('common.confirm') }}
         </button>
       </div>
     </div>
@@ -40,6 +40,9 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t, locale } = useI18n();
 
 const props = defineProps({
   modelValue: {
@@ -66,7 +69,6 @@ const isVisible = computed({
 
 const currentDate = ref(new Date());
 const selectedDate = ref<Date | null>(null);
-const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
 
 // 根据传入的值初始化选中日期
 onMounted(() => {

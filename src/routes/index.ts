@@ -74,7 +74,7 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/login',
         name: 'login',
-        component: () => import('../views/user/Index.vue'),
+        component: () => import('../views/login/Index.vue'),
         meta: { title: "登录" }
     },
     // 404 路由

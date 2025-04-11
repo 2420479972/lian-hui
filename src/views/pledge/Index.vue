@@ -5,8 +5,8 @@
     </div>
     <div class="w-full">
       <div class="text-center mb-4 relative">
-        <div class="text-2xl font-bold text-primary animate-pulse" id="tradingAmount">￥5,000</div>
-        <div class="text-sm text-gray-400 mb-2">24小时交易金额</div>
+        <div class="text-2xl font-bold text-primary animate-pulse" id="tradingAmount">{{ t('pledge.trading_amount') }}</div>
+        <div class="text-sm text-gray-400 mb-2">{{ t('pledge.hours_24') }}</div>
         <div class="h-2 rounded-full overflow-hidden relative">
           <div class="absolute top-0 left-0 h-full w-full animate-[progress_3s_ease-in-out_infinite]" style="background: linear-gradient(90deg, #00F0FF 0%, #FF3366 100%);"></div>
         </div>
@@ -14,25 +14,25 @@
       <div class="glass-effect rounded-lg p-4 mb-6">
         <div class="mb-4">
           <div class="flex items-center justify-between mb-2">
-            <span class="text-sm text-gray-400">质押金额 (USDT)</span>
-            <span class="text-xs text-secondary">质押≥100USDT领取空投</span>
+            <span class="text-sm text-gray-400">{{ t('pledge.pledge_amount') }}</span>
+            <span class="text-xs text-secondary">{{ t('pledge.airdrop_tip') }}</span>
           </div>
           <div class="relative flex items-center">
-            <input type="text" value="80" class="w-full bg-transparent border border-primary/30 rounded-lg py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="输入质押金额 (USDT)">
+            <input type="text" value="80" class="w-full bg-transparent border border-primary/30 rounded-lg py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-primary/50" :placeholder="t('pledge.enter_amount')">
             <button @click="showTip = true" class="absolute right-3 text-primary">
               <i class="fas fa-info-circle"></i>
             </button>
           </div>
         </div>
         <button class="w-full py-3 bg-gradient-to-r from-primary to-secondary text-white font-medium !rounded-button relative overflow-hidden transition-all hover:shadow-lg hover:shadow-primary/30">
-          <span class="relative z-10">立即质押</span>
+          <span class="relative z-10">{{ t('pledge.pledge_now') }}</span>
         </button>
       </div>
     </div>
     <div class="w-full">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-medium">质押记录</h2>
-        <button class="text-primary text-sm" @click="showAll = true">查看全部</button>
+        <h2 class="text-lg font-medium">{{ t('pledge.pledge_records') }}</h2>
+        <button class="text-primary text-sm" @click="showAll = true">{{ t('pledge.view_all') }}</button>
       </div>
       <div class="relative max-h-[300px] overflow-hidden">
           <vue3ScrollSeamless :classOptions="{
@@ -42,7 +42,7 @@
             <template v-for="item in list">
               <div class="flex items-center justify-between py-2 border-b border-primary/20">
                 <div class="text-sm">
-                  <span class="text-primary">质押</span>
+                  <span class="text-primary">{{ t('pledge.pledge') }}</span>
                   <div class="text-gray-400">0x8F...2E1B</div>
                 </div>
                 <div class="text-right">
@@ -52,7 +52,7 @@
               </div>
               <div class="flex items-center justify-between py-2 border-b border-primary/20">
                 <div class="text-sm">
-                  <span class="text-secondary">取现</span>
+                  <span class="text-secondary">{{ t('pledge.withdraw') }}</span>
                   <div class="text-gray-400">0x3A...9C4D</div>
                 </div>
                 <div class="text-right">
@@ -66,23 +66,23 @@
       </div>
     </div>
   </main>
-  <Modal title="质押规则说明" v-model="showTip">
+  <Modal :title="t('pledge.rules_title')" v-model="showTip">
         <ol class="list-decimal pl-5 space-y-2 text-sm">
-          <li class="text-gray-300">所有等级会员质押与取现为固定的数量</li>
-          <li class="text-gray-300">参与质押才能领取空投</li>
-          <li class="text-gray-300">取现之后不再享有奖励佣金与空投权益</li>
-          <li class="text-gray-300">质押数值有固定周期</li>
-          <li class="text-gray-300">周期是循环执行7天开放24小时，不到期无法取现</li>
+          <li class="text-gray-300">{{ t('pledge.rules.rule1') }}</li>
+          <li class="text-gray-300">{{ t('pledge.rules.rule2') }}</li>
+          <li class="text-gray-300">{{ t('pledge.rules.rule3') }}</li>
+          <li class="text-gray-300">{{ t('pledge.rules.rule4') }}</li>
+          <li class="text-gray-300">{{ t('pledge.rules.rule5') }}</li>
         </ol>
       <div class="text-xs text-secondary mt-4">
-        <p>请关注，选择好以免误操作。</p>
+        <p>{{ t('pledge.attention') }}</p>
       </div>
   </Modal>
-  <Modal title="全部质押记录" v-model="showAll">
+  <Modal :title="t('pledge.all_records')" v-model="showAll">
     <template v-for="item in 20">
       <div class="flex items-center justify-between py-2 border-b border-primary/20">
         <div class="text-sm">
-          <span class="text-primary">质押</span>
+          <span class="text-primary">{{ t('pledge.pledge') }}</span>
           <div class="text-gray-400">0x8F...2E1B</div>
         </div>
         <div class="text-right">
@@ -93,7 +93,7 @@
     </template>
     <div class="flex items-center justify-between py-2 border-b border-primary/20">
       <div class="text-sm">
-        <span class="text-secondary">取现</span>
+        <span class="text-secondary">{{ t('pledge.withdraw') }}</span>
         <div class="text-gray-400">0x3A...9C4D</div>
       </div>
       <div class="text-right">
@@ -106,6 +106,8 @@
 
 <script setup lang="ts">
 import Modal from "@/components/Modal.vue";
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 const showTip = ref(false);
 const showAll = ref(false);
 

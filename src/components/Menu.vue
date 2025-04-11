@@ -13,7 +13,7 @@
             @click.stop
           >
             <div class="flex justify-between items-center mb-4">
-              <div class="font-['Pacifico'] text-xl text-white">logo</div>
+              <div class="font-['Pacifico'] text-xl text-white">{{ t('menu.logo') }}</div>
               <button
                 class="text-gray-400 hover:text-white transition"
                 @click="closeMenu"
@@ -29,36 +29,57 @@
                   <i class="fas fa-user text-white"></i>
                 </div>
                 <div>
-                  <div class="text-sm text-white">我的账户</div>
-                  <div class="text-xs text-gray-400">0x7a...3d4f</div>
+                  <div class="text-sm text-white">{{ t('menu.my_account') }}</div>
+                  <div class="text-xs text-gray-400">{{formatAddress(address)}}</div>
                 </div>
               </div>
             </router-link>
             <div class="border-t border-gray-800 pt-4 overflow-y-auto flex-grow scrollbar-thin">
               <div class="space-y-1 pr-2">
-                <router-link
-                  v-for="item in menuItems"
-                  :key="item.path"
-                  :to="`/${item.path}`"
-                  :class="[
-                    'flex items-center space-x-2 mb-3 p-2 rounded-lg transition',
-                    isActiveMenuItem(item.path) ? 'bg-gray-800 shadow-md' : 'hover:bg-gray-800'
-                  ]"
-                  @click="closeMenu"
-                >
-                  <div
-                    class="w-8 h-8 rounded-full flex items-center justify-center"
-                    :class="getMenuItemBgClass(item.path)"
+                <template v-for="item in menuItems" :key="item.path">
+                  <router-link
+                    v-if="!item.isExternal"
+                    :to="`/${item.path}`"
+                    :class="[
+                      'flex items-center space-x-2 mb-3 p-2 rounded-lg transition',
+                      isActiveMenuItem(item.path) ? 'bg-gray-800 shadow-md' : 'hover:bg-gray-800'
+                    ]"
+                    @click="closeMenu"
                   >
-                    <i
-                      :class="getMenuItemIcon(item.path)"
-                      class="text-white text-xs"
-                    ></i>
-                  </div>
-                  <div class="text-sm" :class="isActiveMenuItem(item.path) ? 'text-primary font-medium' : 'text-white'">
-                    {{ item.meta.title }}
-                  </div>
-                </router-link>
+                    <div
+                      class="w-8 h-8 rounded-full flex items-center justify-center"
+                      :class="getMenuItemBgClass(item.path)"
+                    >
+                      <i
+                        :class="getMenuItemIcon(item.path)"
+                        class="text-white text-xs"
+                      ></i>
+                    </div>
+                    <div class="text-sm" :class="isActiveMenuItem(item.path) ? 'text-primary font-medium' : 'text-white'">
+                      {{ t(`menu.features.${item.key}`) }}
+                    </div>
+                  </router-link>
+                  <a
+                    v-else
+                    :href="item.url"
+                    target="_blank"
+                    class="flex items-center space-x-2 mb-3 p-2 rounded-lg transition hover:bg-gray-800"
+                    @click="closeMenu"
+                  >
+                    <div
+                      class="w-8 h-8 rounded-full flex items-center justify-center"
+                      :class="getMenuItemBgClass(item.path)"
+                    >
+                      <i
+                        :class="getMenuItemIcon(item.path)"
+                        class="text-white text-xs"
+                      ></i>
+                    </div>
+                    <div class="text-sm text-white">
+                      {{ t(`menu.features.${item.key}`) }}
+                    </div>
+                  </a>
+                </template>
               </div>
             </div>
             <div class="border-t border-gray-800 pt-4 mt-2">
@@ -82,7 +103,7 @@
                 >
                   <i class="fas fa-sign-out-alt text-white text-xs"></i>
                 </div>
-                <div class="text-sm text-white">断开链接</div>
+                <div class="text-sm text-white">{{ t('menu.disconnect') }}</div>
               </div>
             </div>
           </div>
@@ -96,7 +117,12 @@
 import {computed} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
+import {formatAddress} from "../utils/format-address.ts";
+import {useAccount, useDisconnect} from "@wagmi/vue";
 
+
+const { address } = useAccount();
+const { disconnect } = useDisconnect()
 // 定义属性
 interface Props {
   modelValue: boolean;
@@ -112,23 +138,17 @@ const emit = defineEmits(["update:modelValue", "close"]);
 // 使用路由和国际化
 const router = useRouter();
 const route = useRoute();
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 
 // 获取当前路由路径（去除前导斜杠）
 const currentPath = computed(() => {
-  // 获取当前路由路径或当前路由name
-   // 去除前导斜杠
   return route.path.substring(1);
 });
 
 // 判断菜单项是否为当前选中项
 const isActiveMenuItem = (path: string) => {
-  // 精确匹配路径
   if (path === currentPath.value) return true;
-  
-  // 匹配路径前缀（如果当前路径是子路由）
   if (currentPath.value.startsWith(path + '/')) return true;
-  
   return false;
 };
 
@@ -137,7 +157,6 @@ const closeMenu = () => {
   emit("update:modelValue", false);
   emit("close");
 };
-
 
 // 计算当前语言显示文本
 const currentLanguage = computed(() => {
@@ -152,8 +171,7 @@ const toggleLanguage = () => {
 
 // 登出
 const logout = () => {
-  console.log("Logout");
-  router.push("/login");
+  disconnect()
   closeMenu();
 };
 
@@ -161,51 +179,59 @@ const menu = [
   {
     path: "home",
     name: "home",
+    key: "chain_ark",
     component: () => import("../views/work-space/Index.vue"),
     meta: { title: "链汇方舟" },
   },
   {
     path: "cooperation",
     name: "cooperation",
+    key: "cooperation",
     component: () => import("../views/cooperation/Index.vue"),
     meta: { title: "合作申请" },
   },
   {
     path: "community",
     name: "community",
+    key: "community",
     component: () => import("../views/community/Index.vue"),
     meta: { title: "社区申请" },
   },
   {
     path: "pledge",
     name: "pledge",
+    key: "pledge",
     component: () => import("../views/pledge/Index.vue"),
     meta: { title: "质押取现" },
   },
   {
     path: "asset",
     name: "asset",
+    key: "asset",
     component: () => import("../views/asset-redemption/Index.vue"),
     meta: { title: "赎回空投" },
   },
-
   {
     path: "release-airdrop",
     name: "release-airdrop",
+    key: "genesis",
     component: () => import("../views/release-airdrop/Index.vue"),
     meta: { title: "创世中心" },
   },
   {
-    path: "home1",
-    name: "home2",
-    component: () => import("../views/work-space/Index.vue"),
+    path: "telegram",
+    name: "telegram",
+    key: "telegram",
+    isExternal: true,
+    url: "https://t.me/chainark",
     meta: { title: "电报" },
   },
-
   {
-    path: "pledge",
-    name: "pledge",
-    component: () => import("../views/pledge/Index.vue"),
+    path: "twitter",
+    name: "twitter",
+    key: "twitter",
+    isExternal: true,
+    url: "https://twitter.com/chainark",
     meta: { title: "推特" },
   },
 ];
@@ -216,7 +242,8 @@ const menuItems = menu;
 // 根据路径获取菜单项图标
 const getMenuItemIcon = (path: string) => {
   const iconMap: Record<string, string> = {
-    asset:"fas fa-parachute-box",
+    home: "fas fa-home",
+    asset: "fas fa-parachute-box",
     pledge: "fas fa-coins",
     "poly-airdrop": "fas fa-gifts",
     "main-airdrop": "fas fa-parachute-box",
@@ -225,6 +252,8 @@ const getMenuItemIcon = (path: string) => {
     find: "fas fa-search",
     "release-airdrop": "fas fa-globe",
     user: "fas fa-user",
+    telegram: "fab fa-telegram",
+    twitter: "fab fa-twitter"
   };
 
   return iconMap[path] || "fas fa-link";
@@ -243,10 +272,15 @@ const getMenuItemBgClass = (path: string) => {
     find: "bg-gradient-to-r from-cyan-500 to-blue-500",
     "release-airdrop": "bg-gradient-to-r from-orange-500 to-red-500",
     user: "bg-gradient-to-r from-primary to-secondary",
+    telegram: "bg-gradient-to-r from-blue-500 to-blue-600",
+    twitter: "bg-gradient-to-r from-blue-400 to-blue-500"
   };
 
   return bgClassMap[path] || "bg-gradient-to-r from-gray-500 to-gray-700";
 };
+
+
+
 </script>
 
 <style lang="scss" scoped>

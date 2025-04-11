@@ -1,15 +1,17 @@
 <template>
-<div ref="lineContent" class="w-full h-full"></div>
+  <div ref="chartRef" class="w-full h-full"></div>
 </template>
 
-<script setup lang="ts">
-import * as echarts from "echarts";
+<script setup>
+import * as echarts from 'echarts'
+import { onMounted, ref } from 'vue'
 
-const lineContent = ref<HTMLDivElement>();
-const chartsInstance = ref();
-const initEcharts = ()=>{
-  chartsInstance.value = echarts.init(lineContent.value);
-  chartsInstance.value.setOption({
+const chartRef = ref(null)
+
+onMounted(() => {
+  const myChart = echarts.init(chartRef.value)
+
+  const option =  {
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -117,13 +119,10 @@ const initEcharts = ()=>{
         }
       }
     ]
-  });
-}
-onMounted(()=>{
-  initEcharts()
+  };
+
+  myChart.setOption(option)
 })
-
-
 </script>
 
 <style lang="scss" scoped>

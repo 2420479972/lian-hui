@@ -1,22 +1,17 @@
 <template>
-  <div ref="lineContent" class="w-full h-full"></div>
+  <div ref="chartRef" class="w-full h-full"></div>
 </template>
 
-<script setup lang="ts">
-import * as echarts from "echarts";
+<script setup>
+import * as echarts from 'echarts'
+import { onMounted, ref } from 'vue'
 
-const lineContent = ref<HTMLDivElement>();
-const chartsInstance = ref();
-const initEcharts = () => {
-  if (!lineContent.value) return;
+const chartRef = ref(null)
 
-  if (chartsInstance.value) {
-    chartsInstance.value.dispose();
-  }
+onMounted(() => {
+  const myChart = echarts.init(chartRef.value)
 
-  chartsInstance.value = echarts.init(lineContent.value);
-
-  chartsInstance.value.setOption({
+  const option = {
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -94,31 +89,10 @@ const initEcharts = () => {
         }
       }
     ]
-  });
-}
+  };
 
-onMounted(() => {
-  initEcharts();
-});
-
-
-const resizeHandler = () => {
-  chartsInstance.value?.resize();
-};
-
-onMounted(() => {
-  initEcharts();
-  window.addEventListener("resize", resizeHandler);
-});
-
-onUnmounted(() => {
-  chartsInstance.value?.dispose();
-  window.removeEventListener("resize", resizeHandler);
-});
-
-
-
-
+  myChart.setOption(option)
+})
 </script>
 
 <style lang="scss" scoped>
