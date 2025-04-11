@@ -123,9 +123,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { useConnect, useAccount } from '@wagmi/vue';
+import {onMounted, ref, watch} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
+import {useAccount, useConnect} from '@wagmi/vue';
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 
 const router = useRouter();
@@ -177,8 +177,7 @@ const handlePaste = (event: ClipboardEvent) => {
   event.preventDefault();
   const pastedText = event.clipboardData?.getData('text') || '';
   // 只保留英文和数字，并转换为大写
-  const cleanText = pastedText.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
-  inputInviteCode.value = cleanText;
+  inputInviteCode.value = pastedText.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
 };
 
 // 模拟状态切换
