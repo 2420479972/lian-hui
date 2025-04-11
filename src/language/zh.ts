@@ -16,7 +16,8 @@ export default {
     home: '链汇方舟',
     airdrop: '链汇空投',
     pledge: '聚合空投',
-    asset: '资产赎回'
+    asset: '资产赎回',
+    find: '发现社区'
   },
   asset: {
     title: '赎回资产',

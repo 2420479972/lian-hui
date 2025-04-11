@@ -43,8 +43,8 @@ const tabs: Tab[] = [
   { path: '/home', i18n: 'tab.home' },
   { path: '/main-airdrop', i18n: 'tab.airdrop' },
   { path: '/poly-airdrop', i18n: 'tab.pledge' },
-  { path: '/asset', i18n: 'asset.title' },
-  { path: '/find', i18n: 'asset.find' }
+  { path: '/asset', i18n: 'tab.asset' },
+  { path: '/find', i18n: 'tab.find' }
 ];
 
 // 判断当前tab是否激活
