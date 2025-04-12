@@ -19,20 +19,7 @@
               <i class="fas fa-times"></i>
             </button>
           </div>
-          <div @click="DrawClick" class="mb-4">
-            <div class="flex items-center p-2 rounded-lg bg-gray-800">
-              <div
-                class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mr-3"
-              >
-                <i class="fas fa-user text-white"></i>
-              </div>
-              <div>
-                <div class="text-sm text-white">{{ t('menu.my_account') }}</div>
-                <div class="text-xs text-gray-400">{{formatAddress(address)}}</div>
-              </div>
-            </div>
-          </div>
-          <div class="border-t border-gray-800 pt-4 overflow-y-auto flex-grow scrollbar-thin">
+          <div class=" pt-2 overflow-y-auto flex-grow scrollbar-thin">
             <div class="space-y-1 pr-2">
               <template v-for="item in menuItems" :key="item.path">
                 <router-link
@@ -108,19 +95,14 @@
       </div>
     </Transition>
   </Teleport>
-  <Draw v-model="showDraw" title="分享">
-    <Share></Share>
-  </Draw>
+
 </template>
 
 <script setup lang="ts">
 import {computed} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
-import {formatAddress} from "../utils/format-address.ts";
 import {useAccount, useDisconnect} from "@wagmi/vue";
-import Draw from "@/components/Draw.vue";
-import Share from "@/components/Share.vue";
 
 
 const { address } = useAccount();
@@ -281,12 +263,6 @@ const getMenuItemBgClass = (path: string) => {
   return bgClassMap[path] || "bg-gradient-to-r from-gray-500 to-gray-700";
 };
 
-const showDraw = ref(false);
-
-const DrawClick = ()=>{
-  showDraw.value = true;
-  closeMenu()
-}
 </script>
 
 <style lang="scss" scoped>

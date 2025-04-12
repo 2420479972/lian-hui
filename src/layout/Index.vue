@@ -5,7 +5,7 @@
         <i class="fas fa-bars text-primary cursor-pointer hover:text-[#00F5FF] transition-colors" @click="showMenu = true"></i>
         <span class="text-[#666668] text-sm">{{formatAddress(address)}}</span>
       </div>
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-4" @click="showDraw = true">
         <i class="fas fa-share-nodes text-primary"></i>
       </div>
     </nav>
@@ -14,6 +14,9 @@
     </main>
   </div>
   <Menu v-model="showMenu" @close="showMenu = false"></Menu>
+  <Draw v-model="showDraw" title="分享">
+    <Share></Share>
+  </Draw>
 </template>
 
 <script setup lang="ts">
@@ -21,11 +24,15 @@ import { ref } from 'vue';
 import Menu from "@/components/Menu.vue";
 import { useAccount } from '@wagmi/vue'
 import {formatAddress} from "utils/format-address.ts";
+import Share from "@/components/Share.vue";
+import Draw from "@/components/Draw.vue";
 
 const { address } = useAccount();
 
 // 控制菜单显示状态
 const showMenu = ref(false);
+const showDraw = ref(false);
+
 </script>
 
 <style lang="scss" scoped>
