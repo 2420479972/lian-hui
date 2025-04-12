@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-
+import { message } from '@/components/Message.ts'
 /**
  * 复制文本到剪贴板的钩子函数
  * @returns 复制函数
@@ -18,10 +18,9 @@ export function useCopy() {
     try {
       await navigator.clipboard.writeText(text)
       isCopied.value = true
-      
+      message.success(t('common.copySuccess'))
       // 显示复制成功提示
       // Snackbar.success(t('common.copySuccess'))
-      
       // 2秒后重置状态
       setTimeout(() => {
         isCopied.value = false
@@ -30,6 +29,7 @@ export function useCopy() {
       return true
     } catch (error) {
       console.error('复制失败:', error)
+      message.error(t('common.copyFailed'))
       // Snackbar.error(t('common.copyFailed'))
       return false
     }

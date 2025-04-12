@@ -8,10 +8,9 @@ const { isConnected } = useAccount()
 
 const router = useRouter()
 
-
 watch(()=>isConnected.value,(newVal)=>{
   if(newVal){
-   // router.push('/home')
+    router.push('/home')
   }else{
     router.push('/login')
   }

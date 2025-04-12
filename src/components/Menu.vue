@@ -6,111 +6,111 @@
         class="fixed inset-0 bg-black bg-opacity-50 z-50"
         @click="closeMenu"
       >
-        <Transition name="menu-slide">
-          <div
-            v-if="modelValue"
-            class="absolute left-0 top-0 bottom-0 w-64 bg-gray-900 p-4 flex flex-col h-full"
-            @click.stop
-          >
-            <div class="flex justify-between items-center mb-4">
-              <div class="font-['Pacifico'] text-xl text-white">{{ t('menu.logo') }}</div>
-              <button
-                class="text-gray-400 hover:text-white transition"
-                @click="closeMenu"
-              >
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
-            <router-link to="/user" @click="closeMenu" class="mb-4">
-              <div class="flex items-center p-2 rounded-lg bg-gray-800">
-                <div
-                  class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mr-3"
-                >
-                  <i class="fas fa-user text-white"></i>
-                </div>
-                <div>
-                  <div class="text-sm text-white">{{ t('menu.my_account') }}</div>
-                  <div class="text-xs text-gray-400">{{formatAddress(address)}}</div>
-                </div>
-              </div>
-            </router-link>
-            <div class="border-t border-gray-800 pt-4 overflow-y-auto flex-grow scrollbar-thin">
-              <div class="space-y-1 pr-2">
-                <template v-for="item in menuItems" :key="item.path">
-                  <router-link
-                    v-if="!item.isExternal"
-                    :to="`/${item.path}`"
-                    :class="[
-                      'flex items-center space-x-2 mb-3 p-2 rounded-lg transition',
-                      isActiveMenuItem(item.path) ? 'bg-gray-800 shadow-md' : 'hover:bg-gray-800'
-                    ]"
-                    @click="closeMenu"
-                  >
-                    <div
-                      class="w-8 h-8 rounded-full flex items-center justify-center"
-                      :class="getMenuItemBgClass(item.path)"
-                    >
-                      <i
-                        :class="getMenuItemIcon(item.path)"
-                        class="text-white text-xs"
-                      ></i>
-                    </div>
-                    <div class="text-sm" :class="isActiveMenuItem(item.path) ? 'text-primary font-medium' : 'text-white'">
-                      {{ t(`menu.features.${item.key}`) }}
-                    </div>
-                  </router-link>
-                  <a
-                    v-else
-                    :href="item.url"
-                    target="_blank"
-                    class="flex items-center space-x-2 mb-3 p-2 rounded-lg transition hover:bg-gray-800"
-                    @click="closeMenu"
-                  >
-                    <div
-                      class="w-8 h-8 rounded-full flex items-center justify-center"
-                      :class="getMenuItemBgClass(item.path)"
-                    >
-                      <i
-                        :class="getMenuItemIcon(item.path)"
-                        class="text-white text-xs"
-                      ></i>
-                    </div>
-                    <div class="text-sm text-white">
-                      {{ t(`menu.features.${item.key}`) }}
-                    </div>
-                  </a>
-                </template>
-              </div>
-            </div>
-            <div class="border-t border-gray-800 pt-4 mt-2">
+        <div
+          class="absolute left-0 top-0 bottom-0 w-64 bg-gray-900 p-4 flex flex-col h-full"
+          @click.stop
+        >
+          <div class="flex justify-between items-center mb-4">
+            <div class="font-['Pacifico'] text-xl text-white">{{ t('menu.logo') }}</div>
+            <button
+              class="text-gray-400 hover:text-white transition"
+              @click="closeMenu"
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div @click="DrawClick" class="mb-4">
+            <div class="flex items-center p-2 rounded-lg bg-gray-800">
               <div
-                class="flex items-center space-x-2 mb-3 p-2 rounded-lg hover:bg-gray-800 transition cursor-pointer"
-                @click="toggleLanguage"
+                class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mr-3"
               >
-                <div
-                  class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center"
-                >
-                  <i class="fas fa-language text-white text-xs"></i>
-                </div>
-                <div class="text-sm text-white">{{ currentLanguage }}</div>
+                <i class="fas fa-user text-white"></i>
               </div>
-              <div
-                class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-800 transition cursor-pointer"
-                @click="logout"
-              >
-                <div
-                  class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center"
-                >
-                  <i class="fas fa-sign-out-alt text-white text-xs"></i>
-                </div>
-                <div class="text-sm text-white">{{ t('menu.disconnect') }}</div>
+              <div>
+                <div class="text-sm text-white">{{ t('menu.my_account') }}</div>
+                <div class="text-xs text-gray-400">{{formatAddress(address)}}</div>
               </div>
             </div>
           </div>
-        </Transition>
+          <div class="border-t border-gray-800 pt-4 overflow-y-auto flex-grow scrollbar-thin">
+            <div class="space-y-1 pr-2">
+              <template v-for="item in menuItems" :key="item.path">
+                <router-link
+                  v-if="!item.isExternal"
+                  :to="`/${item.path}`"
+                  :class="[
+                    'flex items-center space-x-2 mb-3 p-2 rounded-lg transition',
+                    isActiveMenuItem(item.path) ? 'bg-gray-800 shadow-md' : 'hover:bg-gray-800'
+                  ]"
+                  @click="closeMenu"
+                >
+                  <div
+                    class="w-8 h-8 rounded-full flex items-center justify-center"
+                    :class="getMenuItemBgClass(item.path)"
+                  >
+                    <i
+                      :class="getMenuItemIcon(item.path)"
+                      class="text-white text-xs"
+                    ></i>
+                  </div>
+                  <div class="text-sm" :class="isActiveMenuItem(item.path) ? 'text-primary font-medium' : 'text-white'">
+                    {{ t(`menu.features.${item.key}`) }}
+                  </div>
+                </router-link>
+                <a
+                  v-else
+                  :href="item.url"
+                  target="_blank"
+                  class="flex items-center space-x-2 mb-3 p-2 rounded-lg transition hover:bg-gray-800"
+                  @click="closeMenu"
+                >
+                  <div
+                    class="w-8 h-8 rounded-full flex items-center justify-center"
+                    :class="getMenuItemBgClass(item.path)"
+                  >
+                    <i
+                      :class="getMenuItemIcon(item.path)"
+                      class="text-white text-xs"
+                    ></i>
+                  </div>
+                  <div class="text-sm text-white">
+                    {{ t(`menu.features.${item.key}`) }}
+                  </div>
+                </a>
+              </template>
+            </div>
+          </div>
+          <div class="border-t border-gray-800 pt-4 mt-2">
+            <div
+              class="flex items-center space-x-2 mb-3 p-2 rounded-lg hover:bg-gray-800 transition cursor-pointer"
+              @click="toggleLanguage"
+            >
+              <div
+                class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center"
+              >
+                <i class="fas fa-language text-white text-xs"></i>
+              </div>
+              <div class="text-sm text-white">{{ currentLanguage }}</div>
+            </div>
+            <div
+              class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-800 transition cursor-pointer"
+              @click="logout"
+            >
+              <div
+                class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center"
+              >
+                <i class="fas fa-sign-out-alt text-white text-xs"></i>
+              </div>
+              <div class="text-sm text-white">{{ t('menu.disconnect') }}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </Transition>
   </Teleport>
+  <Draw v-model="showDraw" title="分享">
+    <Share></Share>
+  </Draw>
 </template>
 
 <script setup lang="ts">
@@ -119,6 +119,8 @@ import {useRoute, useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
 import {formatAddress} from "../utils/format-address.ts";
 import {useAccount, useDisconnect} from "@wagmi/vue";
+import Draw from "@/components/Draw.vue";
+import Share from "@/components/Share.vue";
 
 
 const { address } = useAccount();
@@ -279,15 +281,19 @@ const getMenuItemBgClass = (path: string) => {
   return bgClassMap[path] || "bg-gradient-to-r from-gray-500 to-gray-700";
 };
 
+const showDraw = ref(false);
 
-
+const DrawClick = ()=>{
+  showDraw.value = true;
+  closeMenu()
+}
 </script>
 
 <style lang="scss" scoped>
 // 背景淡入淡出过渡
 .menu-fade-enter-active,
 .menu-fade-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .menu-fade-enter-from,
@@ -296,13 +302,14 @@ const getMenuItemBgClass = (path: string) => {
 }
 
 // 菜单滑入滑出过渡
-.menu-slide-enter-active,
-.menu-slide-leave-active {
-  transition: transform 0.3s ease;
+.menu-fade-enter-active .absolute,
+.menu-fade-leave-active .absolute {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
-.menu-slide-enter-from,
-.menu-slide-leave-to {
+.menu-fade-enter-from .absolute,
+.menu-fade-leave-to .absolute {
   transform: translateX(-100%);
 }
 

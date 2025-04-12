@@ -11,13 +11,16 @@ import i18n from "@/language"
 import { WagmiPlugin } from '@wagmi/vue'
 import { config } from './wagmi'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
+
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 const queryClient = new QueryClient()
 const app = createApp(App)
 app.use(i18n).use(router).use(pinia)
 .use(WagmiPlugin, { config}).use(VueQueryPlugin, { queryClient }).component('vue3ScrollSeamless',vue3ScrollSeamless)
-.mount('#app')
+
+app.mount('#app')
+
 BigInt.prototype.toJSON = function () {
     return { $bigint: this.toString() };
 };
